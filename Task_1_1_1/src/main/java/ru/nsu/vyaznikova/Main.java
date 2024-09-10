@@ -12,12 +12,12 @@ public class Main {
     public static void heapsort(int[] array) {
         Heap heap = new Heap(array.length);
         for (int value : array) {
-            heap.insert_new(value);
+            heap.insertnew(value);
         }
 
         int index = 0;
-        while (!heap.is_empty()) {
-            array[index++] = heap.extract_min();
+        while (!heap.isempty()) {
+            array[index++] = heap.extractmin();
         }
         return;
     }
@@ -33,8 +33,8 @@ class Heap {
     private int[] heap;
     private int size;
 
-    public Heap(int amount_of_nums) {
-        heap = new int[amount_of_nums];
+    public Heap(int amountofnums) {
+        heap = new int[amountofnums];
         size = 0;
     }
 
@@ -44,48 +44,48 @@ class Heap {
         heap[j] = temp;
     }
 
-    private void sift_up(int index) {
-        int parent_index = (index - 1) / 2;
-        while (index > 0 && heap[index] < heap[parent_index]) {
-            swap(index, parent_index);
-            index = parent_index;
-            parent_index = (index - 1) / 2;
+    private void siftup(int index) {
+        int parentindex = (index - 1) / 2;
+        while (index > 0 && heap[index] < heap[parentindex]) {
+            swap(index, parentindex);
+            index = parentindex;
+            parentindex = (index - 1) / 2;
         }
     }
 
-    public void insert_new(int value) {
+    public void insertnew(int value) {
         heap[size] = value;
-        sift_up(size);
+        siftup(size);
         size++;
     }
 
-    private void sift_down(int index) {
-        int min_index = index;
-        int left_index = 2 * index + 1;
-        int right_index = 2 * index + 2;
+    private void siftdown(int index) {
+        int minindex = index;
+        int leftindex = 2 * index + 1;
+        int rightindex = 2 * index + 2;
 
-        if (left_index < size && heap[left_index] < heap[min_index]) {
-            min_index = left_index;
+        if (leftindex < size && heap[leftindex] < heap[minindex]) {
+            minindex = leftindex;
         }
 
-        if (right_index < size && heap[right_index] < heap[min_index]) {
-            min_index = right_index;
+        if (rightindex < size && heap[rightindex] < heap[minindex]) {
+            minindex = rightindex;
         }
 
-        if (min_index != index) {
-            swap(index, min_index);
-            sift_down(min_index);
+        if (minindex != index) {
+            swap(index, minindex);
+            siftdown(minindex);
         }
     }
     
-    public int extract_min() {
+    public int extractmin() {
         int min = heap[0];
         heap[0] = heap[--size];
-        sift_down(0);
+        siftdown(0);
         return min;
     }
 
-    public boolean is_empty() {
+    public boolean isempty() {
         return size == 0;
     }
 }
