@@ -1,5 +1,3 @@
-
-
 javac -cp ./junit-platform-console-standalone-1.7.0-all.jar ./src/main/java/ru/nsu/vyaznikova/Main.java ./src/test/java/ru/nsu/vyaznikova/MainTest.java -d ./builddir
 
 if [[ $? -ne 0 ]]; then

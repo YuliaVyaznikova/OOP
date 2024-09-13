@@ -71,7 +71,7 @@ class Heap {
             siftdown(minindex);
         }
     }
-    
+
     public int extractmin() {
         int min = heap[0];
         heap[0] = heap[--size];
