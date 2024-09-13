@@ -1,48 +1,42 @@
 package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Random;
+
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static ru.nsu.vyaznikova.Main.heapsort;
 
 class MainTest {
-
     @Test
-    public void sample() {
-        int[] unsorted = {5, 4, 3, 2, 1};
-        int[] sorted = {1, 2, 3, 4, 5};
-        heapsort(unsorted);
-        assertArrayEquals(unsorted, sorted);
-    }
+    public void base() {
+        int size_of_array = 100;
+        double c = 1.1;
+        for (int i = 0; i < 100; i++) {
+            double x = 0;
+            size_of_array = (int) (size_of_array * c);
+            for (int j = 0; j < 10; j++) {
+                int[] unsorted = new int[size_of_array];
+                int[] sorted = new int[size_of_array];
+                for (int k = 0; k < size_of_array; k++) {
+                    unsorted[k] = new Random().nextInt(i * 1000000 + 1);
+                    sorted[k] = unsorted[k];
+                }
+                Arrays.sort(sorted);
 
-    @Test
-    void base() {
-        int[] unsorted = {834, 65, 181, 0, -25, 57, 11};
-        int[] sorted = {-25, 0, 11, 57, 65, 181, 834};
-        heapsort(unsorted);
-        assertArrayEquals(unsorted, sorted);
-    }
+                long start = System.nanoTime();
 
-    @Test
-    public void empty() {
-        int[] unsorted = {};
-        int[] sorted = {};
-        heapsort(unsorted);
-        assertArrayEquals(unsorted, sorted);
-    }
+                heapsort(unsorted);
 
-    @Test
-    public void single() {
-        int[] unsorted = {1};
-        int[] sorted = {1};
-        heapsort(unsorted);
-        assertArrayEquals(unsorted, sorted);
-    }
+                long finish = System.nanoTime();
+                long elapsed = finish - start;
+                x += elapsed;
 
-    @Test
-    public void duplicate() {
-        int[] unsorted = {3, 1, 2, 3, 2};
-        int[] sorted = {1, 2, 2, 3, 3};
-        heapsort(unsorted);
-        assertArrayEquals(unsorted, sorted);
+                assertArrayEquals(unsorted, sorted);
+            }
+            System.out.printf("%d %f\n", size_of_array, x / 10);
+        }
     }
 }

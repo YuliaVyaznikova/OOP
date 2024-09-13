@@ -2,12 +2,6 @@ package ru.nsu.vyaznikova;
 
 import java.util.Arrays;
 
-//public class Main {
-//
-//    Heap newHeap = new Heap(5);
-//
-//}
-
 public class Main {
     public static void heapsort(int[] array) {
         Heap heap = new Heap(array.length);
