@@ -61,27 +61,36 @@ public class Main {
             }
 
             System.out.println("\nДилер раздал карты");
-            System.out.println("Ваши карты: " + player.getCards() + " => " + player.calculateScore());
-            System.out.println("Карты дилера: [" + dealer.getCards().get(0) + ", <закрытая карта>]");
+            System.out.println("Ваши карты: "
+                    + player.getCards()
+                    + " => "
+                    + player.calculateScore());
+            System.out.println("Карты дилера: ["
+                    + dealer.getCards().get(0) + ", <закрытая карта>]");
 
             while (player.calculateScore() < 21) {
                 System.out.println("\nВаш ход");
                 System.out.println("-------");
-                System.out.println("Введите \"1\", чтобы взять карту, и \"0\", чтобы остановиться...");
+                System.out.println("Введите \"1\", чтобы взять карту,"
+                        + "и \"0\", чтобы остановиться...");
 
                 BotReader.setPscore(player.calculateScore());
                 int choice = BotReader.read();
 
                 if (choice == 2) {
 
-                    System.out.println("\nИгра окончена! Счет " + playerScore + ":" + dealerScore + ".");
+                    System.out.println("\nИгра окончена! Счет "
+                            + playerScore + ":" + dealerScore + ".");
 
                     end = true;
                     break; // Прерываем цикл
                 } else if (choice == 1) {
                     player.takeCard();
-                    System.out.println("Вы открыли карту " + player.getCards().get(player.getCards().size() - 1));
-                    System.out.println("Ваши карты: " + player.getCards() + " => " + player.calculateScore());
+                    System.out.println("Вы открыли карту "
+                            + player.getCards().get(player.getCards().size() - 1));
+                    System.out.println("Ваши карты: "
+                            + player.getCards()
+                            + " => " + player.calculateScore());
 
                 } else if (choice == 0) {
                     break;
@@ -96,15 +105,29 @@ public class Main {
             } else {
                 System.out.println("\nХод дилера");
                 System.out.println("-------");
-                System.out.println("Дилер открывает закрытую карту " + dealer.getCards().get(1));
-                System.out.println("Ваши карты: " + player.getCards() + " => " + player.calculateScore());
-                System.out.println("Карты дилера: " + dealer.getCards() + " => " + dealer.calculateScore());
+                System.out.println("Дилер открывает закрытую карту "
+                        + dealer.getCards().get(1));
+                System.out.println("Ваши карты: "
+                        + player.getCards()
+                        + " => "
+                        + player.calculateScore());
+                System.out.println("Карты дилера: "
+                        + dealer.getCards()
+                        + " => "
+                        + dealer.calculateScore());
 
                 while (dealer.calculateScore() < 17) {
                     dealer.takeCard();
-                    System.out.println("Дилер открывает карту " + dealer.getCards().get(dealer.getCards().size() - 1));
-                    System.out.println("Ваши карты: " + player.getCards() + " => " + player.calculateScore());
-                    System.out.println("Карты дилера: " + dealer.getCards() + " => " + dealer.calculateScore());
+                    System.out.println("Дилер открывает карту "
+                            + dealer.getCards().get(dealer.getCards().size() - 1));
+                    System.out.println("Ваши карты: "
+                            + player.getCards()
+                            + " => "
+                            + player.calculateScore());
+                    System.out.println("Карты дилера: "
+                            + dealer.getCards()
+                            + " => "
+                            + dealer.calculateScore());
                 }
 
 

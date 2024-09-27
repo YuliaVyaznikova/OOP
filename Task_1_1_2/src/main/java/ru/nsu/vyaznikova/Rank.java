@@ -4,7 +4,6 @@ package ru.nsu.vyaznikova;
  * Enum representing the possible ranks of a playing card in a standard deck.
  */
 public enum Rank {
-
     /**
      * Two.
      */
@@ -58,8 +57,8 @@ public enum Rank {
      */
     ACE("Туз", 11);
 
-    private String name;
-    private int value;
+    private final String name;
+    private final int value;
 
     /**
      * Constructs a new Rank enum constant with the specified name and value.
