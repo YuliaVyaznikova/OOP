@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class BotReaderTest {
 
     @Test
-    void testRead_AI_Enabled() {
-        BotReader.autoTestEnable(17, 5);
+    void testRead_ai_enabled() {
+        BotReader.autotestEnable(17, 5);
         BotReader.setPscore(15);
         assertEquals(1, BotReader.read());
 
@@ -26,7 +26,7 @@ public class BotReaderTest {
     }
 
     @Test
-    void testRead_AI_Disabled() {
+    void testRead_ai_disabled() {
         BotReader.aiEnable = false;
         BotReader.console.reset();
         BotReader.console.next("1");  // Имитируем ввод "1"

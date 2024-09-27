@@ -159,5 +159,7 @@ public class Main {
         } else {
             System.out.println("Ничья!");
         }
+
+        scanner.close();
     }
 }

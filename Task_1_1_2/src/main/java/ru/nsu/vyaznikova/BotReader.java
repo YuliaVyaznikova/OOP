@@ -49,7 +49,7 @@ public class BotReader {
      * @param thr The threshold score for the AI to stop taking cards.
      * @param mxr The maximum number of rounds the AI will play before exiting.
      */
-    public static void autoTestEnable(int thr, int mxr) {
+    public static void autotestEnable(int thr, int mxr) {
         aiEnable = true;
         threshold = thr;
         maxreads = mxr;

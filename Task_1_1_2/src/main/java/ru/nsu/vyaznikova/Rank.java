@@ -4,6 +4,7 @@ package ru.nsu.vyaznikova;
  * Enum representing the possible ranks of a playing card in a standard deck.
  */
 public enum Rank {
+
     /**
      * Two.
      */
