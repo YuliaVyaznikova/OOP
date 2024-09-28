@@ -9,14 +9,24 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+/**
+ * Test class for the Deck class, ensuring its methods work as expected.
+ */
 public class DeckTest {
 
+    /**
+     * Tests the constructor, verifying that it creates a deck with 52 cards.
+     */
     @Test
     void testConstructor() {
         Deck deck = new Deck();
         assertEquals(52, deck.cards.size());
     }
 
+    /**
+     * Tests the shuffle() method, verifying that it shuffles the deck randomly,
+     * resulting in a different card order.
+     */
     @Test
     void testShuffle() {
         Deck deck = new Deck();
@@ -25,6 +35,9 @@ public class DeckTest {
         assertFalse(deck.cards.equals(originalCards));
     }
 
+    /**
+     * Tests the takeCard() method, verifying that it removes and returns the top card from the deck.
+     */
     @Test
     void testTakeCard() {
         List<Card> cards = new ArrayList<>(Arrays.asList(
