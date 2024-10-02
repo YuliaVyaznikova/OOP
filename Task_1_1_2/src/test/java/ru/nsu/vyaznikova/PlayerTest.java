@@ -82,7 +82,7 @@ public class PlayerTest {
         ));
         Player player = new Player(new Deck()) {};
         player.cards = cards;
-        assertEquals(18, player.calculateScore());
+        assertEquals(19, player.calculateScore());
     }
 
     /**

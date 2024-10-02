@@ -22,7 +22,7 @@ public class Main {
     /**
      * The main game loop, handling all aspects of the Blackjack game.
      */
-    public static void doAll() {
+    public static String doAll() {
         Scanner scanner = new Scanner(System.in);
         int playerScore = 0;
         int dealerScore = 0;
@@ -153,13 +153,11 @@ public class Main {
         }
 
         if (playerScore > dealerScore) {
-            System.out.println("Вы победили!");
+            return "Вы победили!";
         } else if (dealerScore > playerScore) {
-            System.out.println("Дилер победил!");
+            return "Дилер победил!";
         } else {
-            System.out.println("Ничья!");
+            return "Ничья!";
         }
-
-        scanner.close();
     }
 }
