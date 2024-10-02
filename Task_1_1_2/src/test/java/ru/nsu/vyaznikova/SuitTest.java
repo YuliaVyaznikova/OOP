@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test;
 public class SuitTest {
 
     /**
-     * Tests the getRussianName() method, verifying that it returns the correct Russian name for the Suit.
+     * Tests the getRussianName() method, verifying that
+     * it returns the correct Russian name for the Suit.
      */
     @Test
     void testGetRussianName() {

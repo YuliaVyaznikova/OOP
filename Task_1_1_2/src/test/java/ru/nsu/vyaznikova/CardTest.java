@@ -28,7 +28,8 @@ public class CardTest {
     }
 
     /**
-     * Tests the toString() method, verifying that it returns the correct string representation of the card.
+     * Tests the toString() method, verifying that
+     * it returns the correct string representation of the card.
      */
     @Test
     void testToString() {

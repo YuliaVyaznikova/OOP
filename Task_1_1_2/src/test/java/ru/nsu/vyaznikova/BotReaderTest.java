@@ -4,10 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test class for the BotReader class, ensuring its methods work as expected.
+ */
 public class BotReaderTest {
 
     @Test
-    void testRead_AI_ThresholdExceeded() {
+    void testreadaihresholdexceeded() {
         BotReader.autotestEnable(18, 10);
         BotReader.setPscore(20);
         int result = BotReader.read();
@@ -15,7 +18,7 @@ public class BotReaderTest {
     }
 
     @Test
-    void testRead_AI_MaxRoundsExceeded() {
+    void testreadaimaxroundsexceeded() {
         BotReader.autotestEnable(15, 2);
         BotReader.setPscore(10);
         BotReader.read();
