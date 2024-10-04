@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">coverage</a> &gt; <a href="index.source.html" class="el_package">ru.nsu.vyaznikova</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package ru.nsu.vyaznikova;
+
+import java.util.Arrays;
+
+<span class="nc" id="L5">public class Main {</span>
+    public static void heapsort(int[] array) {
+<span class="fc" id="L7">        Heap heap = new Heap(array.length);</span>
+<span class="fc bfc" id="L8" title="All 2 branches covered.">        for (int value : array) {</span>
+<span class="fc" id="L9">            heap.insertnew(value);</span>
+        }
+
+<span class="fc" id="L12">        int index = 0;</span>
+<span class="fc bfc" id="L13" title="All 2 branches covered.">        while (!heap.isempty()) {</span>
+<span class="fc" id="L14">            array[index++] = heap.extractmin();</span>
+        }
+<span class="fc" id="L16">        return;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L20">        int[] array = {5, 4, 3, 2, 1};</span>
+<span class="nc" id="L21">        heapsort(array);</span>
+<span class="nc" id="L22">        System.out.println(Arrays.toString(array));</span>
+<span class="nc" id="L23">    }</span>
+}
+
+class Heap {
+    private int[] heap;
+    private int size;
+
+<span class="fc" id="L30">    public Heap(int amountofnums) {</span>
+<span class="fc" id="L31">        heap = new int[amountofnums];</span>
+<span class="fc" id="L32">        size = 0;</span>
+<span class="fc" id="L33">    }</span>
+
+    private void swap(int i, int j) {
+<span class="fc" id="L36">        int temp = heap[i];</span>
+<span class="fc" id="L37">        heap[i] = heap[j];</span>
+<span class="fc" id="L38">        heap[j] = temp;</span>
+<span class="fc" id="L39">    }</span>
+
+    private void siftup(int index) {
+<span class="fc" id="L42">        int parentindex = (index - 1) / 2;</span>
+<span class="fc bfc" id="L43" title="All 4 branches covered.">        while (index &gt; 0 &amp;&amp; heap[index] &lt; heap[parentindex]) {</span>
+<span class="fc" id="L44">            swap(index, parentindex);</span>
+<span class="fc" id="L45">            index = parentindex;</span>
+<span class="fc" id="L46">            parentindex = (index - 1) / 2;</span>
+        }
+<span class="fc" id="L48">    }</span>
+
+    public void insertnew(int value) {
+<span class="fc" id="L51">        heap[size] = value;</span>
+<span class="fc" id="L52">        siftup(size);</span>
+<span class="fc" id="L53">        size++;</span>
+<span class="fc" id="L54">    }</span>
+
+    private void siftdown(int index) {
+<span class="fc" id="L57">        int minindex = index;</span>
+<span class="fc" id="L58">        int leftindex = 2 * index + 1;</span>
+<span class="fc" id="L59">        int rightindex = 2 * index + 2;</span>
+
+<span class="fc bfc" id="L61" title="All 4 branches covered.">        if (leftindex &lt; size &amp;&amp; heap[leftindex] &lt; heap[minindex]) {</span>
+<span class="fc" id="L62">            minindex = leftindex;</span>
+        }
+
+<span class="fc bfc" id="L65" title="All 4 branches covered.">        if (rightindex &lt; size &amp;&amp; heap[rightindex] &lt; heap[minindex]) {</span>
+<span class="fc" id="L66">            minindex = rightindex;</span>
+        }
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (minindex != index) {</span>
+<span class="fc" id="L70">            swap(index, minindex);</span>
+<span class="fc" id="L71">            siftdown(minindex);</span>
+        }
+<span class="fc" id="L73">    }</span>
+    
+    public int extractmin() {
+<span class="fc" id="L76">        int min = heap[0];</span>
+<span class="fc" id="L77">        heap[0] = heap[--size];</span>
+<span class="fc" id="L78">        siftdown(0);</span>
+<span class="fc" id="L79">        return min;</span>
+    }
+
+    public boolean isempty() {
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        return size == 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
