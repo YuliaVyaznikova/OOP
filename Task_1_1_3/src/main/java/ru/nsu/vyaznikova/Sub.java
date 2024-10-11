@@ -9,7 +9,8 @@ public class Sub extends Expression
     private final Expression right;
 
     /**
-     * Constructs a Sub object with the given left and right expressions.
+     * Constructs a Sub object with the given
+     * left and right expressions.
      *
      * @param left  The left expression.
      * @param right The right expression.
@@ -24,7 +25,8 @@ public class Sub extends Expression
      * Returns the derivative of the subtraction.
      *
      * @param difVar The variable to differentiate with respect to.
-     * @return A Sub expression representing the difference of derivatives of left and right expressions.
+     * @return A Sub expression representing the difference
+     * of derivatives of left and right expressions.
      */
     @Override
     public Expression derivative(String difVar)
@@ -49,7 +51,8 @@ public class Sub extends Expression
     /**
      * Returns a string representation of the subtraction expression.
      *
-     * @return The string representing the subtraction, enclosed in parentheses.
+     * @return The string representing the subtraction,
+     * enclosed in parentheses.
      */
     @Override
     public String printAnswer()
@@ -65,7 +68,8 @@ public class Sub extends Expression
 
         if (leftSimplified instanceof Number && rightSimplified instanceof Number)
         {
-            return new Number((int) ((Number) leftSimplified).number - (int) ((Number) rightSimplified).number);
+            return new Number((int) ((Number) leftSimplified).number
+                    - (int) ((Number) rightSimplified).number);
         }
         else if (leftSimplified.equals(rightSimplified))
         {

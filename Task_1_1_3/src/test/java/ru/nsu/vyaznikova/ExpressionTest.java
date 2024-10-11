@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ExpressionTest {
 
-    // Тесты для метода printAnswer()
     @Test
     void testPrintAnswerNumber() {
         Expression number = new Number(5);
@@ -84,7 +83,6 @@ class ExpressionTest {
         assertEquals(2.0, div.eval("x = 10"));
     }
 
-    // Тесты для метода derivative()
     @Test
     void testDerivativeNumber() {
         Expression number = new Number(5);
@@ -131,7 +129,8 @@ class ExpressionTest {
     void testDerivativeDiv() {
         Expression div = new Div(new Variable("x"), new Number(5));
         Expression derivative = div.derivative("x");
-        assertEquals("(((1 * 5) - (x * 0)) / (5 * 5))", derivative.printAnswer());
+        assertEquals("(((1 * 5) - (x * 0)) / (5 * 5))",
+                derivative.printAnswer());
     }
 
     // Тесты для метода simplify()
@@ -174,7 +173,7 @@ class ExpressionTest {
     void testSimplifyDivNumbers() {
         Expression div = new Div(new Number(10), new Number(2));
         Expression simplified = div.simplify();
-        assertEquals("(10 / 2)", simplified.printAnswer()); // Деление не упрощается, так как не является целым числом
+        assertEquals("(10 / 2)", simplified.printAnswer());
     }
 
     @Test
@@ -193,12 +192,13 @@ class ExpressionTest {
 
     @Test
     void testSimplifyComplex() {
-        Expression complex = new Add(new Mul(new Variable("x"), new Number(5)), new Sub(new Variable("x"), new Number(5)));
+        Expression complex = new Add(new Mul(new Variable("x"),
+                new Number(5)), new Sub(new Variable("x"), new Number(5)));
         Expression simplified = complex.simplify();
-        assertEquals("((x * 5) + (x - 5))", simplified.printAnswer()); // Упрощение не выполняется, так как выражение содержит переменную
+        assertEquals("((x * 5) + (x - 5))",
+                simplified.printAnswer());
     }
 
-    // Тесты для метода print()
     @Test
     void testPrint() throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -211,7 +211,6 @@ class ExpressionTest {
         assertEquals(expectedOutput, outputStream.toString());
     }
 
-    // Тесты для метода readExpression()
     @Test
     void testReadExpression() {
         InputStream inputStream = new ByteArrayInputStream("x + 5".getBytes());

@@ -4,15 +4,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SubTest
-{
+class SubTest {
 
     /**
      * Tests the eval method of the Sub class for two numbers.
      */
     @Test
-    void evalNumbers()
-    {
+    void evalNumbers() {
         Expression left = new Number(8);
         Expression right = new Number(3);
         Expression sub = new Sub(left, right);
@@ -23,8 +21,7 @@ class SubTest
      * Tests the eval method of the Sub class for a variable and a number.
      */
     @Test
-    void evalVariableAndNumber()
-    {
+    void evalVariableAndNumber() {
         Expression left = new Variable("x");
         Expression right = new Number(5);
         Expression sub = new Sub(left, right);
@@ -35,8 +32,7 @@ class SubTest
      * Tests the derivative method of the Sub class for two variables.
      */
     @Test
-    void derivativeVariables()
-    {
+    void derivativeVariables() {
         Expression left = new Variable("x");
         Expression right = new Variable("y");
         Expression sub = new Sub(left, right);
@@ -45,11 +41,11 @@ class SubTest
     }
 
     /**
-     * Tests the derivative method of the Sub class for a variable and a number.
+     * Tests the derivative method of the Sub class
+     * for a variable and a number.
      */
     @Test
-    void derivativeVariableAndNumber()
-    {
+    void derivativeVariableAndNumber() {
         Expression left = new Variable("x");
         Expression right = new Number(5);
         Expression sub = new Sub(left, right);
@@ -61,8 +57,7 @@ class SubTest
      * Tests the printAnswer method of the Sub class.
      */
     @Test
-    void printAnswer()
-    {
+    void printAnswer() {
         Expression left = new Variable("x");
         Expression right = new Number(5);
         Expression sub = new Sub(left, right);

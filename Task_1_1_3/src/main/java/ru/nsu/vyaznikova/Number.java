@@ -3,8 +3,7 @@ package ru.nsu.vyaznikova;
 /**
  * Represents a number as a mathematical expression.
  */
-public class Number extends Expression
-{
+public class Number extends Expression {
     final int number;
 
     /**
@@ -12,20 +11,19 @@ public class Number extends Expression
      *
      * @param num The integer value of the number.
      */
-    Number(int num)
-    {
+    Number(int num) {
         this.number = num;
     }
 
     /**
      * Returns the derivative of the number, which is always 0.
      *
-     * @param difVar The variable to differentiate with respect to (not used).
+     * @param difVar The variable to differentiate
+     *               with respect to (not used).
      * @return A Number object representing 0.
      */
     @Override
-    public Expression derivative(String difVar)
-    {
+    public Expression derivative(String difVar) {
         Expression result = new Number(0);
         return result;
     }
@@ -33,12 +31,12 @@ public class Number extends Expression
     /**
      * Evaluates the number, which returns its own value.
      *
-     * @param expression The string with assigned values for variables (not used).
+     * @param expression The string with assigned values
+     *                   for variables (not used).
      * @return The integer value of the number as a double.
      */
     @Override
-    public double eval(String expression)
-    {
+    public double eval(String expression) {
         return (double) number;
     }
 
@@ -48,14 +46,12 @@ public class Number extends Expression
      * @return The string representation of the number.
      */
     @Override
-    public String printAnswer()
-    {
+    public String printAnswer() {
         return String.valueOf(number);
     }
 
     @Override
-    public Expression simplify()
-    {
+    public Expression simplify() {
         return this;
     }
 }

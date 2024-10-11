@@ -3,8 +3,7 @@ package ru.nsu.vyaznikova;
 /**
  * Represents division of two expressions.
  */
-class Div extends Expression
-{
+class Div extends Expression {
     private final Expression left;
     private final Expression right;
 
@@ -14,8 +13,7 @@ class Div extends Expression
      * @param left  The left expression.
      * @param right The right expression.
      */
-    public Div(Expression left, Expression right)
-    {
+    public Div(Expression left, Expression right) {
         this.left = left;
         this.right = right;
     }
@@ -25,11 +23,10 @@ class Div extends Expression
      *
      * @param difVar The variable to differentiate with respect to.
      * @return A Div expression representing the derivative of the division,
-     *         calculated using the quotient rule.
+     * calculated using the quotient rule.
      */
     @Override
-    public Expression derivative(String difVar)
-    {
+    public Expression derivative(String difVar) {
         Expression derLeft = new Mul(left.derivative(difVar), right);
         Expression derRight = new Mul(left, right.derivative(difVar));
         return new Div(new Sub(derLeft, derRight), new Mul(right, right));
@@ -42,19 +39,14 @@ class Div extends Expression
      * @return The quotient of the evaluated left and right expressions.
      */
     @Override
-    public double eval(String expression)
-    {
-        try
-        {
+    public double eval(String expression) {
+        try {
             double rightValue = right.eval(expression);
-            if (rightValue == 0)
-            {
+            if (rightValue == 0) {
                 throw new ArithmeticException("Division by zero");
             }
             return left.eval(expression) / rightValue;
-        }
-        catch (ArithmeticException e)
-        {
+        } catch (ArithmeticException e) {
             System.err.println("Error: " + e.getMessage());
             return Double.NaN;
         }
@@ -66,19 +58,19 @@ class Div extends Expression
      * @return The string representing the division, enclosed in parentheses.
      */
     @Override
-    public String printAnswer()
-    {
-        return "(" + left.printAnswer() + " / " + right.printAnswer() + ")";
+    public String printAnswer() {
+        return "(" + left.printAnswer()
+                + " / " + right.printAnswer() + ")";
     }
 
     /**
      * Simplifies the expression based on specific rules.
      *
-     * @return A simplified version of the expression, or the original expression if no simplification is possible.
+     * @return A simplified version of the expression,
+     * or the original expression if no simplification is possible.
      */
     @Override
-    public Expression simplify()
-    {
+    public Expression simplify() {
         Expression leftSimplified = left.simplify();
         Expression rightSimplified = right.simplify();
         return new Div(leftSimplified, rightSimplified);

@@ -37,7 +37,8 @@ class DivTest {
         Expression right = new Variable("y");
         Expression div = new Div(left, right);
         Expression derivative = div.derivative("x");
-        assertEquals("(((1 * y) - (x * 0)) / (y * y))", derivative.printAnswer());
+        assertEquals("(((1 * y) - (x * 0)) / (y * y))",
+                derivative.printAnswer());
     }
 
     /**
@@ -49,7 +50,8 @@ class DivTest {
         Expression right = new Number(2);
         Expression div = new Div(left, right);
         Expression derivative = div.derivative("x");
-        assertEquals("(((1 * 2) - (x * 0)) / (2 * 2))", derivative.printAnswer());
+        assertEquals("(((1 * 2) - (x * 0)) / (2 * 2))",
+                derivative.printAnswer());
     }
 
     @Test

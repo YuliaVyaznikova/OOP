@@ -18,7 +18,8 @@ class MulTest {
     }
 
     /**
-     * Tests the eval method of the Mul class for a variable and a number.
+     * Tests the eval method of the Mul class
+     * for a variable and a number.
      */
     @Test
     void evalVariableAndNumber() {
@@ -37,11 +38,13 @@ class MulTest {
         Expression right = new Variable("y");
         Expression mul = new Mul(left, right);
         Expression derivative = mul.derivative("x");
-        assertEquals("((1 * y) + (x * 0))", derivative.printAnswer());
+        assertEquals("((1 * y) + (x * 0))",
+                derivative.printAnswer());
     }
 
     /**
-     * Tests the derivative method of the Mul class for a variable and a number.
+     * Tests the derivative method of the Mul class
+     * for a variable and a number.
      */
     @Test
     void derivativeVariableAndNumber() {
@@ -49,7 +52,8 @@ class MulTest {
         Expression right = new Number(5);
         Expression mul = new Mul(left, right);
         Expression derivative = mul.derivative("x");
-        assertEquals("((1 * 5) + (x * 0))", derivative.printAnswer());
+        assertEquals("((1 * 5) + (x * 0))",
+                derivative.printAnswer());
     }
 
     /**

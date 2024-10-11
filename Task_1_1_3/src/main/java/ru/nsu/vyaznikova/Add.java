@@ -3,8 +3,7 @@ package ru.nsu.vyaznikova;
 /**
  * Represents addition of two expressions.
  */
-public class Add extends Expression
-{
+public class Add extends Expression {
     private final Expression left;
     private final Expression right;
 
@@ -14,8 +13,7 @@ public class Add extends Expression
      * @param left  The left expression.
      * @param right The right expression.
      */
-    Add(Expression left, Expression right)
-    {
+    Add(Expression left, Expression right) {
         this.left = left;
         this.right = right;
     }
@@ -27,8 +25,7 @@ public class Add extends Expression
      * @return An Add expression representing the sum of derivatives of left and right expressions.
      */
     @Override
-    public Expression derivative(String difVar)
-    {
+    public Expression derivative(String difVar) {
         Expression derLeft = left.derivative(difVar);
         Expression derRight = right.derivative(difVar);
         return new Add(derLeft, derRight);
@@ -41,8 +38,7 @@ public class Add extends Expression
      * @return The sum of the evaluated left and right expressions.
      */
     @Override
-    public double eval(String expression)
-    {
+    public double eval(String expression) {
         return left.eval(expression) + right.eval(expression);
     }
 
@@ -52,20 +48,19 @@ public class Add extends Expression
      * @return The string representing the addition, enclosed in parentheses.
      */
     @Override
-    public String printAnswer()
-    {
+    public String printAnswer() {
         return "(" + left.printAnswer() + " + " + right.printAnswer() + ")";
     }
 
     @Override
-    public Expression simplify()
-    {
+    public Expression simplify() {
         Expression leftSimplified = left.simplify();
         Expression rightSimplified = right.simplify();
 
-        if (leftSimplified instanceof Number && rightSimplified instanceof Number)
-        {
-            return new Number((int) ((Number) leftSimplified).number + (int) ((Number) rightSimplified).number);
+        if (leftSimplified instanceof Number
+                && rightSimplified instanceof Number) {
+            return new Number((int) ((Number) leftSimplified).number
+                    + (int) ((Number) rightSimplified).number);
         }
 
         return new Add(leftSimplified, rightSimplified);
