@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"ru.nsu.vyaznikova","l":"Add"},{"l":"All Classes","url":"allclasses-index.html"},{"p":"ru.nsu.vyaznikova","l":"Expression"},{"p":"ru.nsu.vyaznikova","l":"Mul"},{"p":"ru.nsu.vyaznikova","l":"Number"},{"p":"ru.nsu.vyaznikova","l":"Sub"},{"p":"ru.nsu.vyaznikova","l":"Variable"}]
