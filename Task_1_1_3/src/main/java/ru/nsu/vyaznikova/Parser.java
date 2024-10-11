@@ -1,34 +1,127 @@
 package ru.nsu.vyaznikova;
 
-public class Parser {
-    public static Expression parse(String expression) {
-        expression = expression.trim();
-        if (expression.startsWith("(") && expression.endsWith(")")) {
-            expression = expression.substring(1, expression.length() - 1).trim();
-        }
+/**
+ * Parses a string representation of a mathematical expression into an Expression object.
+ */
+class Parser
+{
+    private final String str;
+    private int currentChar;
+    private final int length;
 
-        if (Character.isDigit(expression.charAt(0))) {
-            return new Number(Integer.parseInt(expression));
-        } else if (Character.isLetter(expression.charAt(0))) {
-            return new Variable(expression);
-        } else {
-            String[] parts = expression.split("(?<=[-+*/])|(?=[-+*/])");
-            Expression left = parse(parts[0].trim());
-            String operator = parts[1].trim();
-            Expression right = parse(parts[2].trim());
+    /**
+     * Constructs a Parser object with the given string representing the expression.
+     *
+     * @param str1 The string to parse.
+     */
+    public Parser(String str1)
+    {
+        this.str = str1.replace(" ", "");
+        this.currentChar = 0;
+        this.length = str.length();
+    }
 
-            switch (operator) {
-                case "+":
-                    return new Add(left, right);
-                case "-":
-                    return new Sub(left, right);
-                case "*":
-                    return new Mul(left, right);
-                case "/":
-                    return new Div(left, right);
-                default:
-                    throw new IllegalArgumentException("Invalid operator: " + operator);
+    /**
+     * Parses the expression string and returns an Expression object.
+     *
+     * @return The parsed Expression object.
+     */
+    public Expression parse()
+    {
+        return expression();
+    }
+
+    /**
+     * Parses the expression, recursively evaluating sub-expressions enclosed in parentheses.
+     *
+     * @return The parsed Expression object representing the expression.
+     */
+    private Expression expression()
+    {
+        Expression leftExpression = term();
+
+        while (currentChar < length)
+        {
+            char operation = str.charAt(currentChar);
+            currentChar++;
+            Expression rightExpression = term();
+
+            if (operation == '+')
+            {
+                leftExpression = new Add(leftExpression, rightExpression);
+            }
+            else if (operation == '-')
+            {
+                leftExpression = new Sub(leftExpression, rightExpression);
+            }
+            else if (operation == '*')
+            {
+                leftExpression = new Mul(leftExpression, rightExpression);
+            }
+            else if (operation == '/')
+            {
+                leftExpression = new Div(leftExpression, rightExpression);
+            }
+            else
+            {
+                throw new IllegalArgumentException("Invalid operation: " + operation);
             }
         }
+
+        return leftExpression;
+    }
+
+    /**
+     * Parses a term, which can be a number, a variable, or a negated number.
+     *
+     * @return The parsed Expression object representing the term.
+     */
+    private Expression term()
+    {
+        Expression expression;
+        boolean isNegative = false;
+        if (str.charAt(currentChar) == '-')
+        {
+            isNegative = true;
+            currentChar++;
+        }
+        try
+        {
+            if (Character.isDigit(str.charAt(currentChar)))
+            {
+                int number = 0;
+
+                while (Character.isDigit(str.charAt(currentChar)) && currentChar < length - 1)
+                {
+                    number *= 10;
+                    number += Character.getNumericValue(str.charAt(currentChar));
+                    currentChar++;
+                }
+
+                expression = isNegative ? new Number(-number) : new Number(number);
+            }
+            else if (Character.isAlphabetic(str.charAt(currentChar)))
+            {
+                StringBuilder variable = new StringBuilder();
+
+                while (Character.isAlphabetic(str.charAt(currentChar)) && currentChar < length - 1)
+                {
+                    variable.append(str.charAt(currentChar));
+                    currentChar++;
+                }
+
+                expression = new Variable(variable.toString());
+            }
+            else
+            {
+                throw new IllegalArgumentException("Invalid input: expected variable or number");
+            }
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println(e.getMessage());
+            expression = null;
+        }
+        return expression;
     }
 }

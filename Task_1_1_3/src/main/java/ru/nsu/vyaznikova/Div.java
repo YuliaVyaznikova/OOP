@@ -1,40 +1,86 @@
 package ru.nsu.vyaznikova;
 
-public class Div extends BinaryOperation {
-    public Div(Expression left, Expression right) {
-        super(left, right);
+/**
+ * Represents division of two expressions.
+ */
+class Div extends Expression
+{
+    private final Expression left;
+    private final Expression right;
+
+    /**
+     * Constructs a Div object with the given left and right expressions.
+     *
+     * @param left  The left expression.
+     * @param right The right expression.
+     */
+    public Div(Expression left, Expression right)
+    {
+        this.left = left;
+        this.right = right;
     }
 
+    /**
+     * Returns the derivative of the division.
+     *
+     * @param difVar The variable to differentiate with respect to.
+     * @return A Div expression representing the derivative of the division,
+     *         calculated using the quotient rule.
+     */
     @Override
-    public String toString() {
-        return "(" + left.toString() + "/" + right.toString() + ")";
+    public Expression derivative(String difVar)
+    {
+        Expression derLeft = new Mul(left.derivative(difVar), right);
+        Expression derRight = new Mul(left, right.derivative(difVar));
+        return new Div(new Sub(derLeft, derRight), new Mul(right, right));
     }
 
+    /**
+     * Evaluates the quotient of the left and right expressions.
+     *
+     * @param expression The string with assigned values for variables.
+     * @return The quotient of the evaluated left and right expressions.
+     */
     @Override
-    public Expression derivative(String var) {
-        return new Div(
-                new Sub(
-                        new Mul(left.derivative(var), right),
-                        new Mul(left, right.derivative(var))
-                ),
-                new Mul(right, right)
-        );
-    }
-
-    @Override
-    public int eval(String assign) {
-        return left.eval(assign) / right.eval(assign);
-    }
-
-    @Override
-    public Expression simplify() {
-        Expression simplifiedLeft = left.simplify();
-        Expression simplifiedRight = right.simplify();
-
-        if (simplifiedLeft instanceof Number && simplifiedRight instanceof Number) {
-            return new Number(((Number) simplifiedLeft).value / ((Number) simplifiedRight).value);
-        } else {
-            return new Div(simplifiedLeft, simplifiedRight);
+    public double eval(String expression)
+    {
+        try
+        {
+            double rightValue = right.eval(expression);
+            if (rightValue == 0)
+            {
+                throw new ArithmeticException("Division by zero");
+            }
+            return left.eval(expression) / rightValue;
         }
+        catch (ArithmeticException e)
+        {
+            System.err.println("Error: " + e.getMessage());
+            return Double.NaN;
+        }
+    }
+
+    /**
+     * Returns a string representation of the division expression.
+     *
+     * @return The string representing the division, enclosed in parentheses.
+     */
+    @Override
+    public String printAnswer()
+    {
+        return "(" + left.printAnswer() + " / " + right.printAnswer() + ")";
+    }
+
+    /**
+     * Simplifies the expression based on specific rules.
+     *
+     * @return A simplified version of the expression, or the original expression if no simplification is possible.
+     */
+    @Override
+    public Expression simplify()
+    {
+        Expression leftSimplified = left.simplify();
+        Expression rightSimplified = right.simplify();
+        return new Div(leftSimplified, rightSimplified);
     }
 }
