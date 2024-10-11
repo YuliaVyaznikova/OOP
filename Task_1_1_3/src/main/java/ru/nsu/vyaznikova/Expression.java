@@ -54,19 +54,6 @@ public abstract class Expression
     public abstract Expression simplify();
 
     /**
-     * Creates an instance of Expression from a string read from the input stream.
-     *
-     * @param inputStream The input stream to read the expression string from.
-     * @return An instance of Expression corresponding to the expression string.
-     */
-    public static Expression create(InputStream inputStream)
-    {
-        String expression = readExpression(inputStream);
-        Parser parser = new Parser(expression);
-        return parser.parse();
-    }
-
-    /**
      * Reads a string with an expression from the input stream.
      *
      * @param inputStream The input stream to read the string from.
@@ -78,20 +65,6 @@ public abstract class Expression
         String str = scanner.nextLine();
         scanner.close();
         return str;
-    }
-
-    /**
-     * Creates an instance of Expression from a given string.
-     *
-     * @param expression The string representing the mathematical expression.
-     * @return An instance of Expression corresponding to the expression string.
-     */
-    public static Expression createFromString(String expression) {
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(expression.getBytes())) {
-            return create(bais);
-        } catch (IOException e) {
-            throw new RuntimeException("Error creating Expression from string", e);
-        }
     }
 
     public static void main(String[] args) { }

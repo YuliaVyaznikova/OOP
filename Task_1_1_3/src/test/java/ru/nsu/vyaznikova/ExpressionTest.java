@@ -2,177 +2,220 @@ package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ExpressionTest
-    {
+class ExpressionTest {
 
-    /**
-     * Tests the print method of the Expression class.
-     */
+    // Тесты для метода printAnswer()
     @Test
-    void print() throws IOException
-    {
-        Expression e = new Add(new Number(3), new Mul(new Number(2), new Variable("x"))); // Создаем выражение вручную
-        String mustBe = "(3 + (2 * x))";
-        assertPrint(e, mustBe);
+    void testPrintAnswerNumber() {
+        Expression number = new Number(5);
+        assertEquals("5", number.printAnswer());
     }
 
-    /**
-     * Tests the print method for a more complex expression.
-     */
     @Test
-    void print1()
-    {
-        Expression e = new Div(new Number(3), new Mul(new Variable("y"), new Variable("x"))); // Создаем выражение вручную
-        String res = e.printAnswer();
-        assertEquals(res, "(3 / (y * x))");
+    void testPrintAnswerVariable() {
+        Expression variable = new Variable("x");
+        assertEquals("x", variable.printAnswer());
     }
 
-    /**
-     * Tests the print method for an expression with addition and subtraction.
-     */
     @Test
-    void print2()
-    {
-        Expression e = new Div(new Add(new Number(3), new Variable("x")), new Sub(new Variable("y"), new Variable("x"))); // Создаем выражение вручную
-        String res = e.printAnswer();
-        assertEquals(res, "((3 + x) / (y - x))");
+    void testPrintAnswerAdd() {
+        Expression add = new Add(new Number(3), new Variable("x"));
+        assertEquals("(3 + x)", add.printAnswer());
     }
 
-    /**
-     * Tests the print method for a complex expression.
-     */
     @Test
-    void print3()
-    {
-        Expression e = new Mul(new Div(new Add(new Number(2), new Variable("x")), new Number(3)),
-                new Sub(new Variable("Ax"), new Mul(new Number(-4), new Variable("y")))); // Создаем выражение вручную
-        String res = e.printAnswer();
-        assertEquals(res, "(((2 + x) / 3) * (Ax - (-4 * y)))");
+    void testPrintAnswerSub() {
+        Expression sub = new Sub(new Variable("x"), new Number(5));
+        assertEquals("(x - 5)", sub.printAnswer());
     }
 
-    /**
-     * Tests the print method for an empty expression.
-     */
     @Test
-    void print4()
-    {
-        Expression e = new Number(0);
-        String res = e.printAnswer();
-        assertEquals(res, "0");
+    void testPrintAnswerMul() {
+        Expression mul = new Mul(new Variable("x"), new Number(5));
+        assertEquals("(x * 5)", mul.printAnswer());
     }
 
-    private void assertPrint(Expression e, String mustBe) throws IOException
-    {
-        // Create a stream to capture output
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(outputStream);
-
-        // Save original stream
-        PrintStream originalOut = System.out;
-        System.setOut(printStream); // Redirect System.out
-
-        try
-        {
-            e.print(System.out); // Get the output
-            String output = outputStream.toString().trim(); // Remove extra spaces and line breaks
-            assertEquals(mustBe, output); // Check that the output matches the expected value
-        }
-        finally
-        {
-            System.setOut(originalOut); // Restore the original stream
-        }
+    @Test
+    void testPrintAnswerDiv() {
+        Expression div = new Div(new Variable("x"), new Number(5));
+        assertEquals("(x / 5)", div.printAnswer());
     }
 
-    /**
-     * Tests the simplify method for a simple addition with numbers.
-     */
+    // Тесты для метода eval()
     @Test
-    void testSimplifyAddNumbers()
-    {
-        Expression e = new Add(new Number(3), new Number(5));
-        Expression simplified = e.simplify();
-        assertEquals("8", simplified.printAnswer());
+    void testEvalNumber() {
+        Expression number = new Number(5);
+        assertEquals(5.0, number.eval(""));
     }
 
-    /**
-     * Tests the simplify method for a simple subtraction with numbers.
-     */
     @Test
-    void testSimplifySubNumbers()
-    {
-        Expression e = new Sub(new Number(8), new Number(3));
-        Expression simplified = e.simplify();
+    void testEvalVariable() {
+        Expression variable = new Variable("x");
+        assertEquals(10.0, variable.eval("x = 10"));
+    }
+
+    @Test
+    void testEvalAdd() {
+        Expression add = new Add(new Number(3), new Variable("x"));
+        assertEquals(13.0, add.eval("x = 10"));
+    }
+
+    @Test
+    void testEvalSub() {
+        Expression sub = new Sub(new Variable("x"), new Number(5));
+        assertEquals(5.0, sub.eval("x = 10"));
+    }
+
+    @Test
+    void testEvalMul() {
+        Expression mul = new Mul(new Variable("x"), new Number(5));
+        assertEquals(50.0, mul.eval("x = 10"));
+    }
+
+    @Test
+    void testEvalDiv() {
+        Expression div = new Div(new Variable("x"), new Number(5));
+        assertEquals(2.0, div.eval("x = 10"));
+    }
+
+    // Тесты для метода derivative()
+    @Test
+    void testDerivativeNumber() {
+        Expression number = new Number(5);
+        Expression derivative = number.derivative("x");
+        assertEquals("0", derivative.printAnswer());
+    }
+
+    @Test
+    void testDerivativeVariable() {
+        Expression variable = new Variable("x");
+        Expression derivative = variable.derivative("x");
+        assertEquals("1", derivative.printAnswer());
+    }
+
+    @Test
+    void testDerivativeVariableDifferentVar() {
+        Expression variable = new Variable("x");
+        Expression derivative = variable.derivative("y");
+        assertEquals("0", derivative.printAnswer());
+    }
+
+    @Test
+    void testDerivativeAdd() {
+        Expression add = new Add(new Number(3), new Variable("x"));
+        Expression derivative = add.derivative("x");
+        assertEquals("(0 + 1)", derivative.printAnswer());
+    }
+
+    @Test
+    void testDerivativeSub() {
+        Expression sub = new Sub(new Variable("x"), new Number(5));
+        Expression derivative = sub.derivative("x");
+        assertEquals("(1 - 0)", derivative.printAnswer());
+    }
+
+    @Test
+    void testDerivativeMul() {
+        Expression mul = new Mul(new Variable("x"), new Number(5));
+        Expression derivative = mul.derivative("x");
+        assertEquals("((1 * 5) + (x * 0))", derivative.printAnswer());
+    }
+
+    @Test
+    void testDerivativeDiv() {
+        Expression div = new Div(new Variable("x"), new Number(5));
+        Expression derivative = div.derivative("x");
+        assertEquals("(((1 * 5) - (x * 0)) / (5 * 5))", derivative.printAnswer());
+    }
+
+    // Тесты для метода simplify()
+    @Test
+    void testSimplifyNumber() {
+        Expression number = new Number(5);
+        Expression simplified = number.simplify();
         assertEquals("5", simplified.printAnswer());
     }
 
-    /**
-     * Tests the simplify method for a simple multiplication with numbers.
-     */
     @Test
-    void testSimplifyMulNumbers()
-    {
-        Expression e = new Mul(new Number(3), new Number(5));
-        Expression simplified = e.simplify();
-        assertEquals("15", simplified.printAnswer());
-    }
-
-    /**
-     * Tests the simplify method for a simple division with numbers.
-     */
-    @Test
-    void testSimplifyDivNumbers()
-    {
-        Expression e = new Div(new Number(10), new Number(2));
-        Expression simplified = e.simplify();
-        assertEquals("(10 / 2)", simplified.printAnswer()); // Деление не упрощается, так как не является целым числом
-    }
-
-//    /**
-//     * Tests the simplify method for a subtraction of two identical sub-expressions.
-//     */
-//    @Test
-//    void testSimplifySubIdentical() {
-//        Expression e = new Sub(new Add(new Variable("x"), new Number(3)), new Add(new Variable("x"), new Number(3)));
-//        Expression simplified = e.simplify();
-//        assertEquals("0", simplified.printAnswer());
-//    }
-
-    /**
-     * Tests the simplify method for a multiplication by 0.
-     */
-    @Test
-    void testSimplifyMulByZero()
-    {
-        Expression e = new Mul(new Number(0), new Variable("x"));
-        Expression simplified = e.simplify();
-        assertEquals("0", simplified.printAnswer());
-    }
-
-    /**
-     * Tests the simplify method for a multiplication by 1.
-     */
-    @Test
-    void testSimplifyMulByOne()
-    {
-        Expression e = new Mul(new Number(1), new Variable("x"));
-        Expression simplified = e.simplify();
+    void testSimplifyVariable() {
+        Expression variable = new Variable("x");
+        Expression simplified = variable.simplify();
         assertEquals("x", simplified.printAnswer());
     }
 
-    /**
-     * Tests the simplify method for a complex expression.
-     */
     @Test
-    void testSimplifyComplex()
-    {
-        Expression e = new Add(new Mul(new Variable("x"), new Number(5)), new Sub(new Variable("x"), new Number(5)));
-        Expression simplified = e.simplify();
-        assertEquals("((x * 5) + (x - 5))", simplified.printAnswer());
+    void testSimplifyAddNumbers() {
+        Expression add = new Add(new Number(3), new Number(5));
+        Expression simplified = add.simplify();
+        assertEquals("8", simplified.printAnswer());
+    }
+
+    @Test
+    void testSimplifySubNumbers() {
+        Expression sub = new Sub(new Number(8), new Number(3));
+        Expression simplified = sub.simplify();
+        assertEquals("5", simplified.printAnswer());
+    }
+
+    @Test
+    void testSimplifyMulNumbers() {
+        Expression mul = new Mul(new Number(3), new Number(5));
+        Expression simplified = mul.simplify();
+        assertEquals("15", simplified.printAnswer());
+    }
+
+    @Test
+    void testSimplifyDivNumbers() {
+        Expression div = new Div(new Number(10), new Number(2));
+        Expression simplified = div.simplify();
+        assertEquals("(10 / 2)", simplified.printAnswer()); // Деление не упрощается, так как не является целым числом
+    }
+
+    @Test
+    void testSimplifyMulByZero() {
+        Expression mul = new Mul(new Number(0), new Variable("x"));
+        Expression simplified = mul.simplify();
+        assertEquals("0", simplified.printAnswer());
+    }
+
+    @Test
+    void testSimplifyMulByOne() {
+        Expression mul = new Mul(new Number(1), new Variable("x"));
+        Expression simplified = mul.simplify();
+        assertEquals("x", simplified.printAnswer());
+    }
+
+    @Test
+    void testSimplifyComplex() {
+        Expression complex = new Add(new Mul(new Variable("x"), new Number(5)), new Sub(new Variable("x"), new Number(5)));
+        Expression simplified = complex.simplify();
+        assertEquals("((x * 5) + (x - 5))", simplified.printAnswer()); // Упрощение не выполняется, так как выражение содержит переменную
+    }
+
+    // Тесты для метода print()
+    @Test
+    void testPrint() throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outputStream);
+
+        Expression expression = new Add(new Number(3), new Variable("x"));
+        expression.print(printStream);
+
+        String expectedOutput = "(3 + x)\n";
+        assertEquals(expectedOutput, outputStream.toString());
+    }
+
+    // Тесты для метода readExpression()
+    @Test
+    void testReadExpression() {
+        InputStream inputStream = new ByteArrayInputStream("x + 5".getBytes());
+        String expression = Expression.readExpression(inputStream);
+        assertEquals("x + 5", expression);
     }
 }
