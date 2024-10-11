@@ -1,9 +1,9 @@
 package ru.nsu.vyaznikova;
 
-import java.util.Scanner;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Scanner;
 
 /**
  * Abstract class representing a mathematical expression.
@@ -50,7 +50,7 @@ public abstract class Expression {
      * Simplifies the expression based on specific rules.
      *
      * @return A simplified version of the expression,
-     * or the original expression if no simplification is possible.
+     *     or the original expression if no simplification is possible.
      */
     public abstract Expression simplify();
 

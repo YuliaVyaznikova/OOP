@@ -20,7 +20,7 @@ public class Variable extends Expression {
      *
      * @param difVar The variable to differentiate with respect to.
      * @return A Number object representing 1
-     * if the variable is the same as difVar, 0 otherwise.
+     *     if the variable is the same as difVar, 0 otherwise.
      */
     @Override
     public Expression derivative(String difVar) {

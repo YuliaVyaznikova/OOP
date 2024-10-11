@@ -23,9 +23,9 @@ public class Mul extends Expression {
      *
      * @param difVar The variable to differentiate with respect to.
      * @return An Add expression representing the sum of two multiplications:
-     * - derivative of the left expression multiplied by the right expression
-     * - the left expression multiplied by the derivative
-     * of the right expression
+     *     - derivative of the left expression multiplied by the right expression
+     *     - the left expression multiplied by the derivative
+     *     of the right expression
      */
     @Override
     public Expression derivative(String difVar) {
@@ -49,7 +49,7 @@ public class Mul extends Expression {
      * Returns a string representation of the multiplication expression.
      *
      * @return The string representing the multiplication,
-     * enclosed in parentheses.
+     *     enclosed in parentheses.
      */
     @Override
     public String printAnswer() {

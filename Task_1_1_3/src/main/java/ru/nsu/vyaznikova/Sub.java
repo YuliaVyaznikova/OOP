@@ -24,7 +24,7 @@ public class Sub extends Expression {
      *
      * @param difVar The variable to differentiate with respect to.
      * @return A Sub expression representing the difference
-     * of derivatives of left and right expressions.
+     *     of derivatives of left and right expressions.
      */
     @Override
     public Expression derivative(String difVar) {
@@ -48,7 +48,7 @@ public class Sub extends Expression {
      * Returns a string representation of the subtraction expression.
      *
      * @return The string representing the subtraction,
-     * enclosed in parentheses.
+     *     enclosed in parentheses.
      */
     @Override
     public String printAnswer() {

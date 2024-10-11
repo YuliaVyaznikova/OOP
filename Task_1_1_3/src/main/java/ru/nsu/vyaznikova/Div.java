@@ -23,7 +23,7 @@ class Div extends Expression {
      *
      * @param difVar The variable to differentiate with respect to.
      * @return A Div expression representing the derivative of the division,
-     * calculated using the quotient rule.
+     *     calculated using the quotient rule.
      */
     @Override
     public Expression derivative(String difVar) {
@@ -67,7 +67,7 @@ class Div extends Expression {
      * Simplifies the expression based on specific rules.
      *
      * @return A simplified version of the expression,
-     * or the original expression if no simplification is possible.
+     *     or the original expression if no simplification is possible.
      */
     @Override
     public Expression simplify() {
