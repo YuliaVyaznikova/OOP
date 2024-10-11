@@ -1,9 +1,10 @@
 package ru.nsu.vyaznikova;
 
+import java.util.Scanner;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Scanner;
 
 /**
  * Abstract class representing a mathematical expression.
