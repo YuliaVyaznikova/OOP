@@ -1,6 +1,8 @@
 package ru.nsu.vyaznikova;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Scanner;
 
 /**
@@ -9,8 +11,7 @@ import java.util.Scanner;
  * @author Vyaznikova Elizaveta
  * @version 1.0
  */
-public abstract class Expression
-{
+public abstract class Expression {
 
     /**
      * Returns the derivative of the expression with respect to the given variable.
@@ -41,15 +42,15 @@ public abstract class Expression
      * @param outputStream The output stream to print the expression to.
      * @throws IOException If an error occurs while writing to the stream.
      */
-    public void print(OutputStream outputStream) throws IOException
-    {
+    public void print(OutputStream outputStream) throws IOException {
         outputStream.write((this.printAnswer() + "\n").getBytes());
     }
 
     /**
      * Simplifies the expression based on specific rules.
      *
-     * @return A simplified version of the expression, or the original expression if no simplification is possible.
+     * @return A simplified version of the expression,
+     * or the original expression if no simplification is possible.
      */
     public abstract Expression simplify();
 
@@ -59,13 +60,13 @@ public abstract class Expression
      * @param inputStream The input stream to read the string from.
      * @return The string read from the stream.
      */
-    public static String readExpression(InputStream inputStream)
-    {
+    public static String readExpression(InputStream inputStream) {
         Scanner scanner = new Scanner(inputStream);
         String str = scanner.nextLine();
         scanner.close();
         return str;
     }
 
-    public static void main(String[] args) { }
+    public static void main(String[] args) {
+    }
 }
