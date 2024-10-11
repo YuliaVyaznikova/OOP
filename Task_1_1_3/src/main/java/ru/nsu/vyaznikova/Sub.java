@@ -3,8 +3,7 @@ package ru.nsu.vyaznikova;
 /**
  * Represents subtraction of two expressions.
  */
-public class Sub extends Expression
-{
+public class Sub extends Expression {
     private final Expression left;
     private final Expression right;
 
@@ -15,8 +14,7 @@ public class Sub extends Expression
      * @param left  The left expression.
      * @param right The right expression.
      */
-    Sub(Expression left, Expression right)
-    {
+    Sub(Expression left, Expression right) {
         this.left = left;
         this.right = right;
     }
@@ -29,8 +27,7 @@ public class Sub extends Expression
      * of derivatives of left and right expressions.
      */
     @Override
-    public Expression derivative(String difVar)
-    {
+    public Expression derivative(String difVar) {
         Expression derLeft = left.derivative(difVar);
         Expression derRight = right.derivative(difVar);
         return new Sub(derLeft, derRight);
@@ -43,8 +40,7 @@ public class Sub extends Expression
      * @return The difference of the evaluated left and right expressions.
      */
     @Override
-    public double eval(String expression)
-    {
+    public double eval(String expression) {
         return left.eval(expression) - right.eval(expression);
     }
 
@@ -55,24 +51,20 @@ public class Sub extends Expression
      * enclosed in parentheses.
      */
     @Override
-    public String printAnswer()
-    {
+    public String printAnswer() {
         return "(" + left.printAnswer() + " - " + right.printAnswer() + ")";
     }
 
     @Override
-    public Expression simplify()
-    {
+    public Expression simplify() {
         Expression leftSimplified = left.simplify();
         Expression rightSimplified = right.simplify();
 
-        if (leftSimplified instanceof Number && rightSimplified instanceof Number)
-        {
+        if (leftSimplified instanceof Number
+                && rightSimplified instanceof Number) {
             return new Number((int) ((Number) leftSimplified).number
                     - (int) ((Number) rightSimplified).number);
-        }
-        else if (leftSimplified.equals(rightSimplified))
-        {
+        } else if (leftSimplified.equals(rightSimplified)) {
             return new Number(0);
         }
 
