@@ -40,7 +40,7 @@ public class Variable extends Expression {
      *
      * @param expression The string with assigned values for variables.
      * @return The value of the variable if found in the expression,
-     * 0 otherwise.
+     *     0 otherwise.
      */
     @Override
     public double eval(String expression) {
