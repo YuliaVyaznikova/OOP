@@ -1,7 +1,6 @@
 package ru.nsu.vyaznikova;
 
 import java.util.Scanner;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
