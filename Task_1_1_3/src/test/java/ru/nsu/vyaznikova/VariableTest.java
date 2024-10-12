@@ -1,6 +1,7 @@
 package ru.nsu.vyaznikova;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,14 @@ class VariableTest {
     @Test
     void evalVariableNotFound() {
         Variable variable = new Variable("x");
-        assertEquals(0.0, variable.eval("y = 5"));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            variable.eval("y = 5");
+        });
+
+        String expectedMessage = "Variable not found in the expression: x";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
     }
 
     /**

@@ -39,8 +39,9 @@ public class Variable extends Expression {
      * Evaluates the value of the variable given the values of variables.
      *
      * @param expression The string with assigned values for variables.
-     * @return The value of the variable if found in the expression,
-     *     0 otherwise.
+     * @return The value of the variable if found in the expression.
+     * @throws IllegalArgumentException if the variable
+     *     is not found in the expression.
      */
     @Override
     public double eval(String expression) {
@@ -58,7 +59,7 @@ public class Variable extends Expression {
             }
         }
 
-        return 0;
+        throw new IllegalArgumentException("Variable not found in the expression: " + variable);
     }
 
     /**
