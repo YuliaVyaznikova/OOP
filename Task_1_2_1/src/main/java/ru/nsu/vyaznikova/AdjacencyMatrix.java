@@ -14,10 +14,8 @@ import java.util.Stack;
  *
  * @param <T> The type of the vertices in the graph.
  */
-public class AdjacencyMatrix<T> implements Graph<T> {
+public class AdjacencyMatrix<T> extends AbstractGraph<T> {
     private List<List<Integer>> matrix;
-    private int numVertices;
-    private List<T> vertices;
 
     /**
      * Constructs an empty graph.
@@ -187,34 +185,6 @@ public class AdjacencyMatrix<T> implements Graph<T> {
     }
 
     /**
-     * Checks if this graph is equal to another object.
-     *
-     * @param obj The object to compare with.
-     * @return true if the objects are equal, false otherwise.
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        AdjacencyMatrix<T> other = (AdjacencyMatrix<T>) obj;
-        if (numVertices != other.numVertices) {
-            return false;
-        }
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                if (matrix.get(i).get(j) != other.matrix.get(i).get(j)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
      * Returns a string representation of the graph.
      *
      * @return A string representation of the graph.
@@ -254,6 +224,25 @@ public class AdjacencyMatrix<T> implements Graph<T> {
         }
 
         return sorted;
+    }
+
+    @Override
+    protected boolean compareEdges(AbstractGraph<T> other) {
+        if (other instanceof AdjacencyMatrix) {
+            AdjacencyMatrix<T> otherMatrix = (AdjacencyMatrix<T>) other;
+            if (matrix.size() != otherMatrix.matrix.size()) {
+                return false;
+            }
+            for (int i = 0; i < matrix.size(); i++) {
+                for (int j = 0; j < matrix.size(); j++) {
+                    if (matrix.get(i).get(j) != otherMatrix.matrix.get(i).get(j)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     private void dfs(int vertexIndex, List<Integer> visited, Stack<T> stack) {

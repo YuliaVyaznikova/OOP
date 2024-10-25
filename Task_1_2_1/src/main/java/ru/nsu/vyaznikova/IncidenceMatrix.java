@@ -14,11 +14,9 @@ import java.util.Stack;
  *
  * @param <T> The type of the vertices in the graph.
  */
-class IncidenceMatrix<T> implements Graph<T> {
+class IncidenceMatrix<T> extends AbstractGraph<T> {
     private List<List<Integer>> matrix;
-    private int numVertices;
     private int numEdges;
-    private List<T> vertices;
 
     /**
      * Constructs an empty graph.
@@ -200,37 +198,6 @@ class IncidenceMatrix<T> implements Graph<T> {
     }
 
     /**
-     * Checks if this graph is equal to another object.
-     *
-     * @param obj The object to compare with.
-     * @return true if the objects are equal, false otherwise.
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        IncidenceMatrix<T> other = (IncidenceMatrix<T>) obj;
-        if (numVertices != other.numVertices || numEdges != other.numEdges) {
-            return false;
-        }
-        if (matrix.size() != other.matrix.size()) {
-            return false;
-        }
-        for (int i = 0; i < matrix.size(); i++) {
-            for (int j = 0; j < numVertices; j++) {
-                if (matrix.get(i).get(j) != other.matrix.get(i).get(j)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
      * Returns a string representation of the graph.
      *
      * @return A string representation of the graph.
@@ -246,6 +213,28 @@ class IncidenceMatrix<T> implements Graph<T> {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    @Override
+    protected boolean compareEdges(AbstractGraph<T> other) {
+        if (other instanceof IncidenceMatrix) {
+            IncidenceMatrix<T> otherMatrix = (IncidenceMatrix<T>) other;
+            if (numEdges != otherMatrix.numEdges) {
+                return false;
+            }
+            if (matrix.size() != otherMatrix.matrix.size()) {
+                return false;
+            }
+            for (int i = 0; i < matrix.size(); i++) {
+                for (int j = 0; j < numVertices; j++) {
+                    if (matrix.get(i).get(j) != otherMatrix.matrix.get(i).get(j)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override

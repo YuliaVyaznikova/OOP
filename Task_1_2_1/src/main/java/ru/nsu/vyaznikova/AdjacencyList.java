@@ -14,10 +14,8 @@ import java.util.Stack;
  *
  * @param <T> The type of the vertices in the graph.
  */
-class AdjacencyList<T> implements Graph<T> {
+class AdjacencyList<T> extends AbstractGraph<T> {
     private List<List<Integer>> adjacencyList;
-    private int numVertices;
-    private List<T> vertices;
 
     /**
      * Constructs an empty graph.
@@ -181,36 +179,7 @@ class AdjacencyList<T> implements Graph<T> {
     }
 
     /**
-     * Checks if this graph is equal to another object.
-     *
-     * @param obj The object to compare with.
-     * @return true if the objects are equal, false otherwise.
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        AdjacencyList<T> other = (AdjacencyList<T>) obj;
-        if (numVertices != other.numVertices) {
-            return false;
-        }
-        if (adjacencyList.size() != other.adjacencyList.size()) {
-            return false;
-        }
-        for (int i = 0; i < adjacencyList.size(); i++) {
-            if (!adjacencyList.get(i).equals(other.adjacencyList.get(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Returns a string representation of the graph.
+     * Returns a string with the graph.
      *
      * @return A string representation of the graph.
      */
@@ -222,6 +191,23 @@ class AdjacencyList<T> implements Graph<T> {
             sb.append(vertices.get(i)).append(": ").append(adjacencyList.get(i)).append("\n");
         }
         return sb.toString();
+    }
+
+    @Override
+    protected boolean compareEdges(AbstractGraph<T> other) {
+        if (other instanceof AdjacencyList) {
+            AdjacencyList<T> otherList = (AdjacencyList<T>) other;
+            if (adjacencyList.size() != otherList.adjacencyList.size()) {
+                return false;
+            }
+            for (int i = 0; i < adjacencyList.size(); i++) {
+                if (!adjacencyList.get(i).equals(otherList.adjacencyList.get(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
