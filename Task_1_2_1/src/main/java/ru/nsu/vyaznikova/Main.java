@@ -30,8 +30,8 @@ public class Main {
         System.out.println("Adjacency Matrix Graph:");
         System.out.println(adjacencyMatrixGraph);
 
-        List<String> sortedAM = adjacencyMatrixGraph.topologicalSort();
-        System.out.println("Topological Sort (Adjacency Matrix): " + sortedAM);
+        List<String> sortedAm = adjacencyMatrixGraph.topologicalSort();
+        System.out.println("Topological Sort (Adjacency Matrix): " + sortedAm);
 
         // Create a graph using an incidence matrix
         IncidenceMatrix<String> incidenceMatrixGraph = new IncidenceMatrix<>();
@@ -70,8 +70,8 @@ public class Main {
         System.out.println("\nAdjacency List Graph:");
         System.out.println(adjacencyListGraph);
 
-        List<String> sortedAL = adjacencyListGraph.topologicalSort();
-        System.out.println("Topological Sort (Adjacency List): " + sortedAL);
+        List<String> sortedAl = adjacencyListGraph.topologicalSort();
+        System.out.println("Topological Sort (Adjacency List): " + sortedAl);
 
         // Read a graph from a file
         AdjacencyMatrix<String> graphFromFile = new AdjacencyMatrix<>();

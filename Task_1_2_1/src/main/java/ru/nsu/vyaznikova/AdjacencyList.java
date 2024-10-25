@@ -145,7 +145,8 @@ class AdjacencyList<T> extends AbstractGraph<T> {
      * <br>
      * Next N lines: vertex names (strings).
      * <br>
-     * Remaining lines: edges, where each line contains a pair of vertices separated by space (e.g., A B).
+     * Remaining lines: edges, where each line contains
+     * a pair of vertices separated by space (e.g., A B).
      *
      * @param filename The name of the file to read from.
      */
@@ -155,7 +156,8 @@ class AdjacencyList<T> extends AbstractGraph<T> {
             // 1. Read the number of vertices
             int numVertices = Integer.parseInt(reader.readLine());
             this.numVertices = numVertices;
-            this.adjacencyList = new ArrayList<>(Collections.nCopies(numVertices, new ArrayList<>()));
+            this.adjacencyList = new ArrayList<>(Collections.nCopies(numVertices,
+                    new ArrayList<>()));
             this.vertices = new ArrayList<>();
 
             // 2. Read vertex names
@@ -236,6 +238,7 @@ class AdjacencyList<T> extends AbstractGraph<T> {
                 dfs(i, visited, stack);
             }
         }
-        stack.push(vertices.get(vertexIndex)); // Add the vertex to the stack after visiting all its neighbors
+        stack.push(vertices.get(vertexIndex));
+        // Add the vertex to the stack after visiting all its neighbors
     }
 }
