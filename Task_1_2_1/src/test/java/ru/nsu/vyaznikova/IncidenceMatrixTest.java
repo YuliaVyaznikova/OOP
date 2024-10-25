@@ -1,8 +1,8 @@
 package ru.nsu.vyaznikova;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +41,8 @@ class IncidenceMatrixTest {
 
     /**
      * Tests the {@link IncidenceMatrix#addEdge(Object, Object)} method.
-     * Verifies that an edge is added between two vertices and the neighbors list is updated correctly.
+     * Verifies that an edge is added between
+     * two vertices and the neighbors list is updated correctly.
      */
     @Test
     void addEdge() {
@@ -54,7 +55,8 @@ class IncidenceMatrixTest {
 
     /**
      * Tests the {@link IncidenceMatrix#removeEdge(Object, Object)} method.
-     * Verifies that an edge is removed between two vertices and the neighbors list is updated correctly.
+     * Verifies that an edge is removed between
+     * two vertices and the neighbors list is updated correctly.
      */
     @Test
     void removeEdge() {
@@ -84,7 +86,8 @@ class IncidenceMatrixTest {
 
     /**
      * Tests the {@link IncidenceMatrix#topologicalSort()} method.
-     * Verifies that the topologicalSort method returns the correct topological order of the vertices.
+     * Verifies that the topologicalSort method returns
+     * the correct topological order of the vertices.
      */
     @Test
     void topologicalSort() {
