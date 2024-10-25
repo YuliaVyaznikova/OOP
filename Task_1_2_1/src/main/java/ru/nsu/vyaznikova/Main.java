@@ -1,9 +1,19 @@
 package ru.nsu.vyaznikova;
 
+import java.util.List;
+
+/**
+ * The main class for demonstrating the graph implementations and topological sort.
+ */
 public class Main {
 
+    /**
+     * Main method of the program.
+     *
+     * @param args Command line arguments (not used).
+     */
     public static void main(String[] args) {
-        // Создаем граф с помощью матрицы смежности
+        // Create a graph using an adjacency matrix
         AdjacencyMatrix<String> adjacencyMatrixGraph = new AdjacencyMatrix<>();
         adjacencyMatrixGraph.addVertex("A");
         adjacencyMatrixGraph.addVertex("B");
@@ -23,7 +33,7 @@ public class Main {
         List<String> sortedAM = adjacencyMatrixGraph.topologicalSort();
         System.out.println("Topological Sort (Adjacency Matrix): " + sortedAM);
 
-        // Создаем граф с помощью матрицы инцидентности
+        // Create a graph using an incidence matrix
         IncidenceMatrix<String> incidenceMatrixGraph = new IncidenceMatrix<>();
         incidenceMatrixGraph.addVertex("A");
         incidenceMatrixGraph.addVertex("B");
@@ -43,7 +53,7 @@ public class Main {
         List<String> sortedIM = incidenceMatrixGraph.topologicalSort();
         System.out.println("Topological Sort (Incidence Matrix): " + sortedIM);
 
-        // Создаем граф с помощью списка смежности
+        // Create a graph using an adjacency list
         AdjacencyList<String> adjacencyListGraph = new AdjacencyList<>();
         adjacencyListGraph.addVertex("A");
         adjacencyListGraph.addVertex("B");
@@ -63,7 +73,7 @@ public class Main {
         List<String> sortedAL = adjacencyListGraph.topologicalSort();
         System.out.println("Topological Sort (Adjacency List): " + sortedAL);
 
-        // Чтение графа из файла
+        // Read a graph from a file
         AdjacencyMatrix<String> graphFromFile = new AdjacencyMatrix<>();
         try {
             graphFromFile.readFromFile("graph.txt");

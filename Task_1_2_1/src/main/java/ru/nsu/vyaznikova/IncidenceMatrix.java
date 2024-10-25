@@ -14,7 +14,7 @@ import java.util.Stack;
  *
  * @param <T> The type of the vertices in the graph.
  */
-public class IncidenceMatrix<T> implements Graph<T> {
+class IncidenceMatrix<T> implements Graph<T> {
     private List<List<Integer>> matrix;
     private int numVertices;
     private int numEdges;
@@ -38,13 +38,17 @@ public class IncidenceMatrix<T> implements Graph<T> {
      */
     @Override
     public void addVertex(T vertex) {
-        if (vertex == null) {
-            throw new IllegalArgumentException("Vertex cannot be null");
-        }
-        vertices.add(vertex);
-        numVertices++;
-        for (List<Integer> row : matrix) {
-            row.add(0);
+        try {
+            if (vertex == null) {
+                throw new IllegalArgumentException("Vertex cannot be null");
+            }
+            vertices.add(vertex);
+            numVertices++;
+            for (List<Integer> row : matrix) {
+                row.add(0);
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error adding vertex: " + e.getMessage());
         }
     }
 
@@ -56,16 +60,20 @@ public class IncidenceMatrix<T> implements Graph<T> {
      */
     @Override
     public void removeVertex(T vertex) {
-        if (!vertices.contains(vertex)) {
-            throw new IllegalArgumentException("Vertex does not exist");
-        }
+        try {
+            if (!vertices.contains(vertex)) {
+                throw new IllegalArgumentException("Vertex does not exist");
+            }
 
-        int vertexIndex = vertices.indexOf(vertex);
-        vertices.remove(vertexIndex);
-        for (List<Integer> row : matrix) {
-            row.remove(vertexIndex);
+            int vertexIndex = vertices.indexOf(vertex);
+            vertices.remove(vertexIndex);
+            for (List<Integer> row : matrix) {
+                row.remove(vertexIndex);
+            }
+            numVertices--;
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error removing vertex: " + e.getMessage());
         }
-        numVertices--;
     }
 
     /**
@@ -77,16 +85,20 @@ public class IncidenceMatrix<T> implements Graph<T> {
      */
     @Override
     public void addEdge(T source, T destination) {
-        if (!vertices.contains(source) || !vertices.contains(destination)) {
-            throw new IllegalArgumentException("One or both vertices do not exist");
+        try {
+            if (!vertices.contains(source) || !vertices.contains(destination)) {
+                throw new IllegalArgumentException("One or both vertices do not exist");
+            }
+            int sourceIndex = vertices.indexOf(source);
+            int destinationIndex = vertices.indexOf(destination);
+            List<Integer> newRow = new ArrayList<>(Collections.nCopies(numVertices, 0));
+            newRow.set(sourceIndex, 1);
+            newRow.set(destinationIndex, -1);
+            matrix.add(newRow);
+            numEdges++;
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error adding edge: " + e.getMessage());
         }
-        int sourceIndex = vertices.indexOf(source);
-        int destinationIndex = vertices.indexOf(destination);
-        List<Integer> newRow = new ArrayList<>(Collections.nCopies(numVertices, 0));
-        newRow.set(sourceIndex, 1);
-        newRow.set(destinationIndex, -1);
-        matrix.add(newRow);
-        numEdges++;
     }
 
     /**
@@ -98,17 +110,21 @@ public class IncidenceMatrix<T> implements Graph<T> {
      */
     @Override
     public void removeEdge(T source, T destination) {
-        if (!vertices.contains(source) || !vertices.contains(destination)) {
-            throw new IllegalArgumentException("One or both vertices do not exist");
-        }
-        int sourceIndex = vertices.indexOf(source);
-        int destinationIndex = vertices.indexOf(destination);
-        for (int i = 0; i < matrix.size(); i++) {
-            if (matrix.get(i).get(sourceIndex) == 1 && matrix.get(i).get(destinationIndex) == -1) {
-                matrix.remove(i);
-                numEdges--;
-                break;
+        try {
+            if (!vertices.contains(source) || !vertices.contains(destination)) {
+                throw new IllegalArgumentException("One or both vertices do not exist");
             }
+            int sourceIndex = vertices.indexOf(source);
+            int destinationIndex = vertices.indexOf(destination);
+            for (int i = 0; i < matrix.size(); i++) {
+                if (matrix.get(i).get(sourceIndex) == 1 && matrix.get(i).get(destinationIndex) == -1) {
+                    matrix.remove(i);
+                    numEdges--;
+                    break;
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error removing edge: " + e.getMessage());
         }
     }
 
@@ -121,19 +137,23 @@ public class IncidenceMatrix<T> implements Graph<T> {
     @Override
     public List<T> getNeighbors(T vertex) {
         List<T> neighbors = new ArrayList<>();
-        if (!vertices.contains(vertex)) {
-            return neighbors; // Или выбросить исключение
-        }
+        try {
+            if (!vertices.contains(vertex)) {
+                throw new IllegalArgumentException("Vertex does not exist");
+            }
 
-        int vertexIndex = vertices.indexOf(vertex);
-        for (int i = 0; i < matrix.size(); i++) {
-            if (matrix.get(i).get(vertexIndex) != 0) {
-                for (int j = 0; j < numVertices; j++) {
-                    if (matrix.get(i).get(j) != 0 && j != vertexIndex) {
-                        neighbors.add(vertices.get(j));
+            int vertexIndex = vertices.indexOf(vertex);
+            for (int i = 0; i < matrix.size(); i++) {
+                if (matrix.get(i).get(vertexIndex) != 0) {
+                    for (int j = 0; j < numVertices; j++) {
+                        if (matrix.get(i).get(j) != 0 && j != vertexIndex) {
+                            neighbors.add(vertices.get(j));
+                        }
                     }
                 }
             }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error getting neighbors: " + e.getMessage());
         }
         return neighbors;
     }
@@ -174,6 +194,8 @@ public class IncidenceMatrix<T> implements Graph<T> {
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Error reading file: Invalid number format.");
         }
     }
 

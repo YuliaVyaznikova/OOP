@@ -14,7 +14,7 @@ import java.util.Stack;
  *
  * @param <T> The type of the vertices in the graph.
  */
-public class AdjacencyList<T> implements Graph<T> {
+class AdjacencyList<T> implements Graph<T> {
     private List<List<Integer>> adjacencyList;
     private int numVertices;
     private List<T> vertices;
@@ -36,12 +36,16 @@ public class AdjacencyList<T> implements Graph<T> {
      */
     @Override
     public void addVertex(T vertex) {
-        if (vertex == null) {
-            throw new IllegalArgumentException("Vertex cannot be null");
+        try {
+            if (vertex == null) {
+                throw new IllegalArgumentException("Vertex cannot be null");
+            }
+            vertices.add(vertex);
+            adjacencyList.add(new ArrayList<>());
+            numVertices++;
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error adding vertex: " + e.getMessage());
         }
-        vertices.add(vertex);
-        adjacencyList.add(new ArrayList<>());
-        numVertices++;
     }
 
     /**
@@ -52,17 +56,21 @@ public class AdjacencyList<T> implements Graph<T> {
      */
     @Override
     public void removeVertex(T vertex) {
-        if (!vertices.contains(vertex)) {
-            throw new IllegalArgumentException("Vertex does not exist");
-        }
+        try {
+            if (!vertices.contains(vertex)) {
+                throw new IllegalArgumentException("Vertex does not exist");
+            }
 
-        int vertexIndex = vertices.indexOf(vertex);
-        vertices.remove(vertexIndex);
-        adjacencyList.remove(vertexIndex);
-        for (List<Integer> list : adjacencyList) {
-            list.removeIf(i -> i == vertexIndex);
+            int vertexIndex = vertices.indexOf(vertex);
+            vertices.remove(vertexIndex);
+            adjacencyList.remove(vertexIndex);
+            for (List<Integer> list : adjacencyList) {
+                list.removeIf(i -> i == vertexIndex);
+            }
+            numVertices--;
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error removing vertex: " + e.getMessage());
         }
-        numVertices--;
     }
 
     /**
@@ -74,12 +82,16 @@ public class AdjacencyList<T> implements Graph<T> {
      */
     @Override
     public void addEdge(T source, T destination) {
-        if (!vertices.contains(source) || !vertices.contains(destination)) {
-            throw new IllegalArgumentException("One or both vertices do not exist");
+        try {
+            if (!vertices.contains(source) || !vertices.contains(destination)) {
+                throw new IllegalArgumentException("One or both vertices do not exist");
+            }
+            int sourceIndex = vertices.indexOf(source);
+            int destinationIndex = vertices.indexOf(destination);
+            adjacencyList.get(sourceIndex).add(destinationIndex);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error adding edge: " + e.getMessage());
         }
-        int sourceIndex = vertices.indexOf(source);
-        int destinationIndex = vertices.indexOf(destination);
-        adjacencyList.get(sourceIndex).add(destinationIndex);
     }
 
     /**
@@ -91,12 +103,16 @@ public class AdjacencyList<T> implements Graph<T> {
      */
     @Override
     public void removeEdge(T source, T destination) {
-        if (!vertices.contains(source) || !vertices.contains(destination)) {
-            throw new IllegalArgumentException("One or both vertices do not exist");
+        try {
+            if (!vertices.contains(source) || !vertices.contains(destination)) {
+                throw new IllegalArgumentException("One or both vertices do not exist");
+            }
+            int sourceIndex = vertices.indexOf(source);
+            int destinationIndex = vertices.indexOf(destination);
+            adjacencyList.get(sourceIndex).removeIf(i -> i == destinationIndex);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error removing edge: " + e.getMessage());
         }
-        int sourceIndex = vertices.indexOf(source);
-        int destinationIndex = vertices.indexOf(destination);
-        adjacencyList.get(sourceIndex).removeIf(i -> i == destinationIndex);
     }
 
     /**
@@ -108,13 +124,17 @@ public class AdjacencyList<T> implements Graph<T> {
     @Override
     public List<T> getNeighbors(T vertex) {
         List<T> neighbors = new ArrayList<>();
-        if (!vertices.contains(vertex)) {
-            return neighbors; // Или выбросить исключение
-        }
+        try {
+            if (!vertices.contains(vertex)) {
+                throw new IllegalArgumentException("Vertex does not exist");
+            }
 
-        int vertexIndex = vertices.indexOf(vertex);
-        for (int i : adjacencyList.get(vertexIndex)) {
-            neighbors.add(vertices.get(i));
+            int vertexIndex = vertices.indexOf(vertex);
+            for (int i : adjacencyList.get(vertexIndex)) {
+                neighbors.add(vertices.get(i));
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error getting neighbors: " + e.getMessage());
         }
         return neighbors;
     }
@@ -155,6 +175,8 @@ public class AdjacencyList<T> implements Graph<T> {
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Error reading file: Invalid number format.");
         }
     }
 
