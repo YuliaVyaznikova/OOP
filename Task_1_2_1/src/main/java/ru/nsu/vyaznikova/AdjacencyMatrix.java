@@ -57,17 +57,21 @@ public class AdjacencyMatrix<T> implements Graph<T> {
      */
     @Override
     public void removeVertex(T vertex) {
-        if (!vertices.contains(vertex)) {
-            throw new IllegalArgumentException("Vertex does not exist");
-        }
+        try {
+            if (!vertices.contains(vertex)) {
+                throw new IllegalArgumentException("Vertex does not exist");
+            }
 
-        int vertexIndex = vertices.indexOf(vertex);
-        vertices.remove(vertexIndex);
-        matrix.remove(vertexIndex); // Remove the row
-        for (List<Integer> row : matrix) {
-            row.remove(vertexIndex); // Remove the column
+            int vertexIndex = vertices.indexOf(vertex);
+            vertices.remove(vertexIndex);
+            matrix.remove(vertexIndex); // Remove the row
+            for (List<Integer> row : matrix) {
+                row.remove(vertexIndex); // Remove the column
+            }
+            numVertices--;
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error removing vertex: " + e.getMessage());
         }
-        numVertices--;
     }
 
     /**
@@ -79,15 +83,19 @@ public class AdjacencyMatrix<T> implements Graph<T> {
      */
     @Override
     public void addEdge(T source, T destination) {
-        if (!vertices.contains(source) || !vertices.contains(destination)) {
-            throw new IllegalArgumentException("One or both vertices do not exist");
+        try {
+            if (!vertices.contains(source) || !vertices.contains(destination)) {
+                throw new IllegalArgumentException("One or both vertices do not exist");
+            }
+            int sourceIndex = vertices.indexOf(source);
+            int destinationIndex = vertices.indexOf(destination);
+            if (matrix.get(sourceIndex).get(destinationIndex) == 1) {
+                throw new IllegalArgumentException("Edge already exists");
+            }
+            matrix.get(sourceIndex).set(destinationIndex, 1); // Set value 1 in the matrix
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error adding edge: " + e.getMessage());
         }
-        int sourceIndex = vertices.indexOf(source);
-        int destinationIndex = vertices.indexOf(destination);
-        if (matrix.get(sourceIndex).get(destinationIndex) == 1) {
-            throw new IllegalArgumentException("Edge already exists");
-        }
-        matrix.get(sourceIndex).set(destinationIndex, 1); // Set value 1 in the matrix
     }
 
     /**
@@ -99,12 +107,16 @@ public class AdjacencyMatrix<T> implements Graph<T> {
      */
     @Override
     public void removeEdge(T source, T destination) {
-        if (!vertices.contains(source) || !vertices.contains(destination)) {
-            throw new IllegalArgumentException("One or both vertices do not exist");
+        try {
+            if (!vertices.contains(source) || !vertices.contains(destination)) {
+                throw new IllegalArgumentException("One or both vertices do not exist");
+            }
+            int sourceIndex = vertices.indexOf(source);
+            int destinationIndex = vertices.indexOf(destination);
+            matrix.get(sourceIndex).set(destinationIndex, 0); // Set value 0 in the matrix
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error removing edge: " + e.getMessage());
         }
-        int sourceIndex = vertices.indexOf(source);
-        int destinationIndex = vertices.indexOf(destination);
-        matrix.get(sourceIndex).set(destinationIndex, 0); // Set value 0 in the matrix
     }
 
     /**
@@ -116,15 +128,19 @@ public class AdjacencyMatrix<T> implements Graph<T> {
     @Override
     public List<T> getNeighbors(T vertex) {
         List<T> neighbors = new ArrayList<>();
-        if (!vertices.contains(vertex)) {
-            return neighbors; // Или выбросить исключение
-        }
-
-        int vertexIndex = vertices.indexOf(vertex);
-        for (int i = 0; i < numVertices; i++) {
-            if (matrix.get(vertexIndex).get(i) == 1) {
-                neighbors.add(vertices.get(i));
+        try {
+            if (!vertices.contains(vertex)) {
+                throw new IllegalArgumentException("Vertex does not exist");
             }
+
+            int vertexIndex = vertices.indexOf(vertex);
+            for (int i = 0; i < numVertices; i++) {
+                if (matrix.get(vertexIndex).get(i) == 1) {
+                    neighbors.add(vertices.get(i));
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error getting neighbors: " + e.getMessage());
         }
         return neighbors;
     }
@@ -165,6 +181,8 @@ public class AdjacencyMatrix<T> implements Graph<T> {
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Error reading file: Invalid number format.");
         }
     }
 
