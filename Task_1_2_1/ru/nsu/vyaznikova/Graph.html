@@ -122,11 +122,16 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - The type of the vertices in the graph.</dd>
+</dl>
+<dl>
 <dt>All Known Implementing Classes:</dt>
 <dd><code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a></code>, <code><a href="AdjacencyMatrix.html" title="class in ru.nsu.vyaznikova">AdjacencyMatrix</a></code></dd>
 </dl>
 <hr>
 <pre>public interface <span class="typeNameLabel">Graph&lt;T&gt;</span></pre>
+<div class="block">Represents a graph data structure.</div>
 </li>
 </ul>
 </div>
@@ -151,48 +156,66 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addEdge(T,T)">addEdge</a></span>&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;source,
        <a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;destination)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Adds an edge between two vertices.</div>
+</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addVertex(T)">addVertex</a></span>&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;vertex)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Adds a new vertex to the graph.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;other)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Checks if this graph is equal to another object.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="Graph.html" title="type parameter in Graph">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNeighbors(T)">getNeighbors</a></span>&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;vertex)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Returns a list of neighbors of a given vertex.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readFromFile(java.lang.String)">readFromFile</a></span>&#8203;(java.lang.String&nbsp;filename)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Reads the graph from a file.</div>
+</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeEdge(T,T)">removeEdge</a></span>&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;source,
           <a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;destination)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Removes an edge between two vertices.</div>
+</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeVertex(T)">removeVertex</a></span>&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;vertex)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Removes a vertex from the graph.</div>
+</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="Graph.html" title="type parameter in Graph">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#topologicalSort()">topologicalSort</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Performs topological sort of the graph using Depth-First Search (DFS).</div>
+</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Returns a string representation of the graph.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -220,6 +243,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>addVertex</h4>
 <pre class="methodSignature">void&nbsp;addVertex&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;vertex)</pre>
+<div class="block">Adds a new vertex to the graph.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>vertex</code> - The vertex to add.</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if the vertex is null.</dd>
+</dl>
 </li>
 </ul>
 <a id="removeVertex(java.lang.Object)">
@@ -231,6 +261,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>removeVertex</h4>
 <pre class="methodSignature">void&nbsp;removeVertex&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;vertex)</pre>
+<div class="block">Removes a vertex from the graph.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>vertex</code> - The vertex to remove.</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if the vertex does not exist.</dd>
+</dl>
 </li>
 </ul>
 <a id="addEdge(java.lang.Object,java.lang.Object)">
@@ -243,6 +280,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <h4>addEdge</h4>
 <pre class="methodSignature">void&nbsp;addEdge&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;source,
              <a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;destination)</pre>
+<div class="block">Adds an edge between two vertices.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>source</code> - The source vertex of the edge.</dd>
+<dd><code>destination</code> - The destination vertex of the edge.</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if one or both vertices do not exist or if the edge already exists.</dd>
+</dl>
 </li>
 </ul>
 <a id="removeEdge(java.lang.Object,java.lang.Object)">
@@ -255,6 +300,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <h4>removeEdge</h4>
 <pre class="methodSignature">void&nbsp;removeEdge&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;source,
                 <a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;destination)</pre>
+<div class="block">Removes an edge between two vertices.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>source</code> - The source vertex of the edge.</dd>
+<dd><code>destination</code> - The destination vertex of the edge.</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if one or both vertices do not exist.</dd>
+</dl>
 </li>
 </ul>
 <a id="getNeighbors(java.lang.Object)">
@@ -266,6 +319,15 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>getNeighbors</h4>
 <pre class="methodSignature">java.util.List&lt;<a href="Graph.html" title="type parameter in Graph">T</a>&gt;&nbsp;getNeighbors&#8203;(<a href="Graph.html" title="type parameter in Graph">T</a>&nbsp;vertex)</pre>
+<div class="block">Returns a list of neighbors of a given vertex.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>vertex</code> - The vertex to get neighbors for.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>A list of neighbors of the vertex.</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.IllegalArgumentException</code> - if the vertex does not exist.</dd>
+</dl>
 </li>
 </ul>
 <a id="readFromFile(java.lang.String)">
@@ -275,6 +337,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>readFromFile</h4>
 <pre class="methodSignature">void&nbsp;readFromFile&#8203;(java.lang.String&nbsp;filename)</pre>
+<div class="block">Reads the graph from a file.
+ The file format is as follows:
+ <br>
+ First line: number of vertices N.
+ <br>
+ Next N lines: vertex names (strings).
+ <br>
+ Remaining lines: edges, where each line contains a pair of vertices separated by space (e.g., A B).</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>filename</code> - The name of the file to read from.</dd>
+</dl>
 </li>
 </ul>
 <a id="equals(java.lang.Object)">
@@ -284,9 +358,14 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">boolean&nbsp;equals&#8203;(java.lang.Object&nbsp;other)</pre>
+<div class="block">Checks if this graph is equal to another object.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>other</code> - The object to compare with.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the objects are equal, false otherwise.</dd>
 </dl>
 </li>
 </ul>
@@ -297,9 +376,12 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>toString</h4>
 <pre class="methodSignature">java.lang.String&nbsp;toString()</pre>
+<div class="block">Returns a string representation of the graph.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>A string representation of the graph.</dd>
 </dl>
 </li>
 </ul>
@@ -310,6 +392,11 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="blockList">
 <h4>topologicalSort</h4>
 <pre class="methodSignature">java.util.List&lt;<a href="Graph.html" title="type parameter in Graph">T</a>&gt;&nbsp;topologicalSort()</pre>
+<div class="block">Performs topological sort of the graph using Depth-First Search (DFS).</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>A list of vertices in topological order, or null if the graph contains cycles.</dd>
+</dl>
 </li>
 </ul>
 </li>
