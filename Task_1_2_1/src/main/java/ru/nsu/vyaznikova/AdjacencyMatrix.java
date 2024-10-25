@@ -205,28 +205,60 @@ public class AdjacencyMatrix<T> extends AbstractGraph<T> {
         return sb.toString();
     }
 
-    /**
-     * Performs topological sort of the graph using Depth-First Search (DFS).
-     *
-     * @return A list of vertices in topological order, or null if the graph contains cycles.
-     */
     @Override
     public List<T> topologicalSort() {
+        // 1. Проверяем, не пуст ли граф
+        if (numVertices == 0) {
+            return new ArrayList<>(); // Возвращаем пустой список, если граф пуст
+        }
+
+        // 2. Создаем структуру данных для хранения результата сортировки
         List<T> sorted = new ArrayList<>();
+
+        // 3. Создаем структуру данных для отслеживания посещенных вершин
         List<Integer> visited = new ArrayList<>(); // List for tracking visited vertices
+
+        // 4. Создаем стек для хранения вершин в порядке обхода
         Stack<T> stack = new Stack<>();
 
+        // 5. Проходим по всем вершинам графа
         for (int i = 0; i < numVertices; i++) {
+            // 6. Проверяем, не была ли вершина уже посещена
             if (!visited.contains(i)) {
+                // 7. Вызываем рекурсивную функцию DFS для текущей вершины
                 dfs(i, visited, stack);
             }
         }
 
+        // 8. Достаем вершины из стека в обратном порядке
         while (!stack.isEmpty()) {
             sorted.add(stack.pop());
         }
 
+        // 9. Возвращаем отсортированный список вершин
         return sorted;
+    }
+
+    private void dfs(int vertexIndex, List<Integer> visited, Stack<T> stack) {
+        // 1. Помечаем текущую вершину как посещенную
+        visited.add(vertexIndex);
+
+        // 2. Проходим по всем соседям текущей вершины
+        for (int i = 0; i < numVertices; i++) {
+            // 3. Проверяем, есть ли ребро между текущей вершиной и соседом
+            if (matrix.get(vertexIndex).get(i) == 1) {
+                // 4. Получаем индекс соседа
+                int neighborIndex = i;
+                // 5. Проверяем, не была ли эта вершина уже посещена
+                if (!visited.contains(neighborIndex)) {
+                    // 6. Вызываем рекурсивно dfs для соседа
+                    dfs(neighborIndex, visited, stack);
+                }
+            }
+        }
+
+        // 7. Добавляем текущую вершину в стек
+        stack.push(vertices.get(vertexIndex)); // Add the vertex to the stack after visiting all its neighbors
     }
 
     @Override
@@ -246,19 +278,5 @@ public class AdjacencyMatrix<T> extends AbstractGraph<T> {
             return true;
         }
         return false;
-    }
-
-    private void dfs(int vertexIndex, List<Integer> visited, Stack<T> stack) {
-        visited.add(vertexIndex); // Mark the vertex as visited
-        for (int i = 0; i < numVertices; i++) {
-            if (matrix.get(vertexIndex).get(i) == 1) {
-                int neighborIndex = i;
-                if (!visited.contains(neighborIndex)) {
-                    dfs(neighborIndex, visited, stack);
-                }
-            }
-        }
-        stack.push(vertices.get(vertexIndex));
-        // Add the vertex to the stack after visiting all its neighbors
     }
 }
