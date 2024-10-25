@@ -30,7 +30,8 @@ public interface Graph<T> {
      *
      * @param source      The source vertex of the edge.
      * @param destination The destination vertex of the edge.
-     * @throws IllegalArgumentException if one or both vertices do not exist or if the edge already exists.
+     * @throws IllegalArgumentException if one or both vertices
+     *     do not exist or if the edge already exists.
      */
     void addEdge(T source, T destination);
 
@@ -60,7 +61,8 @@ public interface Graph<T> {
      * <br>
      * Next N lines: vertex names (strings).
      * <br>
-     * Remaining lines: edges, where each line contains a pair of vertices separated by space (e.g., A B).
+     * Remaining lines: edges, where each line contains
+     * a pair of vertices separated by space (e.g., A B).
      *
      * @param filename The name of the file to read from.
      */
@@ -84,7 +86,8 @@ public interface Graph<T> {
     /**
      * Performs topological sort of the graph using Depth-First Search (DFS).
      *
-     * @return A list of vertices in topological order, or null if the graph contains cycles.
+     * @return A list of vertices in topological order,
+     *     or null if the graph contains cycles.
      */
     List<T> topologicalSort();
 }

@@ -77,7 +77,8 @@ public class AdjacencyMatrix<T> extends AbstractGraph<T> {
      *
      * @param source      The source vertex of the edge.
      * @param destination The destination vertex of the edge.
-     * @throws IllegalArgumentException if one or both vertices do not exist or if the edge already exists.
+     * @throws IllegalArgumentException if one or both vertices
+     *     do not exist or if the edge already exists.
      */
     @Override
     public void addEdge(T source, T destination) {
@@ -151,7 +152,8 @@ public class AdjacencyMatrix<T> extends AbstractGraph<T> {
      * <br>
      * Next N lines: vertex names (strings).
      * <br>
-     * Remaining lines: edges, where each line contains a pair of vertices separated by space (e.g., A B).
+     * Remaining lines: edges, where each line contains
+     * a pair of vertices separated by space (e.g., A B).
      *
      * @param filename The name of the file to read from.
      */
@@ -161,7 +163,8 @@ public class AdjacencyMatrix<T> extends AbstractGraph<T> {
             // 1. Read the number of vertices
             int numVertices = Integer.parseInt(reader.readLine());
             this.numVertices = numVertices;
-            this.matrix = new ArrayList<>(Collections.nCopies(numVertices, new ArrayList<>(Collections.nCopies(numVertices, 0))));
+            this.matrix = new ArrayList<>(Collections.nCopies(numVertices,
+                    new ArrayList<>(Collections.nCopies(numVertices, 0))));
             this.vertices = new ArrayList<>();
 
             // 2. Read vertex names
@@ -255,6 +258,7 @@ public class AdjacencyMatrix<T> extends AbstractGraph<T> {
                 }
             }
         }
-        stack.push(vertices.get(vertexIndex)); // Add the vertex to the stack after visiting all its neighbors
+        stack.push(vertices.get(vertexIndex));
+        // Add the vertex to the stack after visiting all its neighbors
     }
 }

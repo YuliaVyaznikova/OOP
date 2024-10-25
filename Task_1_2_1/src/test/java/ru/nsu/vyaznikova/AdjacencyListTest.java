@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for the {@link AdjacencyList} class.
@@ -14,7 +14,8 @@ class AdjacencyListTest {
 
     /**
      * Tests the {@link AdjacencyList#topologicalSort()} method.
-     * Verifies that the topologicalSort method returns the correct topological order of the vertices.
+     * Verifies that the topologicalSort method returns
+     * the correct topological order of the vertices.
      */
     @Test
     void topologicalSort() {
