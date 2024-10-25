@@ -50,8 +50,8 @@ public class Main {
         System.out.println("\nIncidence Matrix Graph:");
         System.out.println(incidenceMatrixGraph);
 
-        List<String> sortedIM = incidenceMatrixGraph.topologicalSort();
-        System.out.println("Topological Sort (Incidence Matrix): " + sortedIM);
+        List<String> sortedIm = incidenceMatrixGraph.topologicalSort();
+        System.out.println("Topological Sort (Incidence Matrix): " + sortedIm);
 
         // Create a graph using an adjacency list
         AdjacencyList<String> adjacencyListGraph = new AdjacencyList<>();
