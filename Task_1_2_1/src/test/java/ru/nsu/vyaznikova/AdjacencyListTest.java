@@ -1,11 +1,12 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the {@link AdjacencyList} class.
@@ -40,7 +41,8 @@ class AdjacencyListTest {
 
     /**
      * Tests the {@link AdjacencyList#addEdge(Object, Object)} method.
-     * Verifies that an edge is added between two vertices and the neighbors list is updated correctly.
+     * Verifies that an edge is added between
+     * two vertices and the neighbors list is updated correctly.
      */
     @Test
     void addEdge() {
@@ -53,7 +55,8 @@ class AdjacencyListTest {
 
     /**
      * Tests the {@link AdjacencyList#removeEdge(Object, Object)} method.
-     * Verifies that an edge is removed between two vertices and the neighbors list is updated correctly.
+     * Verifies that an edge is removed between
+     * two vertices and the neighbors list is updated correctly.
      */
     @Test
     void removeEdge() {
@@ -83,7 +86,8 @@ class AdjacencyListTest {
 
     /**
      * Tests the {@link AdjacencyList#topologicalSort()} method.
-     * Verifies that the topologicalSort method returns the correct topological order of the vertices.
+     * Verifies that the topologicalSort method returns
+     * the correct topological order of the vertices.
      */
     @Test
     void topologicalSort() {

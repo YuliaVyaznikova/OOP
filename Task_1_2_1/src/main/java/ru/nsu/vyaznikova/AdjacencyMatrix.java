@@ -258,7 +258,8 @@ public class AdjacencyMatrix<T> extends AbstractGraph<T> {
         }
 
         // 7. Добавляем текущую вершину в стек
-        stack.push(vertices.get(vertexIndex)); // Add the vertex to the stack after visiting all its neighbors
+        stack.push(vertices.get(vertexIndex));
+        // Add the vertex to the stack after visiting all its neighbors
     }
 
     @Override
