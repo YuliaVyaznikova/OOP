@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -223,27 +223,56 @@ extends <a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">Abstract
 </td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>protected boolean</code></td>
+<td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#compareEdges(ru.nsu.vyaznikova.AbstractGraph)">compareEdges</a></span>&#8203;(<a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;&nbsp;other)</code></th>
 <td class="colLast">
-<div class="block">Abstract method for comparing edges between two graphs.</div>
+<div class="block">Compares the edges of this graph with the edges of another graph.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#containsVertex(T)">containsVertex</a></span>&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;vertex)</code></th>
+<td class="colLast">
+<div class="block">Checks if the graph contains the given vertex.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNeighbors(T)">getNeighbors</a></span>&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;vertex)</code></th>
 <td class="colLast">
 <div class="block">Returns a list of neighbors of a given vertex.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNumEdges()">getNumEdges</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns the number of edges in the graph.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getNumVertices()">getNumVertices</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns the number of vertices in the graph.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#hasEdge(T,T)">hasEdge</a></span>&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;source,
+       <a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;destination)</code></th>
+<td class="colLast">
+<div class="block">Checks if the graph contains an edge between the given source and destination vertices.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#readFromFile(java.lang.String)">readFromFile</a></span>&#8203;(java.lang.String&nbsp;filename)</code></th>
 <td class="colLast">
 <div class="block">Reads the graph from a file.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeEdge(T,T)">removeEdge</a></span>&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;source,
           <a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;destination)</code></th>
@@ -251,21 +280,21 @@ extends <a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">Abstract
 <div class="block">Removes an edge between two vertices.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#removeVertex(T)">removeVertex</a></span>&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;vertex)</code></th>
 <td class="colLast">
 <div class="block">Removes a vertex from the graph.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#topologicalSort()">topologicalSort</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Performs topological sort of the graph using Depth-First Search (DFS).</div>
+<div class="block">Performs a topological sort on the graph.</div>
 </td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#toString()">toString</a></span>()</code></th>
 <td class="colLast">
@@ -334,6 +363,10 @@ extends <a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">Abstract
 <pre class="methodSignature">public&nbsp;void&nbsp;addVertex&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;vertex)</pre>
 <div class="block">Adds a new vertex to the graph.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="Graph.html#addVertex(T)">addVertex</a></code>&nbsp;in interface&nbsp;<code><a href="Graph.html" title="interface in ru.nsu.vyaznikova">Graph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="AbstractGraph.html#addVertex(T)">addVertex</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>vertex</code> - The vertex to add.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -352,6 +385,10 @@ extends <a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">Abstract
 <pre class="methodSignature">public&nbsp;void&nbsp;removeVertex&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;vertex)</pre>
 <div class="block">Removes a vertex from the graph.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="Graph.html#removeVertex(T)">removeVertex</a></code>&nbsp;in interface&nbsp;<code><a href="Graph.html" title="interface in ru.nsu.vyaznikova">Graph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="AbstractGraph.html#removeVertex(T)">removeVertex</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>vertex</code> - The vertex to remove.</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -371,6 +408,10 @@ extends <a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">Abstract
                     <a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;destination)</pre>
 <div class="block">Adds an edge between two vertices.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="Graph.html#addEdge(T,T)">addEdge</a></code>&nbsp;in interface&nbsp;<code><a href="Graph.html" title="interface in ru.nsu.vyaznikova">Graph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="AbstractGraph.html#addEdge(T,T)">addEdge</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>source</code> - The source vertex of the edge.</dd>
 <dd><code>destination</code> - The destination vertex of the edge.</dd>
@@ -392,6 +433,10 @@ extends <a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">Abstract
                        <a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;destination)</pre>
 <div class="block">Removes an edge between two vertices.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="Graph.html#removeEdge(T,T)">removeEdge</a></code>&nbsp;in interface&nbsp;<code><a href="Graph.html" title="interface in ru.nsu.vyaznikova">Graph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="AbstractGraph.html#removeEdge(T,T)">removeEdge</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>source</code> - The source vertex of the edge.</dd>
 <dd><code>destination</code> - The destination vertex of the edge.</dd>
@@ -411,6 +456,10 @@ extends <a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">Abstract
 <pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;&nbsp;getNeighbors&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;vertex)</pre>
 <div class="block">Returns a list of neighbors of a given vertex.</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="Graph.html#getNeighbors(T)">getNeighbors</a></code>&nbsp;in interface&nbsp;<code><a href="Graph.html" title="interface in ru.nsu.vyaznikova">Graph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="AbstractGraph.html#getNeighbors(T)">getNeighbors</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>vertex</code> - The vertex to get neighbors for.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
@@ -435,6 +484,10 @@ extends <a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">Abstract
  Remaining lines: edges, where each line contains
  a pair of vertices separated by space (e.g., A B).</div>
 <dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="Graph.html#readFromFile(java.lang.String)">readFromFile</a></code>&nbsp;in interface&nbsp;<code><a href="Graph.html" title="interface in ru.nsu.vyaznikova">Graph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="AbstractGraph.html#readFromFile(java.lang.String)">readFromFile</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>filename</code> - The name of the file to read from.</dd>
 </dl>
@@ -465,36 +518,112 @@ extends <a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">Abstract
 <li class="blockList">
 <h4>topologicalSort</h4>
 <pre class="methodSignature">public&nbsp;java.util.List&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;&nbsp;topologicalSort()</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="Graph.html#topologicalSort()">Graph</a></code></span></div>
-<div class="block">Performs topological sort of the graph using Depth-First Search (DFS).</div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractGraph.html#topologicalSort()">AbstractGraph</a></code></span></div>
+<div class="block">Performs a topological sort on the graph.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="Graph.html#topologicalSort()">topologicalSort</a></code>&nbsp;in interface&nbsp;<code><a href="Graph.html" title="interface in ru.nsu.vyaznikova">Graph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="AbstractGraph.html#topologicalSort()">topologicalSort</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A list of vertices in topological order,
-     or null if the graph contains cycles.</dd>
+<dd>A list of vertices in topological order.</dd>
 </dl>
 </li>
 </ul>
 <a id="compareEdges(ru.nsu.vyaznikova.AbstractGraph)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>compareEdges</h4>
-<pre class="methodSignature">protected&nbsp;boolean&nbsp;compareEdges&#8203;(<a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;&nbsp;other)</pre>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;compareEdges&#8203;(<a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;&nbsp;other)</pre>
 <div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractGraph.html#compareEdges(ru.nsu.vyaznikova.AbstractGraph)">AbstractGraph</a></code></span></div>
-<div class="block">Abstract method for comparing edges between two graphs.
- Implementations should compare edges based on their specific data structures.</div>
+<div class="block">Compares the edges of this graph with the edges of another graph.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="AbstractGraph.html#compareEdges(ru.nsu.vyaznikova.AbstractGraph)">compareEdges</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>other</code> - The other graph to compare with.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>true if the edges are equal, false otherwise.</dd>
+<dd>True if the graphs have the same edges, false otherwise.</dd>
+</dl>
+</li>
+</ul>
+<a id="getNumVertices()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNumVertices</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;getNumVertices()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractGraph.html#getNumVertices()">AbstractGraph</a></code></span></div>
+<div class="block">Returns the number of vertices in the graph.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="AbstractGraph.html#getNumVertices()">getNumVertices</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The number of vertices in the graph.</dd>
+</dl>
+</li>
+</ul>
+<a id="getNumEdges()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNumEdges</h4>
+<pre class="methodSignature">public&nbsp;int&nbsp;getNumEdges()</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractGraph.html#getNumEdges()">AbstractGraph</a></code></span></div>
+<div class="block">Returns the number of edges in the graph.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="AbstractGraph.html#getNumEdges()">getNumEdges</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The number of edges in the graph.</dd>
+</dl>
+</li>
+</ul>
+<a id="containsVertex(java.lang.Object)">
+<!--   -->
+</a><a id="containsVertex(T)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>containsVertex</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;containsVertex&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;vertex)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractGraph.html#containsVertex(T)">AbstractGraph</a></code></span></div>
+<div class="block">Checks if the graph contains the given vertex.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
+<dd><code><a href="AbstractGraph.html#containsVertex(T)">containsVertex</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>vertex</code> - The vertex to check for.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>True if the graph contains the vertex, false otherwise.</dd>
+</dl>
+</li>
+</ul>
+<a id="hasEdge(java.lang.Object,java.lang.Object)">
+<!--   -->
+</a><a id="hasEdge(T,T)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>hasEdge</h4>
+<pre class="methodSignature">public&nbsp;boolean&nbsp;hasEdge&#8203;(<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;source,
+                       <a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&nbsp;destination)</pre>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="AbstractGraph.html#hasEdge(T,T)">AbstractGraph</a></code></span></div>
+<div class="block">Checks if the graph contains an edge between the given source and destination vertices.</div>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code><a href="AbstractGraph.html#hasEdge(T,T)">hasEdge</a></code>&nbsp;in class&nbsp;<code><a href="AbstractGraph.html" title="class in ru.nsu.vyaznikova">AbstractGraph</a>&lt;<a href="AdjacencyMatrix.html" title="type parameter in AdjacencyMatrix">T</a>&gt;</code></dd>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>source</code> - The source vertex of the edge.</dd>
+<dd><code>destination</code> - The destination vertex of the edge.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>True if the graph contains the edge, false otherwise.</dd>
 </dl>
 </li>
 </ul>
