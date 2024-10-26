@@ -15,7 +15,7 @@ import java.util.Stack;
  * @param <T> The type of the vertices in the graph.
  */
 public class AdjacencyMatrix<T> extends AbstractGraph<T> {
-    private List<List<Integer>> matrix;
+    List<List<Integer>> matrix;
 
     /**
      * Constructs an empty graph.
@@ -263,7 +263,7 @@ public class AdjacencyMatrix<T> extends AbstractGraph<T> {
     }
 
     @Override
-    protected boolean compareEdges(AbstractGraph<T> other) {
+    public boolean compareEdges(AbstractGraph<T> other) {
         if (other instanceof AdjacencyMatrix) {
             AdjacencyMatrix<T> otherMatrix = (AdjacencyMatrix<T>) other;
             if (matrix.size() != otherMatrix.matrix.size()) {
@@ -279,5 +279,35 @@ public class AdjacencyMatrix<T> extends AbstractGraph<T> {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int getNumVertices() {
+        return numVertices;
+    }
+
+    @Override
+    public int getNumEdges() {
+        int count = 0;
+        for (int i = 0; i < numVertices; i++) {
+            for (int j = 0; j < numVertices; j++) {
+                if (matrix.get(i).get(j) == 1) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    @Override
+    public boolean containsVertex(T vertex) {
+        return vertices.contains(vertex);
+    }
+
+    @Override
+    public boolean hasEdge(T source, T destination) {
+        int sourceIndex = vertices.indexOf(source);
+        int destinationIndex = vertices.indexOf(destination);
+        return matrix.get(sourceIndex).get(destinationIndex) == 1;
     }
 }

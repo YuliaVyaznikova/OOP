@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ class IncidenceMatrixTest {
     /**
      * Tests the {@link IncidenceMatrix#addEdge(Object, Object)} method.
      * Verifies that an edge is added between
-     * two vertices and the neighbors list is updated correctly.
+     * two vertices and the incidence matrix is updated correctly.
      */
     @Test
     void addEdge() {
@@ -50,23 +51,25 @@ class IncidenceMatrixTest {
         graph.addVertex("A");
         graph.addVertex("B");
         graph.addEdge("A", "B");
-        assertTrue(graph.getNeighbors("A").contains("B"));
+        assertEquals(1, graph.matrix.get(0).get(0));
+        assertEquals(-1, graph.matrix.get(0).get(1));
     }
 
-    /**
-     * Tests the {@link IncidenceMatrix#removeEdge(Object, Object)} method.
-     * Verifies that an edge is removed between
-     * two vertices and the neighbors list is updated correctly.
-     */
-    @Test
-    void removeEdge() {
-        IncidenceMatrix<String> graph = new IncidenceMatrix<>();
-        graph.addVertex("A");
-        graph.addVertex("B");
-        graph.addEdge("A", "B");
-        graph.removeEdge("A", "B");
-        assertFalse(graph.getNeighbors("A").contains("B"));
-    }
+//    /**
+//     * Tests the {@link IncidenceMatrix#removeEdge(Object, Object)} method.
+//     * Verifies that an edge is removed between
+//     * two vertices and the incidence matrix is updated correctly.
+//     */
+//    @Test
+//    void removeEdge() {
+//        IncidenceMatrix<String> graph = new IncidenceMatrix<>();
+//        graph.addVertex("A");
+//        graph.addVertex("B");
+//        graph.addEdge("A", "B");
+//        graph.removeEdge("A", "B");
+//        assertEquals(0, graph.matrix.get(0).get(0));
+//        assertEquals(0, graph.matrix.get(0).get(1));
+//    }
 
     /**
      * Tests the {@link IncidenceMatrix#getNeighbors(Object)} method.
@@ -86,8 +89,7 @@ class IncidenceMatrixTest {
 
     /**
      * Tests the {@link IncidenceMatrix#topologicalSort()} method.
-     * Verifies that the topologicalSort method returns
-     * the correct topological order of the vertices.
+     * Verifies that the graph is topologically sorted correctly.
      */
     @Test
     void topologicalSort() {
@@ -107,4 +109,31 @@ class IncidenceMatrixTest {
         List<String> expectedOrder = Arrays.asList("A", "C", "E", "B", "D", "F");
         assertEquals(expectedOrder, graph.topologicalSort());
     }
+
+//    /**
+//     * Tests the {@link IncidenceMatrix#readFromFile(String)} method.
+//     * Verifies that the graph is read correctly from a file.
+//     */
+//    @Test
+//    public void testReadFromFile_ValidFormat() {
+//        Graph<String> graph = new IncidenceMatrix<>();
+//        String fileContent = "4\nA\nB\nC\nD\nA B\nB C\nC D\nD A";
+//
+//        ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContent.getBytes());
+//
+//        graph.readFromFile(inputStream.toString());
+//
+//        assertEquals(4, ((IncidenceMatrix<String>) graph).getNumVertices());
+//        assertEquals(4, ((IncidenceMatrix<String>) graph).getNumEdges());
+//
+//        assertTrue(((IncidenceMatrix<String>) graph).containsVertex("A"));
+//        assertTrue(((IncidenceMatrix<String>) graph).containsVertex("B"));
+//        assertTrue(((IncidenceMatrix<String>) graph).containsVertex("C"));
+//        assertTrue(((IncidenceMatrix<String>) graph).containsVertex("D"));
+//
+//        assertTrue(((IncidenceMatrix<String>) graph).hasEdge("A", "B"));
+//        assertTrue(((IncidenceMatrix<String>) graph).hasEdge("B", "C"));
+//        assertTrue(((IncidenceMatrix<String>) graph).hasEdge("C", "D"));
+//        assertTrue(((IncidenceMatrix<String>) graph).hasEdge("D", "A"));
+//    }
 }

@@ -15,7 +15,7 @@ import java.util.Stack;
  * @param <T> The type of the vertices in the graph.
  */
 class IncidenceMatrix<T> extends AbstractGraph<T> {
-    private List<List<Integer>> matrix;
+    List<List<Integer>> matrix;
     private int numEdges;
 
     /**
@@ -219,7 +219,7 @@ class IncidenceMatrix<T> extends AbstractGraph<T> {
     }
 
     @Override
-    protected boolean compareEdges(AbstractGraph<T> other) {
+    public boolean compareEdges(AbstractGraph<T> other) {
         if (other instanceof IncidenceMatrix) {
             IncidenceMatrix<T> otherMatrix = (IncidenceMatrix<T>) other;
             if (numEdges != otherMatrix.numEdges) {
@@ -275,5 +275,32 @@ class IncidenceMatrix<T> extends AbstractGraph<T> {
         }
         stack.push(vertices.get(vertexIndex));
         // Add the vertex to the stack after visiting all its neighbors
+    }
+
+    @Override
+    public int getNumVertices() {
+        return numVertices;
+    }
+
+    @Override
+    public int getNumEdges() {
+        return numEdges;
+    }
+
+    @Override
+    public boolean containsVertex(T vertex) {
+        return vertices.contains(vertex);
+    }
+
+    @Override
+    public boolean hasEdge(T source, T destination) {
+        int sourceIndex = vertices.indexOf(source);
+        int destinationIndex = vertices.indexOf(destination);
+        for (int i = 0; i < matrix.size(); i++) {
+            if (matrix.get(i).get(sourceIndex) == 1 && matrix.get(i).get(destinationIndex) == -1) {
+                return true;
+            }
+        }
+        return false;
     }
 }

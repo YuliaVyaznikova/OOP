@@ -196,7 +196,7 @@ class AdjacencyList<T> extends AbstractGraph<T> {
     }
 
     @Override
-    protected boolean compareEdges(AbstractGraph<T> other) {
+    public boolean compareEdges(AbstractGraph<T> other) {
         if (other instanceof AdjacencyList) {
             AdjacencyList<T> otherList = (AdjacencyList<T>) other;
             if (adjacencyList.size() != otherList.adjacencyList.size()) {
@@ -240,5 +240,31 @@ class AdjacencyList<T> extends AbstractGraph<T> {
         }
         stack.push(vertices.get(vertexIndex));
         // Add the vertex to the stack after visiting all its neighbors
+    }
+
+    @Override
+    public int getNumVertices() {
+        return numVertices;
+    }
+
+    @Override
+    public int getNumEdges() {
+        int count = 0;
+        for (List<Integer> neighbors : adjacencyList) {
+            count += neighbors.size();
+        }
+        return count;
+    }
+
+    @Override
+    public boolean containsVertex(T vertex) {
+        return vertices.contains(vertex);
+    }
+
+    @Override
+    public boolean hasEdge(T source, T destination) {
+        int sourceIndex = vertices.indexOf(source);
+        int destinationIndex = vertices.indexOf(destination);
+        return adjacencyList.get(sourceIndex).contains(destinationIndex);
     }
 }

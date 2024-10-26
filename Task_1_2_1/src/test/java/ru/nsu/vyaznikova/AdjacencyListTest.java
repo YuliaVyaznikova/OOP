@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -86,8 +87,7 @@ class AdjacencyListTest {
 
     /**
      * Tests the {@link AdjacencyList#topologicalSort()} method.
-     * Verifies that the topologicalSort method returns
-     * the correct topological order of the vertices.
+     * Verifies that the graph is topologically sorted correctly.
      */
     @Test
     void topologicalSort() {
@@ -107,4 +107,31 @@ class AdjacencyListTest {
         List<String> expectedOrder = Arrays.asList("A", "C", "E", "B", "D", "F");
         assertEquals(expectedOrder, graph.topologicalSort());
     }
+
+//    /**
+//     * Tests the {@link AdjacencyList#readFromFile(String)} method.
+//     * Verifies that the graph is read correctly from a file.
+//     */
+//    @Test
+//    public void testReadFromFile_ValidFormat() {
+//        Graph<String> graph = new AdjacencyList<>();
+//        String fileContent = "4\nA\nB\nC\nD\nA B\nB C\nC D\nD A";
+//
+//        ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContent.getBytes());
+//
+//        graph.readFromFile(inputStream.toString());
+//
+//        assertEquals(4, ((AdjacencyList<String>) graph).getNumVertices());
+//        assertEquals(4, ((AdjacencyList<String>) graph).getNumEdges());
+//
+//        assertTrue(((AdjacencyList<String>) graph).containsVertex("A"));
+//        assertTrue(((AdjacencyList<String>) graph).containsVertex("B"));
+//        assertTrue(((AdjacencyList<String>) graph).containsVertex("C"));
+//        assertTrue(((AdjacencyList<String>) graph).containsVertex("D"));
+//
+//        assertTrue(((AdjacencyList<String>) graph).hasEdge("A", "B"));
+//        assertTrue(((AdjacencyList<String>) graph).hasEdge("B", "C"));
+//        assertTrue(((AdjacencyList<String>) graph).hasEdge("C", "D"));
+//        assertTrue(((AdjacencyList<String>) graph).hasEdge("D", "A"));
+//    }
 }

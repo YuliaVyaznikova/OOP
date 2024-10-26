@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ class AdjacencyMatrixTest {
     /**
      * Tests the {@link AdjacencyMatrix#addEdge(Object, Object)} method.
      * Verifies that an edge is added between
-     * two vertices and the neighbors list is updated correctly.
+     * two vertices and the adjacency matrix is updated correctly.
      */
     @Test
     void addEdge() {
@@ -50,13 +51,13 @@ class AdjacencyMatrixTest {
         graph.addVertex("A");
         graph.addVertex("B");
         graph.addEdge("A", "B");
-        assertTrue(graph.getNeighbors("A").contains("B"));
+        assertEquals(1, graph.matrix.get(0).get(1));
     }
 
     /**
      * Tests the {@link AdjacencyMatrix#removeEdge(Object, Object)} method.
      * Verifies that an edge is removed between
-     * two vertices and the neighbors list is updated correctly.
+     * two vertices and the adjacency matrix is updated correctly.
      */
     @Test
     void removeEdge() {
@@ -65,7 +66,7 @@ class AdjacencyMatrixTest {
         graph.addVertex("B");
         graph.addEdge("A", "B");
         graph.removeEdge("A", "B");
-        assertFalse(graph.getNeighbors("A").contains("B"));
+        assertEquals(0, graph.matrix.get(0).get(1));
     }
 
     /**
@@ -86,8 +87,7 @@ class AdjacencyMatrixTest {
 
     /**
      * Tests the {@link AdjacencyMatrix#topologicalSort()} method.
-     * Verifies that the topologicalSort method returns
-     * the correct topological order of the vertices.
+     * Verifies that the graph is topologically sorted correctly.
      */
     @Test
     void topologicalSort() {
@@ -107,4 +107,31 @@ class AdjacencyMatrixTest {
         List<String> expectedOrder = Arrays.asList("A", "C", "E", "B", "D", "F");
         assertEquals(expectedOrder, graph.topologicalSort());
     }
+
+//    /**
+//     * Tests the {@link AdjacencyMatrix#readFromFile(String)} method.
+//     * Verifies that the graph is read correctly from a file.
+//     */
+//    @Test
+//    public void testReadFromFile_ValidFormat() {
+//        Graph<String> graph = new AdjacencyMatrix<>();
+//        String fileContent = "4\nA\nB\nC\nD\nA B\nB C\nC D\nD A";
+//
+//        ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContent.getBytes());
+//
+//        graph.readFromFile(inputStream.toString());
+//
+//        assertEquals(4, ((AdjacencyMatrix<String>) graph).getNumVertices());
+//        assertEquals(4, ((AdjacencyMatrix<String>) graph).getNumEdges());
+//
+//        assertTrue(((AdjacencyMatrix<String>) graph).containsVertex("A"));
+//        assertTrue(((AdjacencyMatrix<String>) graph).containsVertex("B"));
+//        assertTrue(((AdjacencyMatrix<String>) graph).containsVertex("C"));
+//        assertTrue(((AdjacencyMatrix<String>) graph).containsVertex("D"));
+//
+//        assertTrue(((AdjacencyMatrix<String>) graph).hasEdge("A", "B"));
+//        assertTrue(((AdjacencyMatrix<String>) graph).hasEdge("B", "C"));
+//        assertTrue(((AdjacencyMatrix<String>) graph).hasEdge("C", "D"));
+//        assertTrue(((AdjacencyMatrix<String>) graph).hasEdge("D", "A"));
+//    }
 }
