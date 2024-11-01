@@ -1,16 +1,17 @@
 package ru.nsu.vyaznikova;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
 
     private static final double DEFAULT_LOAD_FACTOR = 0.75;
-    int capacity;
-    int size;
-    List<Entry<K, V>>[] table;
+    private int capacity;
+    private int size;
+    private LinkedList<Entry<K, V>>[] table; // Изменили на LinkedList
     private double loadFactor;
+
+    private static final int FNV_prime = 16777619;
+    private static final int FNV_offset_basis = 2166136261;
 
     public HashTable() {
         this(16, DEFAULT_LOAD_FACTOR);
@@ -19,14 +20,14 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
     public HashTable(int capacity, double loadFactor) {
         this.capacity = capacity;
         this.size = 0;
-        this.table = new List[capacity];
+        this.table = new LinkedList[capacity];
         this.loadFactor = loadFactor;
     }
 
     public void put(K key, V value) {
         int index = hash(key) % capacity;
         if (table[index] == null) {
-            table[index] = new ArrayList<>();
+            table[index] = new LinkedList<>();
         }
         table[index].add(new Entry<>(key, value));
         size++;
@@ -44,7 +45,7 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
                 }
             }
         }
-        return null;
+        throw new NoSuchElementException("Key not found: " + key);
     }
 
     public void remove(K key) {
@@ -118,13 +119,13 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
 
     private void resize() {
         capacity *= 2;
-        List<Entry<K, V>>[] newTable = new List[capacity];
+        LinkedList<Entry<K, V>>[] newTable = new LinkedList[capacity];
         for (List<Entry<K, V>> list : table) {
             if (list != null) {
                 for (Entry<K, V> entry : list) {
                     int index = hash(entry.key) % capacity;
                     if (newTable[index] == null) {
-                        newTable[index] = new ArrayList<>();
+                        newTable[index] = new LinkedList<>();
                     }
                     newTable[index].add(entry);
                 }
@@ -134,7 +135,12 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
     }
 
     private int hash(K key) {
-        return key.hashCode();
+        byte[] bytes = key.toString().getBytes();
+        int hash = FNV_offset_basis;
+        for (byte b : bytes) {
+            hash = (hash * FNV_prime) ^ b;
+        }
+        return hash;
     }
 
     public static class Entry<K, V> {
@@ -149,6 +155,49 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
         @Override
         public String toString() {
             return key + "=" + value;
+        }
+    }
+
+    private static class HashTableIterator<K, V> implements Iterator<HashTable.Entry<K, V>> {
+        private final HashTable<K, V> table;
+        private int currentIndex;
+        private int currentEntryIndex;
+        private int expectedSize; // Хранит ожидаемое количество элементов в таблице
+
+        public HashTableIterator(HashTable<K, V> table) {
+            this.table = table;
+            this.currentIndex = 0;
+            this.currentEntryIndex = -1;
+            this.expectedSize = table.size;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (expectedSize != table.size) { // Проверка изменений таблицы
+                throw new ConcurrentModificationException("HashTable was modified during iteration.");
+            }
+            while (currentIndex < table.capacity) {
+                if (table.table[currentIndex] != null) {
+                    if (currentEntryIndex < table.table[currentIndex].size() - 1) {
+                        return true;
+                    } else {
+                        currentEntryIndex = -1;
+                        currentIndex++;
+                    }
+                } else {
+                    currentIndex++;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public Entry<K, V> next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            currentEntryIndex++;
+            return table.table[currentIndex].get(currentEntryIndex);
         }
     }
 }
