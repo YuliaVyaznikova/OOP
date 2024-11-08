@@ -147,14 +147,19 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
 
         HashTable<K, V> other = (HashTable<K, V>) obj;
 
-        if (this.amountOfEntries != other.amountOfEntries) return false;
+        if (this.amountOfEntries != other.amountOfEntries) {
+            return false;
+        }
 
         for (Entry<K, V> entry : this) {
-            if (!other.containsKey(entry.key) || !Objects.equals(other.get(entry.key), entry.value)) {
+            if (!other.containsKey(entry.key)
+                    || !Objects.equals(other.get(entry.key), entry.value)) {
                 return false;
             }
         }
@@ -276,7 +281,8 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
         @Override
         public boolean hasNext() {
             if (expectedAmountOfEntries != table.amountOfEntries) {
-                throw new ConcurrentModificationException("HashTable was modified during iteration.");
+                throw new
+                        ConcurrentModificationException("HashTable was modified during iteration.");
             }
             while (currentIndex < table.size) {
                 if (table.table[currentIndex] != null) {
