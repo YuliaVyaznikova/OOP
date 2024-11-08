@@ -36,6 +36,12 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @param loadFactor Load factor threshold for resizing.
      */
     public HashTable(int size, double loadFactor) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be greater than 0.");
+        }
+        if (loadFactor <= 0 || loadFactor > 1) {
+            throw new IllegalArgumentException("Load factor must be between 0 and 1.");
+        }
         this.size = size;
         this.amountOfEntries = 0;
         this.table = new ArrayList[size];
@@ -50,6 +56,10 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @param value The value associated with the key.
      */
     public void put(K key, V value) {
+        if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+
         int index = hash(key) % size;
         if (table[index] == null) {
             table[index] = new ArrayList<>();
@@ -69,6 +79,10 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @throws NoSuchElementException if the key is not found.
      */
     public V get(K key) {
+        if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+
         int index = hash(key) % size;
         if (table[index] != null) {
             for (Entry<K, V> entry : table[index]) {
@@ -87,6 +101,10 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @throws NoSuchElementException if the key is not found.
      */
     public void remove(K key) {
+        if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+
         int index = hash(key) % size;
         if (table[index] != null) {
             for (int i = 0; i < table[index].size(); i++) {
@@ -107,6 +125,10 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
      * @param value The new value.
      */
     public void update(K key, V value) {
+        if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+
         int index = hash(key) % size;
         if (table[index] != null) {
             for (Entry<K, V> entry : table[index]) {
@@ -166,7 +188,6 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
 
         return true;
     }
-
 
     /**
      * Returns a string representation of the table.
@@ -281,8 +302,7 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
         @Override
         public boolean hasNext() {
             if (expectedAmountOfEntries != table.amountOfEntries) {
-                throw new
-                        ConcurrentModificationException("HashTable was modified during iteration.");
+                throw new ConcurrentModificationException("HashTable was modified during iteration.");
             }
             while (currentIndex < table.size) {
                 if (table.table[currentIndex] != null) {
@@ -301,6 +321,9 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
 
         @Override
         public HashTable.Entry<K, V> next() {
+            if (expectedAmountOfEntries != table.amountOfEntries) {
+                throw new ConcurrentModificationException("HashTable was modified during iteration.");
+            }
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
