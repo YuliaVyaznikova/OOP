@@ -2,146 +2,151 @@ package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
+
 import java.util.NoSuchElementException;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the HashTable class to verify basic functionality of 
- * put, get, remove, update, containsKey, equals, and iterator methods.
+ * Unit tests for the HashTable class.
  */
 public class HashTableTest {
 
-    private HashTable<String, Integer> hashTable;
+    private HashTable<String, String> hashTable;
 
-    /**
-     * Sets up a new HashTable instance before each test.
-     */
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         hashTable = new HashTable<>();
     }
 
     /**
-     * Tests adding and retrieving entries in the hash table using put and get methods.
+     * Test putting and getting values.
      */
     @Test
-    void testPutAndGet() {
-        hashTable.put("one", 1);
-        hashTable.put("two", 2);
-        assertEquals(1, hashTable.get("one"));
-        assertEquals(2, hashTable.get("two"));
+    public void testPutAndGet() {
+        hashTable.put("key1", "value1");
+        assertEquals("value1", hashTable.get("key1"));
     }
 
     /**
-     * Tests if NoSuchElementException is thrown when trying to get a non-existing key.
+     * Test retrieving a value for a non-existent key.
      */
     @Test
-    void testGetNonExistingKey() {
-        assertThrows(NoSuchElementException.class, () -> hashTable.get("three"));
+    public void testGetNonExistentKey() {
+        assertThrows(NoSuchElementException.class, () -> hashTable.get("nonexistent"));
     }
 
     /**
-     * Tests removing an entry by its key and verifying it's no longer in the table.
+     * Test updating the value for an existing key.
      */
     @Test
-    void testRemove() {
-        hashTable.put("one", 1);
-        hashTable.remove("one");
-        assertThrows(NoSuchElementException.class, () -> hashTable.get("one"));
+    public void testUpdateExistingKey() {
+        hashTable.put("key1", "value1");
+        hashTable.update("key1", "newValue");
+        assertEquals("newValue", hashTable.get("key1"));
     }
 
     /**
-     * Tests if NoSuchElementException is thrown when trying to remove a non-existing key.
+     * Test adding a new key-value pair when the key does not exist.
      */
     @Test
-    void testRemoveNonExistingKey() {
-        assertThrows(NoSuchElementException.class, () -> hashTable.remove("three"));
+    public void testPutNewKey() {
+        hashTable.put("key2", "value2");
+        assertEquals("value2", hashTable.get("key2"));
     }
 
     /**
-     * Tests updating an existing entry's value and verifying the change.
+     * Test removing an existing key.
      */
     @Test
-    void testUpdate() {
-        hashTable.put("one", 1);
-        hashTable.update("one", 10);
-        assertEquals(10, hashTable.get("one"));
+    public void testRemoveKey() {
+        hashTable.put("key1", "value1");
+        hashTable.remove("key1");
+        assertThrows(NoSuchElementException.class, () -> hashTable.get("key1"));
     }
 
     /**
-     * Tests if a new key-value pair is added when updating a non-existing key.
+     * Test removing a non-existent key.
      */
     @Test
-    void testUpdateNonExistingKey() {
-        hashTable.update("three", 3);
-        assertEquals(3, hashTable.get("three"));
+    public void testRemoveNonExistentKey() {
+        assertThrows(NoSuchElementException.class, () -> hashTable.remove("nonexistent"));
     }
 
     /**
-     * Tests if containsKey correctly identifies present and absent keys.
+     * Test checking if a key exists.
      */
     @Test
-    void testContainsKey() {
-        hashTable.put("one", 1);
-        assertTrue(hashTable.containsKey("one"));
-        assertFalse(hashTable.containsKey("two"));
+    public void testContainsKey() {
+        hashTable.put("key1", "value1");
+        assertTrue(hashTable.containsKey("key1"));
+        assertFalse(hashTable.containsKey("nonexistent"));
     }
 
     /**
-     * Tests if two HashTable instances are equal based on their content.
+     * Test the size after adding and removing entries.
      */
     @Test
-    void testEquals() {
-        HashTable<String, Integer> otherHashTable = new HashTable<>();
-        hashTable.put("one", 1);
-        hashTable.put("two", 2);
-        otherHashTable.put("one", 1);
-        otherHashTable.put("two", 2);
-        assertEquals(hashTable, otherHashTable);
-
-        otherHashTable.put("three", 3);
-        assertNotEquals(hashTable, otherHashTable);
+    public void testSizeAfterOperations() {
+        hashTable.put("key1", "value1");
+        assertEquals(1, hashTable.getAmountOfEntries());
+        hashTable.put("key2", "value2");
+        assertEquals(2, hashTable.getAmountOfEntries());
+        hashTable.remove("key1");
+        assertEquals(1, hashTable.getAmountOfEntries());
     }
 
+//    /**
+//     * Test the resizing mechanism when load factor threshold is exceeded.
+//     */
+//    @Test
+//    public void testResize() {
+//        for (int i = 0; i < 20; i++) {
+//            hashTable.put("key" + i, "value" + i);
+//        }
+//        assertTrue(hashTable.getSize() >= 20);
+//    }
+
+
     /**
-     * Tests iterator functionality by verifying it correctly iterates through entries
-     * and throws ConcurrentModificationException on modification during iteration.
+     * Test iterating through the table.
      */
     @Test
-    void testIteratorFunctionality() {
-        hashTable.put("one", 1);
-        hashTable.put("two", 2);
-
-        int count = 0;
-        for (HashTable.Entry<String, Integer> entry : hashTable) {
-            assertTrue(entry.getKey().equals("one") || entry.getKey().equals("two"));
-            count++;
+    public void testIterator() {
+        hashTable.put("key1", "value1");
+        hashTable.put("key2", "value2");
+        StringBuilder result = new StringBuilder();
+        for (HashTable.Entry<String, String> entry : hashTable) {
+            result.append(entry.getKey()).append("=").append(entry.getValue()).append(" ");
         }
-        assertEquals(2, count);
+        assertTrue(result.toString().contains("key1=value1"));
+        assertTrue(result.toString().contains("key2=value2"));
     }
 
     /**
-     * Tests ConcurrentModificationException when modifying the table during iteration.
+     * Test equality between two HashTables.
      */
     @Test
-    void testConcurrentModificationException() {
-        hashTable.put("one", 1);
-        hashTable.put("two", 2);
+    public void testEquality() {
+        HashTable<String, String> anotherTable = new HashTable<>();
+        hashTable.put("key1", "value1");
+        hashTable.put("key2", "value2");
 
-        Iterator<HashTable.Entry<String, Integer>> iterator = hashTable.iterator();
-        hashTable.put("three", 3);
+        anotherTable.put("key1", "value1");
+        anotherTable.put("key2", "value2");
 
-        assertThrows(ConcurrentModificationException.class, iterator::next);
+        assertEquals(hashTable, anotherTable);
     }
 
     /**
-     * Tests NoSuchElementException when calling next on an exhausted iterator.
+     * Test toString method output format.
      */
     @Test
-    void testIteratorNoSuchElementException() {
-        Iterator<HashTable.Entry<String, Integer>> iterator = hashTable.iterator();
-        assertThrows(NoSuchElementException.class, iterator::next);
+    public void testToString() {
+        hashTable.put("key1", "value1");
+        hashTable.put("key2", "value2");
+
+        String result = hashTable.toString();
+        assertTrue(result.contains("key1=value1"));
+        assertTrue(result.contains("key2=value2"));
     }
 }

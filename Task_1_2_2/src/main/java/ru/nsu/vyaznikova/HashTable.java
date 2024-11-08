@@ -145,45 +145,23 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
         return new HashTableIterator<>(this);
     }
 
-    /**
-     * Compares the current table to another table for equality. Both
-     * tables are considered equal if they contain the same key-value pairs,
-     * irrespective of order within the buckets.
-     *
-     * @param obj The object to compare.
-     * @return True if the tables are equal, false otherwise.
-     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof HashTable)) {
-            return false;
-        }
+        if (obj == null || getClass() != obj.getClass()) return false;
+
         HashTable<K, V> other = (HashTable<K, V>) obj;
 
-        if (this.amountOfEntries != other.amountOfEntries) {
-            return false;
-        }
+        if (this.amountOfEntries != other.amountOfEntries) return false;
 
-        for (int i = 0; i < this.size; i++) {
-            List<Entry<K, V>> thisBucket = this.table[i];
-            List<Entry<K, V>> otherBucket = other.table[i];
-
-            if (thisBucket != null) {
-                if (otherBucket == null || new HashSet<>(thisBucket).size() != new HashSet<>(otherBucket).size()) {
-                    return false;
-                }
-                if (!new HashSet<>(thisBucket).equals(new HashSet<>(otherBucket))) {
-                    return false;
-                }
-            } else if (otherBucket != null) {
+        for (Entry<K, V> entry : this) {
+            if (!other.containsKey(entry.key) || !Objects.equals(other.get(entry.key), entry.value)) {
                 return false;
             }
         }
+
         return true;
     }
+
 
     /**
      * Returns a string representation of the table.
@@ -237,6 +215,14 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
             hash = (hash * FNV_prime) ^ b;
         }
         return hash;
+    }
+
+    public int getAmountOfEntries() {
+        return amountOfEntries;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     /**
