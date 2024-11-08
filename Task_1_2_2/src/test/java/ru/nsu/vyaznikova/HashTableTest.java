@@ -168,4 +168,48 @@ public class HashTableTest {
         assertThrows(IllegalArgumentException.class, () -> hashTable.get(null));
         assertThrows(IllegalArgumentException.class, () -> hashTable.remove(null));
     }
+
+    /**
+     * Test that the hash table resizes correctly when the load factor is exceeded.
+     */
+    @Test
+    public void testResize() {
+        // Setting initial capacity to 3 to trigger resizing quickly
+        HashTable<String, String> smallTable = new HashTable<>(3, 0.75);
+
+        // Adding elements to exceed the load factor
+        smallTable.put("key1", "value1");
+        smallTable.put("key2", "value2");
+        smallTable.put("key3", "value3");
+
+        // The table should resize now, so the size should still be 3
+        assertEquals(3, smallTable.getAmountOfEntries());
+
+        // Adding another element should trigger resizing
+        smallTable.put("key4", "value4");
+        assertEquals(4, smallTable.getAmountOfEntries());
+
+        // Verify that all keys are still accessible after resizing
+        assertEquals("value1", smallTable.get("key1"));
+        assertEquals("value2", smallTable.get("key2"));
+        assertEquals("value3", smallTable.get("key3"));
+        assertEquals("value4", smallTable.get("key4"));
+    }
+
+//    /**
+//     * Test updating an existing key's value using the `put` method.
+//     */
+//    @Test
+//    public void testUpdateExistingKey() {
+//        hashTable.put("key1", "value1");
+//
+//        // Update the value of the existing key
+//        hashTable.put("key1", "updatedValue");
+//
+//        // Ensure the new value is correctly retrieved
+//        assertEquals("updatedValue", hashTable.get("key1"));
+//
+//        // Ensure the old value is no longer present
+//        assertNotEquals("value1", hashTable.get("key1"));
+//    }
 }

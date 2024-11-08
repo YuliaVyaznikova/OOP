@@ -302,7 +302,8 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
         @Override
         public boolean hasNext() {
             if (expectedAmountOfEntries != table.amountOfEntries) {
-                throw new ConcurrentModificationException("HashTable was modified during iteration.");
+                throw new
+                        ConcurrentModificationException("HashTable was modified during iteration.");
             }
             while (currentIndex < table.size) {
                 if (table.table[currentIndex] != null) {
@@ -322,7 +323,8 @@ public class HashTable<K, V> implements Iterable<HashTable.Entry<K, V>> {
         @Override
         public HashTable.Entry<K, V> next() {
             if (expectedAmountOfEntries != table.amountOfEntries) {
-                throw new ConcurrentModificationException("HashTable was modified during iteration.");
+                throw new
+                        ConcurrentModificationException("HashTable was modified during iteration.");
             }
             if (!hasNext()) {
                 throw new NoSuchElementException();
