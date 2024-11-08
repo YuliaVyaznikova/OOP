@@ -196,20 +196,25 @@ public class HashTableTest {
         assertEquals("value4", smallTable.get("key4"));
     }
 
-//    /**
-//     * Test updating an existing key's value using the `put` method.
-//     */
-//    @Test
-//    public void testUpdateExistingKey() {
-//        hashTable.put("key1", "value1");
-//
-//        // Update the value of the existing key
-//        hashTable.put("key1", "updatedValue");
-//
-//        // Ensure the new value is correctly retrieved
-//        assertEquals("updatedValue", hashTable.get("key1"));
-//
-//        // Ensure the old value is no longer present
-//        assertNotEquals("value1", hashTable.get("key1"));
-//    }
+    /**
+     * Test that the equals method considers elements in the same bucket but in different order.
+     */
+    @Test
+    public void testEqualsDifferentOrderInBucket() {
+        // Create two hash tables with the same elements but inserted in different orders
+        HashTable<String, String> table1 = new HashTable<>(10, 0.75);
+        HashTable<String, String> table2 = new HashTable<>(10, 0.75);
+
+        // Insert elements in different orders into the tables
+        table1.put("key1", "value1");
+        table1.put("key2", "value2");
+        table1.put("key3", "value3");
+
+        table2.put("key2", "value2");
+        table2.put("key1", "value1");
+        table2.put("key3", "value3");
+
+        // Assert that both tables are equal, despite the different insertion order
+        assertEquals(table1, table2);
+    }
 }
