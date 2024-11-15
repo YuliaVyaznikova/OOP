@@ -55,20 +55,4 @@ public class SubstringFinder {
             System.err.println("Ошибка создания тестового файла: " + e.getMessage());
         }
     }
-
-    public static void main(String[] args) {
-        generateLargeTestFile("input.txt", "абракадабра", 1000);
-        List<Integer> result = find("input.txt", "бра");
-        System.out.println(result);
-
-
-        //Тест с пустой строкой
-        List<Integer> result2 = find("input.txt", "");
-        System.out.println(result2);
-
-        //Тест с null
-        List<Integer> result3 = find("input.txt", null);
-        System.out.println(result3);
-
-    }
 }
