@@ -71,4 +71,13 @@ public class SubstringFinderTest {
         assertEquals(List.of(0, 2, 4, 6, 8, 10), result);
         Files.delete(tempFile);
     }
-}
+
+    @Test
+    void testFind_overlappingOccurrences_ABA() throws IOException {
+        Path tempFile = Files.createTempFile("test", ".txt");
+        String text = "ABABABABA";
+        Files.writeString(tempFile, text);
+        List<Integer> result = SubstringFinder.find(tempFile.toString(), "ABA");
+        assertEquals(List.of(0, 2, 4, 6), result);
+        Files.delete(tempFile);
+    }}

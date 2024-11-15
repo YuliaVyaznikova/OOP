@@ -21,21 +21,14 @@ public class SubstringFinder {
             int bytesRead;
             while ((bytesRead = stream.read(buffer)) != -1) {
                 String currentPart = tail + new String(buffer, 0, bytesRead, "UTF-8");
-                int index = currentPart.indexOf(substring);
-                while (index != -1) {
+                int index = 0;
+                while ((index = currentPart.indexOf(substring, index)) != -1) {
                     indices.add(totalOffset + index);
-                    index = currentPart.indexOf(substring, index + 1);
+                    index++;
                 }
 
-                int lastIndex = currentPart.lastIndexOf(substring);
-                totalOffset += (lastIndex == -1) ? currentPart.length() : lastIndex + substring.length();
-
+                totalOffset += currentPart.length();
                 tail.setLength(0);
-                if (lastIndex != -1) {
-                    tail.append(currentPart, lastIndex + substring.length(), currentPart.length());
-                } else {
-                    tail.append(currentPart, Math.max(0, currentPart.length() - substring.length()), currentPart.length());
-                }
             }
         } catch (FileNotFoundException e) {
             System.err.println("Файл не найден: " + filename);
