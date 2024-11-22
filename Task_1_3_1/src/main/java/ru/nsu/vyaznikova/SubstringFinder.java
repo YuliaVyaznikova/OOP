@@ -20,7 +20,8 @@ public class SubstringFinder {
      * @return a list of starting indices (as long values) where the substring is found
      * @throws IOException if an I/O error occurs while reading the file
      */
-    public static List<Long> findSubstringIndices(String filename, String substring) throws IOException {
+    public static List<Long> findSubstringIndices(String filename, String substring)
+            throws IOException {
         if (substring == null || substring.isEmpty()) {
             return new ArrayList<>(); // Return an empty list for empty or null substrings
         }

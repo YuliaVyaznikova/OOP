@@ -109,31 +109,4 @@ class IncidenceMatrixTest {
         List<String> expectedOrder = Arrays.asList("A", "C", "E", "B", "D", "F");
         assertEquals(expectedOrder, graph.topologicalSort());
     }
-
-//    /**
-//     * Tests the {@link IncidenceMatrix#readFromFile(String)} method.
-//     * Verifies that the graph is read correctly from a file.
-//     */
-//    @Test
-//    public void testReadFromFile_ValidFormat() {
-//        Graph<String> graph = new IncidenceMatrix<>();
-//        String fileContent = "4\nA\nB\nC\nD\nA B\nB C\nC D\nD A";
-//
-//        ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContent.getBytes());
-//
-//        graph.readFromFile(inputStream.toString());
-//
-//        assertEquals(4, ((IncidenceMatrix<String>) graph).getNumVertices());
-//        assertEquals(4, ((IncidenceMatrix<String>) graph).getNumEdges());
-//
-//        assertTrue(((IncidenceMatrix<String>) graph).containsVertex("A"));
-//        assertTrue(((IncidenceMatrix<String>) graph).containsVertex("B"));
-//        assertTrue(((IncidenceMatrix<String>) graph).containsVertex("C"));
-//        assertTrue(((IncidenceMatrix<String>) graph).containsVertex("D"));
-//
-//        assertTrue(((IncidenceMatrix<String>) graph).hasEdge("A", "B"));
-//        assertTrue(((IncidenceMatrix<String>) graph).hasEdge("B", "C"));
-//        assertTrue(((IncidenceMatrix<String>) graph).hasEdge("C", "D"));
-//        assertTrue(((IncidenceMatrix<String>) graph).hasEdge("D", "A"));
-//    }
 }

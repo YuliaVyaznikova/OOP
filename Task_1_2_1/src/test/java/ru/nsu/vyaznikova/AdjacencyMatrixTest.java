@@ -107,31 +107,4 @@ class AdjacencyMatrixTest {
         List<String> expectedOrder = Arrays.asList("A", "C", "E", "B", "D", "F");
         assertEquals(expectedOrder, graph.topologicalSort());
     }
-
-//    /**
-//     * Tests the {@link AdjacencyMatrix#readFromFile(String)} method.
-//     * Verifies that the graph is read correctly from a file.
-//     */
-//    @Test
-//    public void testReadFromFile_ValidFormat() {
-//        Graph<String> graph = new AdjacencyMatrix<>();
-//        String fileContent = "4\nA\nB\nC\nD\nA B\nB C\nC D\nD A";
-//
-//        ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContent.getBytes());
-//
-//        graph.readFromFile(inputStream.toString());
-//
-//        assertEquals(4, ((AdjacencyMatrix<String>) graph).getNumVertices());
-//        assertEquals(4, ((AdjacencyMatrix<String>) graph).getNumEdges());
-//
-//        assertTrue(((AdjacencyMatrix<String>) graph).containsVertex("A"));
-//        assertTrue(((AdjacencyMatrix<String>) graph).containsVertex("B"));
-//        assertTrue(((AdjacencyMatrix<String>) graph).containsVertex("C"));
-//        assertTrue(((AdjacencyMatrix<String>) graph).containsVertex("D"));
-//
-//        assertTrue(((AdjacencyMatrix<String>) graph).hasEdge("A", "B"));
-//        assertTrue(((AdjacencyMatrix<String>) graph).hasEdge("B", "C"));
-//        assertTrue(((AdjacencyMatrix<String>) graph).hasEdge("C", "D"));
-//        assertTrue(((AdjacencyMatrix<String>) graph).hasEdge("D", "A"));
-//    }
 }

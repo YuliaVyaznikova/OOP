@@ -3,10 +3,10 @@ package ru.nsu.vyaznikova;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the Deck class, ensuring its methods work as expected.
@@ -35,7 +35,8 @@ public class DeckTest {
     }
 
     /**
-     * Tests the takeCard() method, verifying that it removes and returns the top card from the deck.
+     * Tests the takeCard() method,
+     * verifying that it removes and returns the top card from the deck.
      */
     @Test
     void testTakeCard() {

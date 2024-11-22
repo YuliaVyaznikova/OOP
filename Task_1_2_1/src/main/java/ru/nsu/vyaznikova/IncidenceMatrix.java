@@ -115,8 +115,8 @@ class IncidenceMatrix<T> extends AbstractGraph<T> {
             int sourceIndex = vertices.indexOf(source);
             int destinationIndex = vertices.indexOf(destination);
             for (int i = 0; i < matrix.size(); i++) {
-                if (matrix.get(i).get(sourceIndex) ==
-                        1 && matrix.get(i).get(destinationIndex) == -1) {
+                if (matrix.get(i).get(sourceIndex) == 1
+                        && matrix.get(i).get(destinationIndex) == -1) {
                     matrix.remove(i);
                     numEdges--;
                     break;

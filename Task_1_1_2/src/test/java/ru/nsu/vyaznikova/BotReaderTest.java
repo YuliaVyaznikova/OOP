@@ -1,8 +1,8 @@
 package ru.nsu.vyaznikova;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for the BotReader class, ensuring its methods work as expected.

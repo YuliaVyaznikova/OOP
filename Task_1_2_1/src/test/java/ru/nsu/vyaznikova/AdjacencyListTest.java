@@ -107,31 +107,4 @@ class AdjacencyListTest {
         List<String> expectedOrder = Arrays.asList("A", "C", "E", "B", "D", "F");
         assertEquals(expectedOrder, graph.topologicalSort());
     }
-
-//    /**
-//     * Tests the {@link AdjacencyList#readFromFile(String)} method.
-//     * Verifies that the graph is read correctly from a file.
-//     */
-//    @Test
-//    public void testReadFromFile_ValidFormat() {
-//        Graph<String> graph = new AdjacencyList<>();
-//        String fileContent = "4\nA\nB\nC\nD\nA B\nB C\nC D\nD A";
-//
-//        ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContent.getBytes());
-//
-//        graph.readFromFile(inputStream.toString());
-//
-//        assertEquals(4, ((AdjacencyList<String>) graph).getNumVertices());
-//        assertEquals(4, ((AdjacencyList<String>) graph).getNumEdges());
-//
-//        assertTrue(((AdjacencyList<String>) graph).containsVertex("A"));
-//        assertTrue(((AdjacencyList<String>) graph).containsVertex("B"));
-//        assertTrue(((AdjacencyList<String>) graph).containsVertex("C"));
-//        assertTrue(((AdjacencyList<String>) graph).containsVertex("D"));
-//
-//        assertTrue(((AdjacencyList<String>) graph).hasEdge("A", "B"));
-//        assertTrue(((AdjacencyList<String>) graph).hasEdge("B", "C"));
-//        assertTrue(((AdjacencyList<String>) graph).hasEdge("C", "D"));
-//        assertTrue(((AdjacencyList<String>) graph).hasEdge("D", "A"));
-//    }
 }

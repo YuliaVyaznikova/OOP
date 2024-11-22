@@ -3,6 +3,10 @@ package ru.nsu.vyaznikova;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * abstract graph
+ * @param <T> is type fot graph's node
+ */
 public abstract class AbstractGraph<T> implements Graph<T> {
     protected int numVertices;
     protected List<T> vertices;
@@ -131,16 +135,6 @@ public abstract class AbstractGraph<T> implements Graph<T> {
      */
     @Override
     public abstract List<T> topologicalSort();
-
-//    /**
-//     * Checks if the graph is empty.
-//     *
-//     * @return True if the graph is empty, false otherwise.
-//     */
-//    @Override
-//    public boolean isEmpty() {
-//        return numVertices == 0;
-//    }
 
     /**
      * Checks if this graph is equal to another object.

@@ -2,10 +2,10 @@ package ru.nsu.vyaznikova;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the Player class, ensuring its methods work as expected.
