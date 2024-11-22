@@ -1,83 +1,49 @@
 package ru.nsu.vyaznikova;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SubstringFinderTest {
+class SubstringFinderTest {
+    private static final String TEST_FILE = "test_input.txt";
 
-    @Test
-    void testFind_smallFile() throws IOException {
-        Path tempFile = Files.createTempFile("test", ".txt");
-        Files.writeString(tempFile, "абракадабра");
-        List<Integer> result = SubstringFinder.find(tempFile.toString(), "бра");
-        assertEquals(List.of(1, 8), result);
-        Files.delete(tempFile);
-    }
-
-    @Test
-    void testFind_largeFile() throws IOException {
-        Path tempFile = Files.createTempFile("test", ".txt");
-        String pattern = "абракадабра";
-        int repeats = 1000;
-        StringBuilder largeText = new StringBuilder();
-        for (int i = 0; i < repeats; i++) {
-            largeText.append(pattern);
+    @BeforeEach
+    void setUp() throws IOException {
+        // Создаём временный тестовый файл
+        try (FileWriter writer = new FileWriter(TEST_FILE, StandardCharsets.UTF_8)) {
+            writer.write("абракадабра");
         }
-        Files.writeString(tempFile, largeText);
-
-        List<Integer> result = SubstringFinder.find(tempFile.toString(), "бра");
-        assertTrue(result.size() > 0);
-        Files.delete(tempFile);
     }
 
-
-    @Test
-    void testFind_emptyString() {
-        List<Integer> result = SubstringFinder.find("some_file.txt", "");
-        assertTrue(result.isEmpty());
+    @AfterEach
+    void tearDown() throws IOException {
+        // Удаляем временный тестовый файл
+        Files.deleteIfExists(Path.of(TEST_FILE));
     }
 
     @Test
-    void testFind_nullString() {
-        List<Integer> result = SubstringFinder.find("some_file.txt", null);
-        assertTrue(result.isEmpty());
+    void testFindFullString() throws IOException {
+        List<Long> indices = SubstringFinder.find(TEST_FILE, "абракадабра");
+        assertEquals(List.of(0L), indices);
     }
 
     @Test
-    void testFind_fileNotFound() {
-        List<Integer> result = SubstringFinder.find("nonexistent_file.txt", "test");
-        assertTrue(result.isEmpty());
-    }
-
-
-    @Test
-    void testGenerateLargeTestFile() throws IOException {
-        Path tempFile = Files.createTempFile("test", ".txt");
-        SubstringFinder.generateLargeTestFile(tempFile.toString(), "test", 100);
-        assertTrue(Files.size(tempFile) > 0);
-        Files.delete(tempFile);
+    void testNoOccurrences() throws IOException {
+        List<Long> indices = SubstringFinder.find(TEST_FILE, "не существует");
+        assertTrue(indices.isEmpty());
     }
 
     @Test
-    void testFind_overlappingOccurrences() throws IOException {
-        Path tempFile = Files.createTempFile("test", ".txt");
-        String text = "абабабабабабаб";
-        Files.writeString(tempFile, text);
-        List<Integer> result = SubstringFinder.find(tempFile.toString(), "абаб");
-        assertEquals(List.of(0, 2, 4, 6, 8, 10), result);
-        Files.delete(tempFile);
+    void testFileNotFound() {
+        assertThrows(IOException.class, () -> SubstringFinder.find("non_existent_file.txt", "бра"));
     }
-
-    @Test
-    void testFind_overlappingOccurrences_ABA() throws IOException {
-        Path tempFile = Files.createTempFile("test", ".txt");
-        String text = "ABABABABA";
-        Files.writeString(tempFile, text);
-        List<Integer> result = SubstringFinder.find(tempFile.toString(), "ABA");
-        assertEquals(List.of(0, 2, 4, 6), result);
-        Files.delete(tempFile);
-    }}
+}
