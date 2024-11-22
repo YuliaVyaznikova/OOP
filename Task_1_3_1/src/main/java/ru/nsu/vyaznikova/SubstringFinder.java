@@ -29,7 +29,7 @@ public class SubstringFinder {
         // Encode the substring to search for using UTF-8
         byte[] substringBytes = substring.getBytes(StandardCharsets.UTF_8);
         int substringLength = substringBytes.length;
-        CircularBuffer byteBuffer = new CircularBuffer(substringLength + 1);
+        CircularBuffer byteBuffer = new CircularBuffer(substringLength * 2);
         List<Long> foundIndices = new ArrayList<>();
 
         try (InputStream inputStream = new FileInputStream(filename)) {
