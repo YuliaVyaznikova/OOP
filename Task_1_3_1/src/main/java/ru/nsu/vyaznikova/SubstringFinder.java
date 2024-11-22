@@ -2,114 +2,71 @@ package ru.nsu.vyaznikova;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A utility class for finding all starting indices of a substring in a UTF-8 encoded file.
+ */
 public class SubstringFinder {
+
     /**
-     * Находит все вхождения подстроки в файле.
+     * Finds all starting indices of a given substring in the specified file.
      *
-     * @param filename имя файла
-     * @param substring подстрока для поиска
-     * @return список позиций начала вхождений
-     * @throws IOException если файл не найден или произошла ошибка чтения
+     * @param filename  the name of the file to search
+     * @param substring the substring to search for
+     * @return a list of starting indices (as long values) where the substring is found
+     * @throws IOException if an I/O error occurs while reading the file
      */
     public static List<Long> find(String filename, String substring) throws IOException {
-        // Преобразуем искомую подстроку в массив байтов
-        byte[] searchBytes = substring.getBytes(StandardCharsets.UTF_8);
-        int searchLength = searchBytes.length;
+        if (substring == null || substring.isEmpty()) {
+            return new ArrayList<>(); // Return an empty list for empty or null substrings
+        }
 
-        // Установим размер буфера больше длины подстроки
-        int bufferSize = Math.max(8192, searchLength * 2);
-        CircularBuffer buffer = new CircularBuffer(bufferSize);
+        byte[] targetBytes = substring.getBytes(StandardCharsets.UTF_8);
+        int targetLength = targetBytes.length;
 
         List<Long> indices = new ArrayList<>();
-        long currentSymbolPosition = 0; // Счётчик символов (в UTF-8)
+        long currentCharPosition = 0; // Tracks the position of characters in the file
+        int bufferSize = Math.max(4096, targetLength * 2); // Buffer size, at least twice the substring length
+        byte[] buffer = new byte[bufferSize];
+        int bytesRead;
+        int overlap = targetLength - 1; // Number of bytes to overlap between buffers
+        byte[] overlapBytes = new byte[overlap];
+        int overlapBytesLength = 0;
 
-        try (InputStream inputStream = new FileInputStream(filename)) {
-            int currentByte;
-            while ((currentByte = inputStream.read()) != -1) {
-                byte b = (byte) currentByte;
-                buffer.add(b);
+        try (FileInputStream stream = new FileInputStream(filename)) {
+            while ((bytesRead = stream.read(buffer)) != -1) {
+                // Combine overlap from previous buffer with the current buffer
+                byte[] combinedBuffer = new byte[overlapBytesLength + bytesRead];
+                System.arraycopy(overlapBytes, 0, combinedBuffer, 0, overlapBytesLength);
+                System.arraycopy(buffer, 0, combinedBuffer, overlapBytesLength, bytesRead);
 
-                // Обновляем счётчик символов при обнаружении начала нового символа UTF-8
-                if (isStartOfUtf8Character(b)) {
-                    currentSymbolPosition++;
-                }
+                // Prepare overlap bytes for the next iteration
+                overlapBytesLength = Math.min(overlap, bytesRead);
+                System.arraycopy(buffer, bytesRead - overlapBytesLength, overlapBytes, 0, overlapBytesLength);
 
-                // Проверяем, есть ли совпадение подстроки в буфере
-                if (buffer.matches(searchBytes)) {
-                    indices.add(currentSymbolPosition - substring.length());
+                // Search for the substring in the combined buffer
+                for (int i = 0; i <= combinedBuffer.length - targetLength; i++) {
+                    boolean match = true;
+                    for (int j = 0; j < targetLength; j++) {
+                        if (combinedBuffer[i + j] != targetBytes[j]) {
+                            match = false;
+                            break;
+                        }
+                    }
+                    if (match) {
+                        indices.add(currentCharPosition);
+                    }
+                    // Increment the character position for UTF-8 valid starting bytes
+                    if ((combinedBuffer[i] & 0b11000000) != 0b10000000) {
+                        currentCharPosition++;
+                    }
                 }
             }
         }
 
         return indices;
-    }
-
-    /**
-     * Проверяет, является ли байт началом символа UTF-8.
-     *
-     * @param b байт
-     * @return true, если это начало символа
-     */
-    private static boolean isStartOfUtf8Character(byte b) {
-        return (b & 0b10000000) == 0 || (b & 0b11000000) == 0b11000000;
-    }
-
-    public static void main(String[] args) throws IOException {
-        String filename = "input.txt";
-        String substring = "бра";
-
-        // Пример вызова функции
-        List<Long> indices = find(filename, substring);
-        System.out.println(indices);
-    }
-}
-
-/**
- * Класс для циклического буфера.
- */
-class CircularBuffer {
-    private final byte[] buffer;
-    private int size = 0;
-    private int start = 0;
-
-    public CircularBuffer(int capacity) {
-        this.buffer = new byte[capacity];
-    }
-
-    /**
-     * Добавляет байт в буфер.
-     *
-     * @param b добавляемый байт
-     */
-    public void add(byte b) {
-        buffer[(start + size) % buffer.length] = b;
-        if (size < buffer.length) {
-            size++;
-        } else {
-            start = (start + 1) % buffer.length;
-        }
-    }
-
-    /**
-     * Проверяет, совпадает ли содержимое буфера с заданным массивом байтов.
-     *
-     * @param bytes массив байтов для сравнения
-     * @return true, если совпадает
-     */
-    public boolean matches(byte[] bytes) {
-        if (bytes.length > size) {
-            return false;
-        }
-        for (int i = 0; i < bytes.length; i++) {
-            if (buffer[(start + i) % buffer.length] != bytes[i]) {
-                return false;
-            }
-        }
-        return true;
     }
 }
