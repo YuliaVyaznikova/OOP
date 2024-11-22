@@ -45,15 +45,15 @@ public class SubstringFinderTest {
         assertEquals(List.of(0L, 3L, 6L), result, "The character 'a' should be found at indices 0, 3, and 6.");
     }
 
-//    /**
-//     * Tests finding a substring within a larger text.
-//     */
-//    @Test
-//    public void testFindSubstring() throws IOException {
-//        File file = createTempFile("this is a simple example of a simple text.");
-//        List<Long> result = SubstringFinder.find(file.getPath(), "simple");
-//        assertEquals(List.of(10L, 28L), result, "The substring 'simple' should be found at indices 10 and 28.");
-//    }
+    /**
+     * Tests finding a substring within a larger text.
+     */
+    @Test
+    public void testFindSubstring() throws IOException {
+        File file = createTempFile("this is a simple example of a simple text.");
+        List<Long> result = SubstringFinder.find(file.getPath(), "simple");
+        assertEquals(List.of(10L, 30L), result, "The substring 'simple' should be found at indices 10 and 28.");
+    }
 
     /**
      * Tests finding a substring in a large file.
@@ -70,15 +70,15 @@ public class SubstringFinderTest {
         assertEquals(List.of(30000L), result, "The substring 'test' should be found at the correct position in a large file.");
     }
 
-//    /**
-//     * Tests finding UTF-8 characters in the file.
-//     */
-//    @Test
-//    public void testUtf8Characters() throws IOException {
-//        File file = createTempFile("Привет, мир! 😊 Привет!");
-//        List<Long> result = SubstringFinder.find(file.getPath(), "Привет");
-//        assertEquals(List.of(0L, 14L), result, "The UTF-8 substring 'Привет' should be found at indices 0 and 14.");
-//    }
+    /**
+     * Tests finding UTF-8 characters in the file.
+     */
+    @Test
+    public void testUtf8Characters() throws IOException {
+        File file = createTempFile("Привет, мир! 😊 Привет!");
+        List<Long> result = SubstringFinder.find(file.getPath(), "Привет");
+        assertEquals(List.of(0L, 15L), result, "The UTF-8 substring 'Привет' should be found at indices 0 and 14.");
+    }
 
     /**
      * Helper method to create a temporary file with the given content.

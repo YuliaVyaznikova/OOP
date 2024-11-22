@@ -1,6 +1,7 @@
 package ru.nsu.vyaznikova;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -24,49 +25,100 @@ public class SubstringFinder {
             return new ArrayList<>(); // Return an empty list for empty or null substrings
         }
 
-        byte[] targetBytes = substring.getBytes(StandardCharsets.UTF_8);
-        int targetLength = targetBytes.length;
-
+        byte[] substringBytes = substring.getBytes(StandardCharsets.UTF_8);
+        int substringLength = substringBytes.length;
+        CircularBuffer buffer = new CircularBuffer(substringLength + 1);
         List<Long> indices = new ArrayList<>();
-        long currentCharPosition = 0; // Tracks the position of characters in the file
-        int bufferSize = Math.max(4096, targetLength * 2); // Buffer size, at least twice the substring length
-        byte[] buffer = new byte[bufferSize];
-        int bytesRead;
-        int overlap = targetLength - 1; // Number of bytes to overlap between buffers
-        byte[] overlapBytes = new byte[overlap];
-        int overlapBytesLength = 0;
 
-        try (FileInputStream stream = new FileInputStream(filename)) {
-            while ((bytesRead = stream.read(buffer)) != -1) {
-                // Combine overlap from previous buffer with the current buffer
-                byte[] combinedBuffer = new byte[overlapBytesLength + bytesRead];
-                System.arraycopy(overlapBytes, 0, combinedBuffer, 0, overlapBytesLength);
-                System.arraycopy(buffer, 0, combinedBuffer, overlapBytesLength, bytesRead);
+        try (InputStream input = new FileInputStream(filename)) {
+            long currentFilePos = 0;     // Current position in the file
+            long currentCharCount = 0;   // Number of UTF-8 characters processed
+            int currentSubstringPos = 0;
+            int bytesRead;
 
-                // Prepare overlap bytes for the next iteration
-                overlapBytesLength = Math.min(overlap, bytesRead);
-                System.arraycopy(buffer, bytesRead - overlapBytesLength, overlapBytes, 0, overlapBytesLength);
+            while ((bytesRead = input.read()) != -1) {
+                byte currentByte = (byte) bytesRead;
 
-                // Search for the substring in the combined buffer
-                for (int i = 0; i <= combinedBuffer.length - targetLength; i++) {
-                    boolean match = true;
-                    for (int j = 0; j < targetLength; j++) {
-                        if (combinedBuffer[i + j] != targetBytes[j]) {
-                            match = false;
-                            break;
-                        }
+                // Update character count if this byte starts a new UTF-8 character
+                if (getUtf8ByteLength(currentByte) > 0) {
+                    currentCharCount++;
+                }
+
+                buffer.set(currentFilePos, currentByte);
+
+                if (currentSubstringPos < substringLength &&
+                        substringBytes[currentSubstringPos] == buffer.get(currentFilePos)) {
+                    currentSubstringPos++;
+                    if (currentSubstringPos == substringLength) {
+                        // Found a match, record the position using character count, not byte position
+                        indices.add(currentCharCount - substring.length());
                     }
-                    if (match) {
-                        indices.add(currentCharPosition);
-                    }
-                    // Increment the character position for UTF-8 valid starting bytes
-                    if ((combinedBuffer[i] & 0b11000000) != 0b10000000) {
-                        currentCharPosition++;
-                    }
+                    currentFilePos++;
+                } else {
+                    currentSubstringPos = 0;
+                    currentFilePos = currentCharCount; // Reset file position to character count
                 }
             }
         }
 
         return indices;
+    }
+
+    /**
+     * Determines the number of bytes in the current UTF-8 character based on its first byte.
+     *
+     * @param b the byte to analyze
+     * @return the number of bytes in the UTF-8 character, or 0 if this byte is not a valid start byte
+     */
+    private static int getUtf8ByteLength(byte b) {
+        if ((b & 0b10000000) == 0) { // Single-byte character (ASCII)
+            return 1;
+        } else if ((b & 0b11100000) == 0b11000000) { // Start of a 2-byte character
+            return 2;
+        } else if ((b & 0b11110000) == 0b11100000) { // Start of a 3-byte character
+            return 3;
+        } else if ((b & 0b11111000) == 0b11110000) { // Start of a 4-byte character
+            return 4;
+        } else {
+            return 0; // Not a valid UTF-8 start byte
+        }
+    }
+
+    /**
+     * A circular buffer for storing and retrieving elements with large index values.
+     */
+    private static class CircularBuffer {
+        private byte[] arr;
+        private int size;
+
+        /**
+         * Initializes the buffer with the specified size.
+         *
+         * @param arsize the size of the buffer
+         */
+        CircularBuffer(int arsize) {
+            size = arsize;
+            arr = new byte[size];
+        }
+
+        /**
+         * Sets the element at the specified index.
+         *
+         * @param id   the index where the element should be set
+         * @param elem the element to set
+         */
+        public void set(long id, byte elem) {
+            arr[(int) (id % ((long) size))] = elem;
+        }
+
+        /**
+         * Retrieves the element at the specified index.
+         *
+         * @param id the index of the element to retrieve
+         * @return the element at the specified index
+         */
+        public byte get(long id) {
+            return arr[(int) (id % ((long) size))];
+        }
     }
 }
