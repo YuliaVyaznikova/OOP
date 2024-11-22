@@ -19,9 +19,9 @@ public class SubstringFinderTest {
      * Tests finding a substring in an empty file.
      */
     @Test
-    public void testEmptyFile() throws IOException {
+    public void testFindSubstringIndicesInEmptyFile() throws IOException {
         File emptyFile = createTempFile("");
-        List<Long> result = SubstringFinder.find(emptyFile.getPath(), "test");
+        List<Long> result = SubstringFinder.findSubstringIndices(emptyFile.getPath(), "test");
         assertEquals(List.of(), result, "No occurrences should be found in an empty file.");
     }
 
@@ -29,9 +29,9 @@ public class SubstringFinderTest {
      * Tests searching for an empty substring.
      */
     @Test
-    public void testEmptySubstring() throws IOException {
+    public void testFindEmptySubstring() throws IOException {
         File file = createTempFile("sample text");
-        List<Long> result = SubstringFinder.find(file.getPath(), "");
+        List<Long> result = SubstringFinder.findSubstringIndices(file.getPath(), "");
         assertEquals(List.of(), result, "Searching for an empty substring should return an empty result.");
     }
 
@@ -41,7 +41,7 @@ public class SubstringFinderTest {
     @Test
     public void testFindSingleCharacter() throws IOException {
         File file = createTempFile("abcabcabc");
-        List<Long> result = SubstringFinder.find(file.getPath(), "a");
+        List<Long> result = SubstringFinder.findSubstringIndices(file.getPath(), "a");
         assertEquals(List.of(0L, 3L, 6L), result, "The character 'a' should be found at indices 0, 3, and 6.");
     }
 
@@ -49,24 +49,24 @@ public class SubstringFinderTest {
      * Tests finding a substring within a larger text.
      */
     @Test
-    public void testFindSubstring() throws IOException {
+    public void testFindSubstringInText() throws IOException {
         File file = createTempFile("this is a simple example of a simple text.");
-        List<Long> result = SubstringFinder.find(file.getPath(), "simple");
-        assertEquals(List.of(10L, 30L), result, "The substring 'simple' should be found at indices 10 and 28.");
+        List<Long> result = SubstringFinder.findSubstringIndices(file.getPath(), "simple");
+        assertEquals(List.of(10L, 30L), result, "The substring 'simple' should be found at indices 10 and 30.");
     }
 
     /**
      * Tests finding a substring in a large file.
      */
     @Test
-    public void testLargeFile() throws IOException {
+    public void testFindSubstringInLargeFile() throws IOException {
         StringBuilder largeText = new StringBuilder();
         for (int i = 0; i < 10000; i++) {
             largeText.append("abc");
         }
         largeText.append("test");
         File file = createTempFile(largeText.toString());
-        List<Long> result = SubstringFinder.find(file.getPath(), "test");
+        List<Long> result = SubstringFinder.findSubstringIndices(file.getPath(), "test");
         assertEquals(List.of(30000L), result, "The substring 'test' should be found at the correct position in a large file.");
     }
 
@@ -74,10 +74,10 @@ public class SubstringFinderTest {
      * Tests finding UTF-8 characters in the file.
      */
     @Test
-    public void testUtf8Characters() throws IOException {
+    public void testFindUtf8Substring() throws IOException {
         File file = createTempFile("Привет, мир! 😊 Привет!");
-        List<Long> result = SubstringFinder.find(file.getPath(), "Привет");
-        assertEquals(List.of(0L, 15L), result, "The UTF-8 substring 'Привет' should be found at indices 0 and 14.");
+        List<Long> result = SubstringFinder.findSubstringIndices(file.getPath(), "Привет");
+        assertEquals(List.of(0L, 15L), result, "The UTF-8 substring 'Привет' should be found at indices 0 and 15.");
     }
 
     /**
@@ -100,9 +100,9 @@ public class SubstringFinderTest {
      * Tests finding Chinese characters in the text.
      */
     @Test
-    public void testFindChineseCharacters() throws IOException {
+    public void testFindChineseSubstring() throws IOException {
         File file = createTempFile("你好，世界！ 你好！");
-        List<Long> result = SubstringFinder.find(file.getPath(), "你好");
+        List<Long> result = SubstringFinder.findSubstringIndices(file.getPath(), "你好");
         assertEquals(List.of(0L, 7L), result, "The Chinese substring '你好' should be found at indices 0 and 7.");
     }
 }
