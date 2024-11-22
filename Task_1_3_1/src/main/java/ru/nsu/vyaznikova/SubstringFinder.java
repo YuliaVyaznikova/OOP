@@ -1,8 +1,8 @@
 package ru.nsu.vyaznikova;
 
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +50,13 @@ public class SubstringFinder {
                 byteBuffer.setByteAt(fileBytePosition, currentByte);
 
                 // Matching process (considering multi-byte UTF-8 characters)
-                if (substringMatchPosition < substringLength &&
-                        substringBytes[substringMatchPosition] == byteBuffer.getByteAt(fileBytePosition)) {
+                if (substringMatchPosition < substringLength
+                        && substringBytes[substringMatchPosition]
+                        == byteBuffer.getByteAt(fileBytePosition)) {
                     substringMatchPosition++;
                     if (substringMatchPosition == substringLength) {
-                        // Found a match, record the position using character count, not byte position
+                        // Found a match, record the position using character count,
+                        // not byte position
                         foundIndices.add(characterCount - substring.length());
                     }
                 } else {
@@ -72,16 +74,17 @@ public class SubstringFinder {
      * Determines the number of bytes in the current UTF-8 character based on its first byte.
      *
      * @param byteValue the byte to analyze
-     * @return the number of bytes in the UTF-8 character, or 0 if this byte is not a valid start byte
+     * @return the number of bytes in the UTF-8 character,
+     * or 0 if this byte is not a valid start byte
      */
     private static int determineUtf8CharacterLength(byte byteValue) {
-        if ((byteValue & 0b10000000) == 0) { // Single-byte character (ASCII)
+        if ((byteValue & 0b10000000) == 0) {
             return 1;
-        } else if ((byteValue & 0b11100000) == 0b11000000) { // Start of a 2-byte character
+        } else if ((byteValue & 0b11100000) == 0b11000000) {
             return 2;
-        } else if ((byteValue & 0b11110000) == 0b11100000) { // Start of a 3-byte character
+        } else if ((byteValue & 0b11110000) == 0b11100000) {
             return 3;
-        } else if ((byteValue & 0b11111000) == 0b11110000) { // Start of a 4-byte character (including emojis)
+        } else if ((byteValue & 0b11111000) == 0b11110000) {
             return 4;
         } else {
             return 0; // Not a valid UTF-8 start byte

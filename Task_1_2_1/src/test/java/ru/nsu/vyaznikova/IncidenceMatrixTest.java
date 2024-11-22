@@ -55,22 +55,6 @@ class IncidenceMatrixTest {
         assertEquals(-1, graph.matrix.get(0).get(1));
     }
 
-//    /**
-//     * Tests the {@link IncidenceMatrix#removeEdge(Object, Object)} method.
-//     * Verifies that an edge is removed between
-//     * two vertices and the incidence matrix is updated correctly.
-//     */
-//    @Test
-//    void removeEdge() {
-//        IncidenceMatrix<String> graph = new IncidenceMatrix<>();
-//        graph.addVertex("A");
-//        graph.addVertex("B");
-//        graph.addEdge("A", "B");
-//        graph.removeEdge("A", "B");
-//        assertEquals(0, graph.matrix.get(0).get(0));
-//        assertEquals(0, graph.matrix.get(0).get(1));
-//    }
-
     /**
      * Tests the {@link IncidenceMatrix#getNeighbors(Object)} method.
      * Verifies that the correct list of neighbors is returned for a given vertex.

@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * abstract graph
- * @param <T> is type fot graph's node
+ * @param <T>
  */
 public abstract class AbstractGraph<T> implements Graph<T> {
     protected int numVertices;
