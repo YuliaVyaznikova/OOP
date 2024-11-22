@@ -25,13 +25,14 @@ public class SubstringFinder {
             return new ArrayList<>(); // Return an empty list for empty or null substrings
         }
 
+        // Use UTF-8 to encode the substring to search for
         byte[] substringBytes = substring.getBytes(StandardCharsets.UTF_8);
         int substringLength = substringBytes.length;
         CircularBuffer buffer = new CircularBuffer(substringLength + 1);
         List<Long> indices = new ArrayList<>();
 
         try (InputStream input = new FileInputStream(filename)) {
-            long currentFilePos = 0;     // Current position in the file
+            long currentFilePos = 0;     // Current position in the file (in bytes)
             long currentCharCount = 0;   // Number of UTF-8 characters processed
             int currentSubstringPos = 0;
             int bytesRead;
@@ -40,12 +41,14 @@ public class SubstringFinder {
                 byte currentByte = (byte) bytesRead;
 
                 // Update character count if this byte starts a new UTF-8 character
-                if (getUtf8ByteLength(currentByte) > 0) {
+                int utf8ByteLength = getUtf8ByteLength(currentByte);
+                if (utf8ByteLength > 0) {
                     currentCharCount++;
                 }
 
                 buffer.set(currentFilePos, currentByte);
 
+                // Matching process (considering multi-byte UTF-8 characters)
                 if (currentSubstringPos < substringLength &&
                         substringBytes[currentSubstringPos] == buffer.get(currentFilePos)) {
                     currentSubstringPos++;
@@ -53,11 +56,11 @@ public class SubstringFinder {
                         // Found a match, record the position using character count, not byte position
                         indices.add(currentCharCount - substring.length());
                     }
-                    currentFilePos++;
                 } else {
                     currentSubstringPos = 0;
-                    currentFilePos = currentCharCount; // Reset file position to character count
                 }
+
+                currentFilePos++;
             }
         }
 
@@ -77,7 +80,7 @@ public class SubstringFinder {
             return 2;
         } else if ((b & 0b11110000) == 0b11100000) { // Start of a 3-byte character
             return 3;
-        } else if ((b & 0b11111000) == 0b11110000) { // Start of a 4-byte character
+        } else if ((b & 0b11111000) == 0b11110000) { // Start of a 4-byte character (including emojis)
             return 4;
         } else {
             return 0; // Not a valid UTF-8 start byte

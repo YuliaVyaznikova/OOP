@@ -95,4 +95,14 @@ public class SubstringFinderTest {
         tempFile.deleteOnExit();
         return tempFile;
     }
+
+    /**
+     * Tests finding Chinese characters in the text.
+     */
+    @Test
+    public void testFindChineseCharacters() throws IOException {
+        File file = createTempFile("你好，世界！ 你好！");
+        List<Long> result = SubstringFinder.find(file.getPath(), "你好");
+        assertEquals(List.of(0L, 7L), result, "The Chinese substring '你好' should be found at indices 0 and 7.");
+    }
 }
