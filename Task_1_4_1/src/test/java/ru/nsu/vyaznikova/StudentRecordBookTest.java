@@ -1,17 +1,13 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Unit tests for the StudentRecordBook class.
- */
+import org.junit.jupiter.api.Test;
+
+/** Unit tests for the StudentRecordBook class. */
 class StudentRecordBookTest {
 
-    /**
-     * Verifies the functionality of adding semesters to the record book.
-     */
+    /** Verifies the functionality of adding semesters to the record book. */
     @Test
     void testAddSemester() {
         StudentRecordBook recordBook = new StudentRecordBook("John Doe", true);
@@ -23,9 +19,7 @@ class StudentRecordBookTest {
         assertEquals(5, recordBook.getSemesters().get(0).getExams().get("Mathematics"));
     }
 
-    /**
-     * Verifies the GPA calculation functionality.
-     */
+    /** Verifies the GPA calculation functionality. */
     @Test
     void testCalculateGPA() {
         StudentRecordBook recordBook = new StudentRecordBook("John Doe", true);
@@ -43,9 +37,7 @@ class StudentRecordBookTest {
         assertEquals(4.5, gpa, 0.01);
     }
 
-    /**
-     * Verifies the functionality of transferring to budget-based education.
-     */
+    /** Verifies the functionality of transferring to budget-based education. */
     @Test
     void testCanTransferToBudget() {
         StudentRecordBook recordBook = new StudentRecordBook("John Doe", true);
@@ -68,9 +60,7 @@ class StudentRecordBookTest {
         assertFalse(recordBook.canTransferToBudget());
     }
 
-    /**
-     * Verifies the eligibility for an honors diploma.
-     */
+    /** Verifies the eligibility for an honors diploma. */
     @Test
     void testCanGetHonorsDiploma() {
         StudentRecordBook recordBook = new StudentRecordBook("John Doe", true);
@@ -89,9 +79,7 @@ class StudentRecordBookTest {
         assertTrue(recordBook.canGetHonorsDiploma());
     }
 
-    /**
-     * Verifies the eligibility for an increased scholarship.
-     */
+    /** Verifies the eligibility for an increased scholarship. */
     @Test
     void testCanGetIncreasedScholarship() {
         StudentRecordBook recordBook = new StudentRecordBook("John Doe", true);
@@ -109,9 +97,7 @@ class StudentRecordBookTest {
         assertFalse(recordBook.canGetIncreasedScholarship());
     }
 
-    /**
-     * Verifies the FIT program initialization.
-     */
+    /** Verifies the FIT program initialization. */
     @Test
     void testInitializeFITProgram() {
         StudentRecordBook recordBook = StudentRecordBook.initializeFITProgram("John Doe", true);

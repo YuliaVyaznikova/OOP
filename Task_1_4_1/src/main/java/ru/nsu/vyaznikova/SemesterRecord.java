@@ -3,8 +3,8 @@ package ru.nsu.vyaznikova;
 import java.util.*;
 
 /**
- * Represents a record for a single semester in a student's record book.
- * Each semester contains information about grades for exams, differentiated tests, and regular credits.
+ * Represents a record for a single semester in a student's record book. Each semester contains
+ * information about grades for exams, differentiated tests, and regular credits.
  */
 public class SemesterRecord {
 
@@ -12,9 +12,7 @@ public class SemesterRecord {
     private final Map<String, Integer> differentiatedCredits;
     private final Set<String> regularCredits;
 
-    /**
-     * Creates a new semester record.
-     */
+    /** Creates a new semester record. */
     public SemesterRecord() {
         this.exams = new HashMap<>();
         this.differentiatedCredits = new HashMap<>();
@@ -25,7 +23,7 @@ public class SemesterRecord {
      * Adds an exam and its grade to the semester record.
      *
      * @param subject the name of the subject
-     * @param grade   the grade received for the exam (from 2 to 5)
+     * @param grade the grade received for the exam (from 2 to 5)
      */
     public void addExam(String subject, int grade) {
         exams.put(subject, grade);
@@ -35,7 +33,7 @@ public class SemesterRecord {
      * Adds a differentiated credit and its grade to the semester record.
      *
      * @param subject the name of the subject
-     * @param grade   the grade received for the credit (from 2 to 5)
+     * @param grade the grade received for the credit (from 2 to 5)
      */
     public void addDifferentiatedCredit(String subject, int grade) {
         differentiatedCredits.put(subject, grade);

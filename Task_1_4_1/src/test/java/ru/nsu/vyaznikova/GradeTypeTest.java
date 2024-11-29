@@ -1,17 +1,13 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Unit tests for the GradeType enum.
- */
+import org.junit.jupiter.api.Test;
+
+/** Unit tests for the GradeType enum. */
 class GradeTypeTest {
 
-    /**
-     * Tests that the GradeType values match their expected names.
-     */
+    /** Tests that the GradeType values match their expected names. */
     @Test
     void testGradeTypeEnumValues() {
         assertEquals("EXAM", GradeType.EXAM.name());

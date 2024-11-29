@@ -1,21 +1,17 @@
 package ru.nsu.vyaznikova;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Unit tests for the SemesterRecord class.
- */
+/** Unit tests for the SemesterRecord class. */
 class SemesterRecordTest {
 
-    /**
-     * Verifies the functionality of adding exams.
-     */
+    /** Verifies the functionality of adding exams. */
     @Test
     void testAddExam() {
         SemesterRecord semester = new SemesterRecord();
@@ -29,9 +25,7 @@ class SemesterRecordTest {
         assertEquals(4, exams.get("Physics"));
     }
 
-    /**
-     * Verifies the functionality of adding differentiated credits.
-     */
+    /** Verifies the functionality of adding differentiated credits. */
     @Test
     void testAddDifferentiatedCredit() {
         SemesterRecord semester = new SemesterRecord();
@@ -45,9 +39,7 @@ class SemesterRecordTest {
         assertEquals(4, differentiatedCredits.get("Programming"));
     }
 
-    /**
-     * Verifies the functionality of adding regular credits.
-     */
+    /** Verifies the functionality of adding regular credits. */
     @Test
     void testAddRegularCredit() {
         SemesterRecord semester = new SemesterRecord();
@@ -61,9 +53,7 @@ class SemesterRecordTest {
         assertTrue(regularCredits.contains("Foreign Language"));
     }
 
-    /**
-     * Verifies the functionality of getting final grades (exams and differentiated credits).
-     */
+    /** Verifies the functionality of getting final grades (exams and differentiated credits). */
     @Test
     void testGetFinalGrades() {
         SemesterRecord semester = new SemesterRecord();
@@ -73,13 +63,15 @@ class SemesterRecordTest {
 
         List<Integer> finalGrades = semester.getFinalGrades();
         // Exams and differentiated credits should be in final grades
-        assertEquals(2, finalGrades.size()); // We only added 2 grades (one for exam and one for differentiated credit)
+        assertEquals(2, finalGrades.size());
+        // We only added 2 grades (one for exam and one for differentiated credit)
         assertTrue(finalGrades.contains(5)); // Exam grade
         assertTrue(finalGrades.contains(4)); // Differentiated credit grade
     }
 
     /**
-     * Verifies the size and correctness of all collections (exams, differentiated credits, regular credits).
+     * Verifies the size and correctness of all collections (exams, differentiated credits, regular
+     * credits).
      */
     @Test
     void testGetAllData() {

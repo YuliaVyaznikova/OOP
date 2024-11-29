@@ -1,6 +1,8 @@
 plugins {
     id 'java'
     id 'jacoco'
+
+    id 'com.diffplug.spotless' version '7.0.0.BETA2'
 }
 
 group = 'ru.nsu.vyaznikova'
@@ -22,5 +24,11 @@ test {
 jacocoTestReport {
     reports {
         xml.required = true
+    }
+}
+
+spotless {
+    java {
+        googleJavaFormat().aosp().reflowLongStrings().formatJavadoc(true).reorderImports(true)
     }
 }

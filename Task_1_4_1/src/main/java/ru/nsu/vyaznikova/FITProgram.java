@@ -2,7 +2,8 @@ package ru.nsu.vyaznikova;
 
 /**
  * Provides pre-defined semester records for the FIT (Faculty of Information Technology) curriculum.
- * Each semester record includes the exams, differentiated credits, and regular credits based on the FIT program.
+ * Each semester record includes the exams, differentiated credits, and regular credits based on the
+ * FIT program.
  */
 public class FITProgram {
 

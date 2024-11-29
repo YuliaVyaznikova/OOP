@@ -4,14 +4,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Represents an electronic student record book for a FIT (Faculty of Information Technology) student.
- * The record book tracks semester grades, calculates GPA, and evaluates eligibility for financial and academic achievements.
+ * Represents an electronic student record book for a FIT (Faculty of Information Technology)
+ * student. The record book tracks semester grades, calculates GPA, and evaluates eligibility for
+ * financial and academic achievements.
  *
- * Key functionalities:
- * - Calculate the current GPA for all completed courses.
- * - Determine if the student can transfer from tuition-based to budget-based education.
- * - Assess eligibility for an honors diploma.
- * - Check if the student qualifies for an increased scholarship in the current semester.
+ * <p>Key functionalities: - Calculate the current GPA for all completed courses. - Determine if the
+ * student can transfer from tuition-based to budget-based education. - Assess eligibility for an
+ * honors diploma. - Check if the student qualifies for an increased scholarship in the current
+ * semester.
  */
 public class StudentRecordBook {
 
@@ -23,8 +23,9 @@ public class StudentRecordBook {
     /**
      * Creates a new student record book.
      *
-     * @param studentName     the name of the student
-     * @param isTuitionBased  whether the student is tuition-based (true for tuition, false for budget)
+     * @param studentName the name of the student
+     * @param isTuitionBased whether the student is tuition-based (true for tuition, false for
+     *     budget)
      */
     public StudentRecordBook(String studentName, boolean isTuitionBased) {
         this.studentName = studentName;
@@ -72,9 +73,12 @@ public class StudentRecordBook {
         if (!isTuitionBased || semesters.size() < 2) {
             return false;
         }
-        List<SemesterRecord> lastTwoSemesters = semesters.subList(Math.max(0, semesters.size() - 2), semesters.size());
+        List<SemesterRecord> lastTwoSemesters =
+                semesters.subList(Math.max(0, semesters.size() - 2), semesters.size());
         return lastTwoSemesters.stream()
-                .allMatch(semester -> semester.getFinalGrades().stream().noneMatch(grade -> grade == 2));
+                .allMatch(
+                        semester ->
+                                semester.getFinalGrades().stream().noneMatch(grade -> grade == 2));
     }
 
     /**
@@ -87,9 +91,10 @@ public class StudentRecordBook {
             return false;
         }
 
-        List<Integer> allFinalGrades = semesters.stream()
-                .flatMap(semester -> semester.getFinalGrades().stream())
-                .collect(Collectors.toList());
+        List<Integer> allFinalGrades =
+                semesters.stream()
+                        .flatMap(semester -> semester.getFinalGrades().stream())
+                        .collect(Collectors.toList());
 
         long excellentCount = allFinalGrades.stream().filter(grade -> grade == 5).count();
         boolean noSatisfactory = allFinalGrades.stream().noneMatch(grade -> grade == 3);
@@ -113,11 +118,12 @@ public class StudentRecordBook {
     /**
      * Initializes a pre-filled FIT program record book.
      *
-     * @param studentName     the name of the student
-     * @param isTuitionBased  whether the student is tuition-based
+     * @param studentName the name of the student
+     * @param isTuitionBased whether the student is tuition-based
      * @return a pre-filled record book with the FIT curriculum
      */
-    public static StudentRecordBook initializeFITProgram(String studentName, boolean isTuitionBased) {
+    public static StudentRecordBook initializeFITProgram(
+            String studentName, boolean isTuitionBased) {
         StudentRecordBook recordBook = new StudentRecordBook(studentName, isTuitionBased);
         recordBook.addSemester(FITProgram.firstSemester());
         recordBook.addSemester(FITProgram.secondSemester());
