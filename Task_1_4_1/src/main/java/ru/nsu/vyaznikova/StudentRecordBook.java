@@ -122,13 +122,13 @@ public class StudentRecordBook {
      * @param isTuitionBased whether the student is tuition-based
      * @return a pre-filled record book with the FIT curriculum
      */
-    public static StudentRecordBook initializeFITProgram(
+    public static StudentRecordBook initializeFitProgram(
             String studentName, boolean isTuitionBased) {
         StudentRecordBook recordBook = new StudentRecordBook(studentName, isTuitionBased);
-        recordBook.addSemester(FITProgram.firstSemester());
-        recordBook.addSemester(FITProgram.secondSemester());
-        recordBook.addSemester(FITProgram.thirdSemester());
-        recordBook.addSemester(FITProgram.fourthSemester());
+        recordBook.addSemester(FitProgram.firstSemester());
+        recordBook.addSemester(FitProgram.secondSemester());
+        recordBook.addSemester(FitProgram.thirdSemester());
+        recordBook.addSemester(FitProgram.fourthSemester());
         return recordBook;
     }
 

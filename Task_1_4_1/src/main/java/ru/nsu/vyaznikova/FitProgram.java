@@ -5,7 +5,7 @@ package ru.nsu.vyaznikova;
  * Each semester record includes the exams, differentiated credits, and regular credits based on the
  * FIT program.
  */
-public class FITProgram {
+public class FitProgram {
 
     /**
      * Generates the first semester record.

@@ -99,8 +99,8 @@ class StudentRecordBookTest {
 
     /** Verifies the FIT program initialization. */
     @Test
-    void testInitializeFITProgram() {
-        StudentRecordBook recordBook = StudentRecordBook.initializeFITProgram("John Doe", true);
+    void testinitializeFitProgram() {
+        StudentRecordBook recordBook = StudentRecordBook.initializeFitProgram("John Doe", true);
 
         assertEquals(4, recordBook.getSemesters().size());
         assertNotNull(recordBook.getSemesters().get(0).getExams());

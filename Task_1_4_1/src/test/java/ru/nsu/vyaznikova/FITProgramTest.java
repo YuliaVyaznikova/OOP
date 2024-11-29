@@ -5,13 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-/** Unit tests for the FITProgram class. */
-class FITProgramTest {
+/** Unit tests for the FitProgram class. */
+class FitProgramTest {
 
     /** Verifies the contents of the first semester. */
     @Test
     void testFirstSemester() {
-        SemesterRecord semester = FITProgram.firstSemester();
+        SemesterRecord semester = FitProgram.firstSemester();
 
         // Check number of exams
         assertEquals(3, semester.getExams().size());
@@ -36,7 +36,7 @@ class FITProgramTest {
     /** Verifies the contents of the second semester. */
     @Test
     void testSecondSemester() {
-        SemesterRecord semester = FITProgram.secondSemester();
+        SemesterRecord semester = FitProgram.secondSemester();
 
         // Check number of exams
         assertEquals(3, semester.getExams().size());
@@ -60,7 +60,7 @@ class FITProgramTest {
     /** Verifies the contents of the third semester. */
     @Test
     void testThirdSemester() {
-        SemesterRecord semester = FITProgram.thirdSemester();
+        SemesterRecord semester = FitProgram.thirdSemester();
 
         // Check number of exams
         assertEquals(2, semester.getExams().size());
@@ -88,7 +88,7 @@ class FITProgramTest {
     /** Verifies the contents of the fourth semester. */
     @Test
     void testFourthSemester() {
-        SemesterRecord semester = FITProgram.fourthSemester();
+        SemesterRecord semester = FitProgram.fourthSemester();
 
         // Check number of exams
         assertEquals(5, semester.getExams().size());
