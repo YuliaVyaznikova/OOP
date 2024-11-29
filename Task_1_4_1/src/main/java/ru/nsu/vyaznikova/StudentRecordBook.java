@@ -125,4 +125,13 @@ public class StudentRecordBook {
         recordBook.addSemester(FITProgram.fourthSemester());
         return recordBook;
     }
+
+    /**
+     * Retrieves the list of semesters in the student's record book.
+     *
+     * @return a list of semester records
+     */
+    public List<SemesterRecord> getSemesters() {
+        return semesters;
+    }
 }
