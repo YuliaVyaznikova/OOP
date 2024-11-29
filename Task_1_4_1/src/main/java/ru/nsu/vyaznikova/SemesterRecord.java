@@ -1,11 +1,11 @@
 package ru.nsu.vyaznikova;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a record for a single semester in a student's record book. Each semester contains

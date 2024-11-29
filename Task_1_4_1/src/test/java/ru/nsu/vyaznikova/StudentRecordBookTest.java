@@ -1,8 +1,8 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /** Unit tests for the StudentRecordBook class. */
 class StudentRecordBookTest {
