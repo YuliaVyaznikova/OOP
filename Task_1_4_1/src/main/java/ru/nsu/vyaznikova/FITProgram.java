@@ -1,62 +1,95 @@
 package ru.nsu.vyaznikova;
 
-import java.util.Arrays;
-
+/**
+ * Provides pre-defined semester records for the FIT (Faculty of Information Technology) curriculum.
+ * Each semester record includes the exams, differentiated credits, and regular credits based on the FIT program.
+ */
 public class FITProgram {
 
+    /**
+     * Generates the first semester record.
+     *
+     * @return the semester record for the first semester
+     */
     public static SemesterRecord firstSemester() {
         SemesterRecord semester = new SemesterRecord();
-        semester.addGrade("Введение в алгебру и анализ", 0, GradeType.EXAM);
-        semester.addGrade("Введение в дискретную математику и математическую логику", 0, GradeType.EXAM);
-        semester.addGrade("История России", 0, GradeType.EXAM);
-        semester.addGrade("Декларативное программирование", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Императивное программирование", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("ОРГ", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Цифровые платформы", 0, GradeType.CREDIT);
-        semester.addGrade("Иностранный язык", 0, GradeType.CREDIT);
-        semester.addGrade("Физическая культура и спорт", 0, GradeType.CREDIT);
+        // Exams
+        semester.addExam("Introduction to Algebra and Analysis", 5);
+        semester.addExam("Introduction to Discrete Mathematics and Logic", 4);
+        semester.addExam("History of Russia", 3);
+        // Differentiated credits
+        semester.addDifferentiatedCredit("Declarative Programming", 5);
+        semester.addDifferentiatedCredit("Imperative Programming", 5);
+        semester.addDifferentiatedCredit("ORG", 4);
+        // Regular credits
+        semester.addRegularCredit("Digital Platforms");
+        semester.addRegularCredit("Foreign Language");
+        semester.addRegularCredit("Physical Culture and Sports");
         return semester;
     }
 
+    /**
+     * Generates the second semester record.
+     *
+     * @return the semester record for the second semester
+     */
     public static SemesterRecord secondSemester() {
         SemesterRecord semester = new SemesterRecord();
-        semester.addGrade("Введение в алгебру и анализ", 0, GradeType.EXAM);
-        semester.addGrade("Введение в дискретную математику и математическую логику", 0, GradeType.EXAM);
-        semester.addGrade("Императивное программирование", 0, GradeType.EXAM);
-        semester.addGrade("Цифровые платформы", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Декларативное программирование", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Иностранный язык", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("История России", 0, GradeType.CREDIT);
-        semester.addGrade("Физическая культура и спорт", 0, GradeType.CREDIT);
+        // Exams
+        semester.addExam("Introduction to Algebra and Analysis", 4);
+        semester.addExam("Introduction to Discrete Mathematics and Logic", 4);
+        semester.addExam("Imperative Programming", 5);
+        // Differentiated credits
+        semester.addDifferentiatedCredit("Digital Platforms", 5);
+        semester.addDifferentiatedCredit("Declarative Programming", 4);
+        semester.addDifferentiatedCredit("Foreign Language", 5);
+        // Regular credits
+        semester.addRegularCredit("History of Russia");
+        semester.addRegularCredit("Physical Culture and Sports");
         return semester;
     }
 
+    /**
+     * Generates the third semester record.
+     *
+     * @return the semester record for the third semester
+     */
     public static SemesterRecord thirdSemester() {
         SemesterRecord semester = new SemesterRecord();
-        semester.addGrade("Дифференциальные уравнения и теория функций комплексного переменного", 0, GradeType.EXAM);
-        semester.addGrade("Введение в искусственный интеллект", 0, GradeType.EXAM);
-        semester.addGrade("Операционные системы", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Объектно-ориентированное программирование", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Иностранный язык", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Теория вероятностей и математическая статистика", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("ПАК", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Модели вычислений", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Физическая культура и спорт", 0, GradeType.CREDIT);
+        // Exams
+        semester.addExam("Differential Equations and Complex Variable Theory", 4);
+        semester.addExam("Introduction to Artificial Intelligence", 5);
+        // Differentiated credits
+        semester.addDifferentiatedCredit("Operating Systems", 5);
+        semester.addDifferentiatedCredit("Object-Oriented Programming", 5);
+        semester.addDifferentiatedCredit("Foreign Language", 5);
+        semester.addDifferentiatedCredit("Probability Theory and Statistics", 4);
+        semester.addDifferentiatedCredit("PAC", 4);
+        semester.addDifferentiatedCredit("Computation Models", 4);
+        // Regular credits
+        semester.addRegularCredit("Physical Culture and Sports");
         return semester;
     }
 
+    /**
+     * Generates the fourth semester record.
+     *
+     * @return the semester record for the fourth semester
+     */
     public static SemesterRecord fourthSemester() {
         SemesterRecord semester = new SemesterRecord();
-        semester.addGrade("Операционные системы", 0, GradeType.EXAM);
-        semester.addGrade("Объектно-ориентированное программирование", 0, GradeType.EXAM);
-        semester.addGrade("Теория вероятностей и математическая статистика", 0, GradeType.EXAM);
-        semester.addGrade("Модели вычислений", 0, GradeType.EXAM);
-        semester.addGrade("Теория параллелизма", 0, GradeType.EXAM);
-        semester.addGrade("Деловой английский язык", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("ПАК", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Введение в компьютерные сети", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Введение в аналоговую электронику и технику измерений", 0, GradeType.DIFFERENTIATED_CREDIT);
-        semester.addGrade("Встроенные цифровые системы управления", 0, GradeType.DIFFERENTIATED_CREDIT);
+        // Exams
+        semester.addExam("Operating Systems", 5);
+        semester.addExam("Object-Oriented Programming", 5);
+        semester.addExam("Probability Theory and Statistics", 5);
+        semester.addExam("Computation Models", 4);
+        semester.addExam("Theory of Parallelism", 5);
+        // Differentiated credits
+        semester.addDifferentiatedCredit("Business English", 5);
+        semester.addDifferentiatedCredit("PAC", 4);
+        semester.addDifferentiatedCredit("Introduction to Computer Networks", 5);
+        semester.addDifferentiatedCredit("Introduction to Analog Electronics", 4);
+        semester.addDifferentiatedCredit("Embedded Digital Control Systems", 4);
         return semester;
     }
 }

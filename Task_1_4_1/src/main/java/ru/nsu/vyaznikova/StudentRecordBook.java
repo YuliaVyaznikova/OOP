@@ -3,69 +3,126 @@ package ru.nsu.vyaznikova;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Represents an electronic student record book for a FIT (Faculty of Information Technology) student.
+ * The record book tracks semester grades, calculates GPA, and evaluates eligibility for financial and academic achievements.
+ *
+ * Key functionalities:
+ * - Calculate the current GPA for all completed courses.
+ * - Determine if the student can transfer from tuition-based to budget-based education.
+ * - Assess eligibility for an honors diploma.
+ * - Check if the student qualifies for an increased scholarship in the current semester.
+ */
 public class StudentRecordBook {
-    private String studentName;
-    private boolean isTuitionBased; // true - платное, false - бюджетное
-    private final List<SemesterRecord> semesters = new ArrayList<>();
-    private boolean isThesisCompleted; // true - защита диплома выполнена
-    private int thesisGrade; // оценка за диплом
 
+    private final String studentName;
+    private boolean isTuitionBased;
+    private final List<SemesterRecord> semesters;
+    private Integer thesisGrade;
+
+    /**
+     * Creates a new student record book.
+     *
+     * @param studentName     the name of the student
+     * @param isTuitionBased  whether the student is tuition-based (true for tuition, false for budget)
+     */
     public StudentRecordBook(String studentName, boolean isTuitionBased) {
         this.studentName = studentName;
         this.isTuitionBased = isTuitionBased;
-        this.isThesisCompleted = false; // изначально диплом не защищен
+        this.semesters = new ArrayList<>();
     }
 
+    /**
+     * Adds a semester record to the record book.
+     *
+     * @param semester the semester record to be added
+     */
     public void addSemester(SemesterRecord semester) {
-        semesters.add(semester);
+        this.semesters.add(semester);
     }
 
+    /**
+     * Sets the thesis grade after completion.
+     *
+     * @param grade the grade received for the thesis (from 2 to 5)
+     */
     public void setThesisGrade(int grade) {
-        this.isThesisCompleted = true;
         this.thesisGrade = grade;
     }
 
-    // 1. Текущий средний балл
+    /**
+     * Calculates the GPA (Grade Point Average) for all completed courses.
+     *
+     * @return the average GPA, or 0.0 if no grades are present
+     */
     public double calculateGPA() {
         return semesters.stream()
-                .flatMap(semester -> semester.getGrades().stream())
-                .mapToInt(SubjectGrade::getGrade)
+                .flatMap(semester -> semester.getFinalGrades().stream())
+                .mapToInt(Integer::intValue)
                 .average()
                 .orElse(0.0);
     }
 
-    // 2. Возможность перевода на бюджет
+    /**
+     * Determines if the student can transfer from tuition-based to budget-based education.
+     *
+     * @return true if eligible for transfer, false otherwise
+     */
     public boolean canTransferToBudget() {
-        if (!isTuitionBased) return false;
-        if (semesters.size() < 2) return false;
-
-        return semesters.stream()
-                .skip(Math.max(0, semesters.size() - 2))
-                .flatMap(semester -> semester.getGrades().stream())
-                .noneMatch(grade -> grade.getGrade() == 3 && grade.getType() == GradeType.EXAM);
+        if (!isTuitionBased || semesters.size() < 2) {
+            return false;
+        }
+        List<SemesterRecord> lastTwoSemesters = semesters.subList(Math.max(0, semesters.size() - 2), semesters.size());
+        return lastTwoSemesters.stream()
+                .allMatch(semester -> semester.getFinalGrades().stream().noneMatch(grade -> grade == 2));
     }
 
-    // 3. Возможность получения красного диплома
+    /**
+     * Checks if the student is eligible for an honors diploma.
+     *
+     * @return true if the student qualifies for an honors diploma, false otherwise
+     */
     public boolean canGetHonorsDiploma() {
-        if (!isThesisCompleted || thesisGrade < 5) return false;
+        if (thesisGrade == null || thesisGrade != 5) {
+            return false;
+        }
 
-        List<SubjectGrade> allGrades = semesters.stream()
-                .flatMap(semester -> semester.getGrades().stream())
+        List<Integer> allFinalGrades = semesters.stream()
+                .flatMap(semester -> semester.getFinalGrades().stream())
                 .collect(Collectors.toList());
 
-        long excellentCount = allGrades.stream().filter(grade -> grade.getGrade() == 5).count();
-        long totalCount = allGrades.size();
+        long excellentCount = allFinalGrades.stream().filter(grade -> grade == 5).count();
+        boolean noSatisfactory = allFinalGrades.stream().noneMatch(grade -> grade == 2);
 
-        boolean hasNoSatisfactory = allGrades.stream().noneMatch(grade -> grade.getGrade() == 3);
-
-        return hasNoSatisfactory && totalCount > 0 && (double) excellentCount / totalCount >= 0.75;
+        return excellentCount >= 0.75 * allFinalGrades.size() && noSatisfactory;
     }
 
-    // 4. Возможность получения повышенной стипендии
+    /**
+     * Determines if the student qualifies for an increased scholarship in the current semester.
+     *
+     * @return true if eligible for an increased scholarship, false otherwise
+     */
     public boolean canGetIncreasedScholarship() {
-        if (semesters.isEmpty()) return false;
+        if (semesters.isEmpty()) {
+            return false;
+        }
+        SemesterRecord lastSemester = semesters.get(semesters.size() - 1);
+        return lastSemester.getFinalGrades().stream().allMatch(grade -> grade == 5);
+    }
 
-        return semesters.get(semesters.size() - 1).getGrades().stream()
-                .allMatch(grade -> grade.getGrade() >= 4);
+    /**
+     * Initializes a pre-filled FIT program record book.
+     *
+     * @param studentName     the name of the student
+     * @param isTuitionBased  whether the student is tuition-based
+     * @return a pre-filled record book with the FIT curriculum
+     */
+    public static StudentRecordBook initializeFITProgram(String studentName, boolean isTuitionBased) {
+        StudentRecordBook recordBook = new StudentRecordBook(studentName, isTuitionBased);
+        recordBook.addSemester(FITProgram.firstSemester());
+        recordBook.addSemester(FITProgram.secondSemester());
+        recordBook.addSemester(FITProgram.thirdSemester());
+        recordBook.addSemester(FITProgram.fourthSemester());
+        return recordBook;
     }
 }
