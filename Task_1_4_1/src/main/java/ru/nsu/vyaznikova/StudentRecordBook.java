@@ -56,7 +56,7 @@ public class StudentRecordBook {
      *
      * @return the average GPA, or 0.0 if no grades are present
      */
-    public double calculateGPA() {
+    public double calculateGpa() {
         return semesters.stream()
                 .flatMap(semester -> semester.getFinalGrades().stream())
                 .mapToInt(Integer::intValue)

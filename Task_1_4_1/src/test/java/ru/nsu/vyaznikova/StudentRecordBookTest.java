@@ -21,7 +21,7 @@ class StudentRecordBookTest {
 
     /** Verifies the GPA calculation functionality. */
     @Test
-    void testCalculateGPA() {
+    void testcalculateGpa() {
         StudentRecordBook recordBook = new StudentRecordBook("John Doe", true);
         SemesterRecord semester1 = new SemesterRecord();
         semester1.addExam("Mathematics", 5);
@@ -33,7 +33,7 @@ class StudentRecordBookTest {
         semester2.addDifferentiatedCredit("English", 5);
         recordBook.addSemester(semester2);
 
-        double gpa = recordBook.calculateGPA();
+        double gpa = recordBook.calculateGpa();
         assertEquals(4.5, gpa, 0.01);
     }
 
