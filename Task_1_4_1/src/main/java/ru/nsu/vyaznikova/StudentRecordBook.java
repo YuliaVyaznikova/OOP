@@ -92,7 +92,7 @@ public class StudentRecordBook {
                 .collect(Collectors.toList());
 
         long excellentCount = allFinalGrades.stream().filter(grade -> grade == 5).count();
-        boolean noSatisfactory = allFinalGrades.stream().noneMatch(grade -> grade == 2);
+        boolean noSatisfactory = allFinalGrades.stream().noneMatch(grade -> grade == 3);
 
         return excellentCount >= 0.75 * allFinalGrades.size() && noSatisfactory;
     }

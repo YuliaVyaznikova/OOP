@@ -18,7 +18,8 @@ public class SubjectGrade {
      */
     public SubjectGrade(String subject, int grade, GradeType type) {
         if ((type == GradeType.EXAM || type == GradeType.DIFFERENTIATED_CREDIT) && (grade < 2 || grade > 5)) {
-            throw new IllegalArgumentException("Grade must be between 2 and 5 for exams or differentiated credits.");
+            throw new IllegalArgumentException("Grade must be between"
+                    + "2 and 5 for exams or differentiated credits.");
         }
         this.subject = subject;
         this.grade = grade;
