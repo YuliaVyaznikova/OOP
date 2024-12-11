@@ -1,7 +1,8 @@
 package ru.nsu.vyaznikova;
 
 /**
- * Represents a Markdown header (# ## ###).
+ * Represents a Markdown header with specified level (1-6).
+ * Markdown symbols: # (level 1), ## (level 2), ### (level 3), etc.
  */
 public class Header extends Element {
     private final Element content;

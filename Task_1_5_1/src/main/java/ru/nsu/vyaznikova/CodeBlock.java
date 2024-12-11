@@ -2,6 +2,9 @@ package ru.nsu.vyaznikova;
 
 /**
  * Represents a Markdown code block with language specification.
+ * Markdown symbols: ```language
+code
+```
  */
 public class CodeBlock extends Element {
     private final String code;

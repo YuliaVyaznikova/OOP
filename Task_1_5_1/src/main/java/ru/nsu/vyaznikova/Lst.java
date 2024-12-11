@@ -6,12 +6,13 @@ import java.util.List;
 
 /**
  * Represents a Markdown list (ordered or unordered).
+ * Markdown symbols: - (unordered list), 1. (ordered list)
  */
-public class List extends Element {
+public class Lst extends Element {
     private final java.util.List<Element> items;
     private final boolean ordered;
 
-    public List(boolean ordered) {
+    public Lst(boolean ordered) {
         this.items = new ArrayList<>();
         this.ordered = ordered;
     }
@@ -29,7 +30,10 @@ public class List extends Element {
             } else {
                 sb.append("- ");
             }
-            sb.append(items.get(i).toMarkdown()).append("\n");
+            sb.append(items.get(i).toMarkdown());
+            if (i < items.size() - 1) {
+                sb.append("\n");
+            }
         }
         return sb.toString();
     }

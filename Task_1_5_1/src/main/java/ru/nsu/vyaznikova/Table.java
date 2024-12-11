@@ -1,69 +1,171 @@
 package ru.nsu.vyaznikova;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Table extends Element {
-    public static final String ALIGN_LEFT = ":---";
-    public static final String ALIGN_CENTER = ":---:";
-    public static final String ALIGN_RIGHT = "---:";
+    public static final String ALIGN_LEFT = "------";
+    public static final String ALIGN_RIGHT = "-----:";
 
-    private final List<String[]> rows;
-    private final String[] alignments;
+    public enum Alignment {
+        LEFT(ALIGN_LEFT),
+        RIGHT(ALIGN_RIGHT);
 
-    private Table(List<String[]> rows, String[] alignments) {
+        private final String markdown;
+
+        Alignment(String markdown) {
+            this.markdown = markdown;
+        }
+
+        public String getMarkdown() {
+            return markdown;
+        }
+    }
+
+    private final List<List<Element>> rows;
+    private final Alignment[] alignments;
+    private final int rowLimit;
+
+    private Table(List<List<Element>> rows, Alignment[] alignments, int rowLimit) {
         this.rows = rows;
         this.alignments = alignments;
+        this.rowLimit = rowLimit;
     }
 
     @Override
     public String toMarkdown() {
         StringBuilder sb = new StringBuilder();
-
-        String[] header = rows.get(0);
-        sb.append("| ").append(String.join(" | ", header)).append(" |\n");
-
+        
+        // Header
+        List<Element> header = rows.get(0);
         sb.append("| ");
-        for (String align : alignments) {
-            sb.append(align).append(" | ");
+        for (int i = 0; i < header.size(); i++) {
+            sb.append(header.get(i).toMarkdown());
+            if (i < header.size() - 1) {
+                sb.append(" | ");
+            } else {
+                sb.append(" |");
+            }
         }
         sb.append("\n");
 
+        // Alignments
+        sb.append("| ");
+        for (int i = 0; i < alignments.length; i++) {
+            sb.append(alignments[i].getMarkdown());
+            if (i < alignments.length - 1) {
+                sb.append("| ");
+            } else {
+                sb.append(" |");
+            }
+        }
+        sb.append("\n");
+
+        // Data rows
         for (int i = 1; i < rows.size(); i++) {
-            String[] row = rows.get(i);
-            sb.append("| ").append(String.join(" | ", row)).append(" |\n");
+            List<Element> row = rows.get(i);
+            sb.append("| ");
+            for (int j = 0; j < row.size(); j++) {
+                sb.append(row.get(j).toMarkdown());
+                if (j < row.size() - 1) {
+                    sb.append(" | ");
+                } else {
+                    sb.append(" |");
+                }
+            }
+            sb.append("\n");
         }
 
         return sb.toString();
     }
 
+    @Override
+    public String toString() {
+        return toMarkdown();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Table other = (Table) obj;
+        return rowLimit == other.rowLimit &&
+               Arrays.equals(alignments, other.alignments) &&
+               rows.equals(other.rows);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(rowLimit);
+        result = 31 * result + Arrays.hashCode(alignments);
+        result = 31 * result + rows.hashCode();
+        return result;
+    }
+
     public static class Builder {
-        private final List<String[]> rows = new ArrayList<>();
-        private String[] alignments;
+        private final List<List<Element>> rows = new ArrayList<>();
+        private Alignment[] alignments;
+        private int rowLimit = Integer.MAX_VALUE;
 
         public Builder withAlignments(String... alignments) {
-            this.alignments = alignments;
-            return this;
-        }
-
-        public Builder addRow(Object... values) {
-            String[] row = new String[values.length];
-            for (int i = 0; i < values.length; i++) {
-                row[i] = values[i] instanceof Element ? ((Element) values[i]).toMarkdown() : values[i].toString();
+            this.alignments = new Alignment[alignments.length];
+            for (int i = 0; i < alignments.length; i++) {
+                if (alignments[i].equals(ALIGN_LEFT)) {
+                    this.alignments[i] = Alignment.LEFT;
+                } else if (alignments[i].equals(ALIGN_RIGHT)) {
+                    this.alignments[i] = Alignment.RIGHT;
+                } else {
+                    throw new IllegalArgumentException("Invalid alignment: " + alignments[i]);
+                }
             }
-            rows.add(row);
             return this;
         }
 
         public Builder withRowLimit(int limit) {
+            this.rowLimit = limit;
             while (rows.size() > limit) {
                 rows.remove(rows.size() - 1);
             }
             return this;
         }
 
+        public Builder addRow(Object... values) {
+            if (rows.size() >= rowLimit) {
+                return this;
+            }
+
+            List<Element> row = new ArrayList<>();
+            for (Object value : values) {
+                if (value instanceof Element) {
+                    row.add((Element) value);
+                } else {
+                    row.add(new Text(String.valueOf(value)));
+                }
+            }
+            rows.add(row);
+            return this;
+        }
+
         public Table build() {
-            return new Table(rows, alignments);
+            if (rows.isEmpty()) {
+                throw new IllegalStateException("Table must have at least one row");
+            }
+
+            if (alignments == null) {
+                alignments = new Alignment[rows.get(0).size()];
+                Arrays.fill(alignments, Alignment.LEFT);
+            }
+
+            if (alignments.length != rows.get(0).size()) {
+                throw new IllegalStateException(
+                    "Number of alignments (" + alignments.length + 
+                    ") doesn't match number of columns (" + rows.get(0).size() + ")"
+                );
+            }
+
+            return new Table(rows, alignments, rowLimit);
         }
     }
 }

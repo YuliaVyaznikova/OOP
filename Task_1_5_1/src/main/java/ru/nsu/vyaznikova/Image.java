@@ -1,7 +1,8 @@
 package ru.nsu.vyaznikova;
 
 /**
- * Represents a Markdown image ![alt](url).
+ * Represents a Markdown image.
+ * Markdown symbol: ![alt](url)
  */
 public class Image extends Element {
     private final String alt;

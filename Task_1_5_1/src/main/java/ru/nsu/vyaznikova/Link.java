@@ -1,19 +1,19 @@
 package ru.nsu.vyaznikova;
 
 /**
- * Represents a Markdown link [text](url).
+ * Represents a Markdown link.
+ * Markdown symbols: [text](url)
  */
-public class Link extends Element {
-    private final Element text;
+public class Link extends Text {
     private final String url;
 
     public Link(Element text, String url) {
-        this.text = text;
+        super(text.toMarkdown());
         this.url = url;
     }
 
     @Override
     public String toMarkdown() {
-        return "[" + text.toMarkdown() + "](" + url + ")";
+        return "[" + super.toMarkdown() + "](" + url + ")";
     }
 }

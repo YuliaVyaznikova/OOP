@@ -1,7 +1,8 @@
 package ru.nsu.vyaznikova;
 
 /**
- * Represents a Markdown quote (>).
+ * Represents a Markdown quote.
+ * Markdown symbol: >
  */
 public class Quote extends Element {
     private final Element content;
