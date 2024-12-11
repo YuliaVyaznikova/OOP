@@ -33,12 +33,14 @@ public class Table extends Element {
 
     /**
      * Constructs a Table object using the Builder pattern.
-     * @param builder the Builder instance containing the table data
+     * @param rows the rows of the table
+     * @param rowLimit the maximum number of rows allowed
+     * @param alignments the alignments for the table columns
      */
-    private Table(Builder builder) {
-        this.rows = builder.rows;
-        this.alignments = builder.alignments;
-        this.rowLimit = builder.rowLimit;
+    private Table(List<List<Element>> rows, int rowLimit, Alignment[] alignments) {
+        this.rows = rows;
+        this.alignments = alignments;
+        this.rowLimit = rowLimit;
     }
 
     /**
@@ -97,76 +99,80 @@ public class Table extends Element {
      */
     public static class Builder {
         private final List<List<Element>> rows = new ArrayList<>();
-        private Alignment[] alignments;
         private int rowLimit = Integer.MAX_VALUE;
+        private Alignment[] alignments = new Alignment[]{Alignment.LEFT};
 
         /**
-         * Sets the alignments for the table columns.
-         * @param alignments the alignments for the table columns
-         * @return the Builder instance for method chaining
+         * Sets the row limit for the table.
+         * @param limit maximum number of rows
+         * @return this builder instance
+         * @throws IllegalArgumentException if limit is less than or equal to 0
          */
-        public Builder withAlignments(String... alignments) {
-            this.alignments = new Alignment[alignments.length];
-            for (int i = 0; i < alignments.length; i++) {
-                if (alignments[i].equals(ALIGN_LEFT)) {
-                    this.alignments[i] = Alignment.LEFT;
-                } else if (alignments[i].equals(ALIGN_RIGHT)) {
-                    this.alignments[i] = Alignment.RIGHT;
+        public Builder withRowLimit(int limit) {
+            if (limit <= 0) {
+                throw new IllegalArgumentException("Row limit must be positive");
+            }
+            this.rowLimit = limit;
+            return this;
+        }
+
+        /**
+         * Sets the alignments for table columns.
+         * @param alignments array of column alignments
+         * @return this builder instance
+         * @throws IllegalArgumentException if alignments is null or empty
+         */
+        public Builder withAlignments(Alignment... alignments) {
+            if (alignments == null || alignments.length == 0) {
+                throw new IllegalArgumentException("Alignments cannot be null or empty");
+            }
+            this.alignments = alignments.clone();
+            return this;
+        }
+
+        /**
+         * Adds a row to the table using variable arguments of Elements.
+         * @param elements the elements to add as a row
+         * @return this builder instance
+         * @throws IllegalArgumentException if elements is null
+         */
+        public Builder addRow(Element... elements) {
+            if (elements == null) {
+                throw new IllegalArgumentException("Elements cannot be null");
+            }
+            List<Element> row = new ArrayList<>(Arrays.asList(elements));
+            rows.add(row);
+            return this;
+        }
+
+        /**
+         * Adds a row to the table using Objects that will be converted to Text elements.
+         * @param objects the objects to add as a row
+         * @return this builder instance
+         * @throws IllegalArgumentException if objects is null
+         */
+        public Builder addRow(Object... objects) {
+            if (objects == null) {
+                throw new IllegalArgumentException("Objects cannot be null");
+            }
+            List<Element> row = new ArrayList<>();
+            for (Object obj : objects) {
+                if (obj instanceof Element) {
+                    row.add((Element) obj);
                 } else {
-                    throw new IllegalArgumentException("Invalid alignment: " + alignments[i]);
+                    row.add(new Text.Builder().setContent(String.valueOf(obj)).build());
                 }
             }
+            rows.add(row);
             return this;
         }
 
         /**
-         * Sets the limit for the number of rows in the table.
-         * @param rowLimit the maximum number of rows allowed
-         * @return the Builder instance for method chaining
-         */
-        public Builder setRowLimit(int rowLimit) {
-            this.rowLimit = rowLimit;
-            while (rows.size() > rowLimit) {
-                rows.remove(rows.size() - 1);
-            }
-            return this;
-        }
-
-        /**
-         * Adds a row to the table.
-         * @param row the row to add
-         * @return the Builder instance for method chaining
-         */
-        public Builder addRow(List<Element> row) {
-            if (rows.size() >= rowLimit) {
-                return this;
-            }
-            this.rows.add(row);
-            return this;
-        }
-
-        /**
-         * Builds the Table object.
+         * Builds the Table instance.
          * @return a new Table instance
          */
         public Table build() {
-            if (rows.isEmpty()) {
-                throw new IllegalStateException("Table must have at least one row");
-            }
-
-            if (alignments == null) {
-                alignments = new Alignment[rows.get(0).size()];
-                Arrays.fill(alignments, Alignment.LEFT);
-            }
-
-            if (alignments.length != rows.get(0).size()) {
-                throw new IllegalStateException(
-                    "Number of alignments (" + alignments.length + 
-                    ") doesn't match number of columns (" + rows.get(0).size() + ")"
-                );
-            }
-
-            return new Table(this);
+            return new Table(rows, rowLimit, alignments);
         }
     }
 
