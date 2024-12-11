@@ -8,7 +8,7 @@ public class Link extends Text {
     private final String url;
 
     public Link(Element text, String url) {
-        super(text.toMarkdown());
+        super(new Text.Builder().setContent(text.toMarkdown()).build());
         this.url = url;
     }
 

@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Represents a Markdown table with rows and columns.
+ */
 public class Table extends Element {
     public static final String ALIGN_LEFT = "------";
     public static final String ALIGN_RIGHT = "-----:";
@@ -28,12 +31,20 @@ public class Table extends Element {
     private final Alignment[] alignments;
     private final int rowLimit;
 
-    private Table(List<List<Element>> rows, Alignment[] alignments, int rowLimit) {
-        this.rows = rows;
-        this.alignments = alignments;
-        this.rowLimit = rowLimit;
+    /**
+     * Constructs a Table object using the Builder pattern.
+     * @param builder the Builder instance containing the table data
+     */
+    private Table(Builder builder) {
+        this.rows = builder.rows;
+        this.alignments = builder.alignments;
+        this.rowLimit = builder.rowLimit;
     }
 
+    /**
+     * Converts the table to its Markdown representation.
+     * @return A string containing the Markdown representation of the table
+     */
     @Override
     public String toMarkdown() {
         StringBuilder sb = new StringBuilder();
@@ -81,34 +92,19 @@ public class Table extends Element {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return toMarkdown();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Table other = (Table) obj;
-        return rowLimit == other.rowLimit &&
-               Arrays.equals(alignments, other.alignments) &&
-               rows.equals(other.rows);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(rowLimit);
-        result = 31 * result + Arrays.hashCode(alignments);
-        result = 31 * result + rows.hashCode();
-        return result;
-    }
-
+    /**
+     * Builder class for constructing Table objects.
+     */
     public static class Builder {
         private final List<List<Element>> rows = new ArrayList<>();
         private Alignment[] alignments;
         private int rowLimit = Integer.MAX_VALUE;
 
+        /**
+         * Sets the alignments for the table columns.
+         * @param alignments the alignments for the table columns
+         * @return the Builder instance for method chaining
+         */
         public Builder withAlignments(String... alignments) {
             this.alignments = new Alignment[alignments.length];
             for (int i = 0; i < alignments.length; i++) {
@@ -123,31 +119,36 @@ public class Table extends Element {
             return this;
         }
 
-        public Builder withRowLimit(int limit) {
-            this.rowLimit = limit;
-            while (rows.size() > limit) {
+        /**
+         * Sets the limit for the number of rows in the table.
+         * @param rowLimit the maximum number of rows allowed
+         * @return the Builder instance for method chaining
+         */
+        public Builder setRowLimit(int rowLimit) {
+            this.rowLimit = rowLimit;
+            while (rows.size() > rowLimit) {
                 rows.remove(rows.size() - 1);
             }
             return this;
         }
 
-        public Builder addRow(Object... values) {
+        /**
+         * Adds a row to the table.
+         * @param row the row to add
+         * @return the Builder instance for method chaining
+         */
+        public Builder addRow(List<Element> row) {
             if (rows.size() >= rowLimit) {
                 return this;
             }
-
-            List<Element> row = new ArrayList<>();
-            for (Object value : values) {
-                if (value instanceof Element) {
-                    row.add((Element) value);
-                } else {
-                    row.add(new Text(String.valueOf(value)));
-                }
-            }
-            rows.add(row);
+            this.rows.add(row);
             return this;
         }
 
+        /**
+         * Builds the Table object.
+         * @return a new Table instance
+         */
         public Table build() {
             if (rows.isEmpty()) {
                 throw new IllegalStateException("Table must have at least one row");
@@ -165,7 +166,47 @@ public class Table extends Element {
                 );
             }
 
-            return new Table(rows, alignments, rowLimit);
+            return new Table(this);
         }
+    }
+
+    /**
+     * Returns a string representation of the table in Markdown format.
+     * @return a string containing the Markdown representation of the table
+     */
+    @Override
+    public String toString() {
+        return toMarkdown();
+    }
+
+    /**
+     * Compares this table to the specified object for equality.
+     * Two tables are considered equal if they have the same row limit,
+     * alignments, and rows.
+     * @param obj the object to compare this table against
+     * @return true if the given object is equal to this table, false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Table other = (Table) obj;
+        return rowLimit == other.rowLimit &&
+               Arrays.equals(alignments, other.alignments) &&
+               rows.equals(other.rows);
+    }
+
+    /**
+     * Returns a hash code value for the table.
+     * The hash code is computed based on the row limit,
+     * alignments, and rows.
+     * @return the hash code value for this table
+     */
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(rowLimit);
+        result = 31 * result + Arrays.hashCode(alignments);
+        result = 31 * result + rows.hashCode();
+        return result;
     }
 }
