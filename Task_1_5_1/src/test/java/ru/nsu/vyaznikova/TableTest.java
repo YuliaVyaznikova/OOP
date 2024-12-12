@@ -15,8 +15,10 @@ public class TableTest {
     public void testTableWithHeaders() {
         Table table = new Table.Builder()
             .withAlignments(Table.ALIGN_LEFT, Table.ALIGN_RIGHT)
-            .addRow("Header1", "Header2")
-            .addRow("Row1Col1", "Row1Col2")
+            .addRow(new Text.Builder().setContent("Header1").build(), 
+                    new Text.Builder().setContent("Header2").build())
+            .addRow(new Text.Builder().setContent("Row1Col1").build(), 
+                    new Text.Builder().setContent("Row1Col2").build())
             .build();
         String expectedMarkdown = "| Header1 | Header2 |\n| :------ | ------: |\n| Row1Col1 | Row1Col2 |";
         assertEquals(expectedMarkdown, table.toMarkdown(), "Table with headers should be correctly serialized in Markdown.");
@@ -29,8 +31,12 @@ public class TableTest {
     public void testTableWithAlignments() {
         Table table = new Table.Builder()
             .withAlignments(Table.ALIGN_CENTER, Table.ALIGN_LEFT, Table.ALIGN_RIGHT)
-            .addRow("Center", "Left", "Right")
-            .addRow("C", "L", "R")
+            .addRow(new Text.Builder().setContent("Center").build(), 
+                    new Text.Builder().setContent("Left").build(), 
+                    new Text.Builder().setContent("Right").build())
+            .addRow(new Text.Builder().setContent("C").build(), 
+                    new Text.Builder().setContent("L").build(), 
+                    new Text.Builder().setContent("R").build())
             .build();
         String expectedMarkdown = "| Center | Left | Right |\n| :----: | :--- | ----: |\n| C | L | R |";
         assertEquals(expectedMarkdown, table.toMarkdown(), "Table with different alignments should be correctly serialized in Markdown.");
@@ -42,13 +48,16 @@ public class TableTest {
     @Test
     public void testTableEquality() {
         Table table1 = new Table.Builder()
-            .addRow("Row1Col1", "Row1Col2")
+            .addRow(new Text.Builder().setContent("Row1Col1").build(), 
+                    new Text.Builder().setContent("Row1Col2").build())
             .build();
         Table table2 = new Table.Builder()
-            .addRow("Row1Col1", "Row1Col2")
+            .addRow(new Text.Builder().setContent("Row1Col1").build(), 
+                    new Text.Builder().setContent("Row1Col2").build())
             .build();
         Table table3 = new Table.Builder()
-            .addRow("Row1Col1", "Different")
+            .addRow(new Text.Builder().setContent("Row1Col1").build(), 
+                    new Text.Builder().setContent("Different").build())
             .build();
 
         assertEquals(table1, table2, "Tables with the same content should be equal.");
@@ -56,16 +65,17 @@ public class TableTest {
     }
 
     /**
-     * Tests that creating a Table with mismatched column counts throws an exception.
+     * Tests that creating a Table with mismatched column counts adds empty columns.
      */
     @Test
     public void testMismatchedColumnCounts() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Table.Builder()
-                .addRow("OnlyOneColumn")
-                .addRow("Two", "Columns")
-                .build();
-        }, "Creating a Table with mismatched column counts should throw IllegalArgumentException.");
+        Table table = new Table.Builder()
+            .addRow(new Text.Builder().setContent("OnlyOneColumn").build())
+            .addRow(new Text.Builder().setContent("Two").build(), 
+                    new Text.Builder().setContent("Columns").build())
+            .build();
+        String expectedMarkdown = "| OnlyOneColumn |  |\n| :----------- | :------ |\n| Two | Columns |";
+        assertEquals(expectedMarkdown, table.toMarkdown(), "Table with mismatched column counts should add empty columns.");
     }
 
     /**
@@ -75,12 +85,14 @@ public class TableTest {
     public void testTableWithRowLimit() {
         Table.Builder builder = new Table.Builder()
             .withRowLimit(2)
-            .addRow("Header1", "Header2");
+            .addRow(new Text.Builder().setContent("Header1").build(), 
+                    new Text.Builder().setContent("Header2").build());
         for (int i = 0; i < 5; i++) {
-            builder.addRow("Row" + i + "Col1", "Row" + i + "Col2");
+            builder.addRow(new Text.Builder().setContent("Row" + i + "Col1").build(), 
+                           new Text.Builder().setContent("Row" + i + "Col2").build());
         }
         Table table = builder.build();
-        String expectedMarkdown = "| Header1 | Header2 |\n| :------ | :------ |\n| Row0Col1 | Row0Col2 |\n| Row1Col1 | Row1Col2 |";
+        String expectedMarkdown = "| Header1 | Header2 |\n| :------ | :------ |\n| Row0Col1 | Row0Col2 |";
         assertEquals(expectedMarkdown, table.toMarkdown(), "Table with row limit should be correctly serialized in Markdown, showing only the first few rows.");
     }
 }

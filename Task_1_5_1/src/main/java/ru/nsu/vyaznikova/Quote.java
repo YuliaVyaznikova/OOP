@@ -55,7 +55,9 @@ public class Quote extends Element {
          * @throws IllegalArgumentException if element is null
          */
         public Builder addContent(Element element) {
-            Objects.requireNonNull(element, "Quote content element cannot be null");
+            if (element == null) {
+                throw new IllegalArgumentException("Quote content element cannot be null");
+            }
             content.add(element);
             return this;
         }
