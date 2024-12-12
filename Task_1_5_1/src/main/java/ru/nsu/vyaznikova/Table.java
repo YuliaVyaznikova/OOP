@@ -11,96 +11,64 @@ import java.util.Objects;
 public class Table extends Element {
     public static final String ALIGN_LEFT = "------";
     public static final String ALIGN_RIGHT = "-----:";
-
-    public enum Alignment {
-        LEFT(ALIGN_LEFT),
-        RIGHT(ALIGN_RIGHT);
-
-        private final String markdown;
-
-        Alignment(String markdown) {
-            this.markdown = markdown;
-        }
-
-        public String getMarkdown() {
-            return markdown;
-        }
-    }
+    public static final String ALIGN_CENTER = ":----:";
 
     private final List<List<Element>> rows;
-    private final Alignment[] alignments;
+    private final String[] alignments;
     private final int rowLimit;
 
     /**
-     * Constructs a Table object using the Builder pattern.
-     * @param rows the rows of the table
-     * @param rowLimit the maximum number of rows allowed
-     * @param alignments the alignments for the table columns
+     * Private constructor used by the Builder.
      */
-    private Table(List<List<Element>> rows, int rowLimit, Alignment[] alignments) {
-        this.rows = rows;
-        this.alignments = alignments;
-        this.rowLimit = rowLimit;
+    private Table(Builder builder) {
+        this.rows = new ArrayList<>(builder.rows);
+        this.alignments = builder.alignments.clone();
+        this.rowLimit = builder.rowLimit;
     }
 
-    /**
-     * Converts the table to its Markdown representation.
-     * @return A string containing the Markdown representation of the table
-     */
     @Override
     public String toMarkdown() {
+        if (rows.isEmpty()) return "";
+        
         StringBuilder sb = new StringBuilder();
         
         // Header
-        List<Element> header = rows.get(0);
-        sb.append("| ");
-        for (int i = 0; i < header.size(); i++) {
-            sb.append(header.get(i).toMarkdown());
-            if (i < header.size() - 1) {
-                sb.append(" | ");
-            } else {
-                sb.append(" |");
-            }
-        }
-        sb.append("\n");
-
-        // Alignments
+        sb.append(formatRow(rows.get(0)));
+        
+        // Alignment row
         sb.append("| ");
         for (int i = 0; i < alignments.length; i++) {
-            sb.append(alignments[i].getMarkdown());
-            if (i < alignments.length - 1) {
-                sb.append("| ");
-            } else {
-                sb.append(" |");
-            }
+            sb.append(alignments[i]);
+            sb.append(i < alignments.length - 1 ? " | " : " |");
         }
         sb.append("\n");
-
-        // Data rows
-        for (int i = 1; i < rows.size(); i++) {
-            List<Element> row = rows.get(i);
-            sb.append("| ");
-            for (int j = 0; j < row.size(); j++) {
-                sb.append(row.get(j).toMarkdown());
-                if (j < row.size() - 1) {
-                    sb.append(" | ");
-                } else {
-                    sb.append(" |");
-                }
-            }
-            sb.append("\n");
+        
+        // Data rows (respect row limit)
+        int dataRows = Math.min(rows.size() - 1, rowLimit);
+        for (int i = 1; i <= dataRows; i++) {
+            sb.append(formatRow(rows.get(i)));
         }
+        
+        return sb.toString();
+    }
 
+    private String formatRow(List<Element> row) {
+        StringBuilder sb = new StringBuilder("| ");
+        for (int i = 0; i < row.size(); i++) {
+            sb.append(row.get(i).toMarkdown());
+            sb.append(i < row.size() - 1 ? " | " : " |");
+        }
+        sb.append("\n");
         return sb.toString();
     }
 
     /**
-     * Builder class for constructing Table objects.
+     * Builder class for creating Table instances.
      */
     public static class Builder {
         private final List<List<Element>> rows = new ArrayList<>();
+        private String[] alignments = {ALIGN_LEFT};  // Default left alignment
         private int rowLimit = Integer.MAX_VALUE;
-        private Alignment[] alignments = new Alignment[]{Alignment.LEFT};
 
         /**
          * Sets the row limit for the table.
@@ -118,13 +86,18 @@ public class Table extends Element {
 
         /**
          * Sets the alignments for table columns.
-         * @param alignments array of column alignments
+         * @param alignments the alignment strings (ALIGN_LEFT, ALIGN_RIGHT, ALIGN_CENTER)
          * @return this builder instance
          * @throws IllegalArgumentException if alignments is null or empty
          */
-        public Builder withAlignments(Alignment... alignments) {
+        public Builder withAlignments(String... alignments) {
             if (alignments == null || alignments.length == 0) {
                 throw new IllegalArgumentException("Alignments cannot be null or empty");
+            }
+            for (String align : alignments) {
+                if (!ALIGN_LEFT.equals(align) && !ALIGN_RIGHT.equals(align) && !ALIGN_CENTER.equals(align)) {
+                    throw new IllegalArgumentException("Invalid alignment: " + align);
+                }
             }
             this.alignments = alignments.clone();
             return this;
@@ -134,27 +107,21 @@ public class Table extends Element {
          * Adds a row to the table using variable arguments of Elements.
          * @param elements the elements to add as a row
          * @return this builder instance
-         * @throws IllegalArgumentException if elements is null
          */
         public Builder addRow(Element... elements) {
-            if (elements == null) {
-                throw new IllegalArgumentException("Elements cannot be null");
-            }
-            List<Element> row = new ArrayList<>(Arrays.asList(elements));
-            rows.add(row);
+            Objects.requireNonNull(elements, "Elements cannot be null");
+            rows.add(new ArrayList<>(Arrays.asList(elements)));
             return this;
         }
 
         /**
-         * Adds a row to the table using Objects that will be converted to Text elements.
+         * Adds a row to the table using variable arguments of Objects.
+         * Objects are converted to Text elements.
          * @param objects the objects to add as a row
          * @return this builder instance
-         * @throws IllegalArgumentException if objects is null
          */
         public Builder addRow(Object... objects) {
-            if (objects == null) {
-                throw new IllegalArgumentException("Objects cannot be null");
-            }
+            Objects.requireNonNull(objects, "Objects cannot be null");
             List<Element> row = new ArrayList<>();
             for (Object obj : objects) {
                 if (obj instanceof Element) {
@@ -170,49 +137,33 @@ public class Table extends Element {
         /**
          * Builds the Table instance.
          * @return a new Table instance
+         * @throws IllegalStateException if no rows have been added
          */
         public Table build() {
-            return new Table(rows, rowLimit, alignments);
+            if (rows.isEmpty()) {
+                throw new IllegalStateException("Table must have at least one row");
+            }
+            
+            // Ensure all rows have the same number of columns as the header
+            int columns = rows.get(0).size();
+            for (int i = 1; i < rows.size(); i++) {
+                List<Element> row = rows.get(i);
+                while (row.size() < columns) {
+                    row.add(new Text.Builder().setContent("").build());
+                }
+            }
+            
+            // Ensure we have enough alignment specifications
+            if (alignments.length < columns) {
+                String[] newAlignments = new String[columns];
+                System.arraycopy(alignments, 0, newAlignments, 0, alignments.length);
+                for (int i = alignments.length; i < columns; i++) {
+                    newAlignments[i] = ALIGN_LEFT;  // Default to left alignment
+                }
+                alignments = newAlignments;
+            }
+            
+            return new Table(this);
         }
-    }
-
-    /**
-     * Returns a string representation of the table in Markdown format.
-     * @return a string containing the Markdown representation of the table
-     */
-    @Override
-    public String toString() {
-        return toMarkdown();
-    }
-
-    /**
-     * Compares this table to the specified object for equality.
-     * Two tables are considered equal if they have the same row limit,
-     * alignments, and rows.
-     * @param obj the object to compare this table against
-     * @return true if the given object is equal to this table, false otherwise
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Table other = (Table) obj;
-        return rowLimit == other.rowLimit &&
-               Arrays.equals(alignments, other.alignments) &&
-               rows.equals(other.rows);
-    }
-
-    /**
-     * Returns a hash code value for the table.
-     * The hash code is computed based on the row limit,
-     * alignments, and rows.
-     * @return the hash code value for this table
-     */
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(rowLimit);
-        result = 31 * result + Arrays.hashCode(alignments);
-        result = 31 * result + rows.hashCode();
-        return result;
     }
 }

@@ -42,21 +42,6 @@ public class CodeBlock extends Element {
     private static String escapeCode(String code) {
         if (code == null) return "";
         
-        // Count consecutive backticks
-        int maxBackticks = 3; // Default fence size
-        int consecutive = 0;
-        for (char c : code.toCharArray()) {
-            if (c == '`') {
-                consecutive++;
-                maxBackticks = Math.max(maxBackticks, consecutive + 1);
-            } else {
-                consecutive = 0;
-            }
-        }
-        
-        // Create fence with more backticks than any sequence in the code
-        String fence = "`".repeat(maxBackticks);
-        
         return code
             // Escape any existing fence patterns
             .replace("```", "\\`\\`\\`")
@@ -101,14 +86,10 @@ public class CodeBlock extends Element {
          * @throws IllegalArgumentException if language contains invalid characters
          */
         public Builder setLanguage(String language) {
-            if (language != null && !language.isEmpty()) {
-                if (!LANGUAGE_PATTERN.matcher(language).matches()) {
-                    throw new IllegalArgumentException(
-                        "Invalid language identifier. Must contain only letters, numbers, and the characters: +#._-"
-                    );
-                }
-                this.language = language;
+            if (language != null && !language.isEmpty() && !LANGUAGE_PATTERN.matcher(language).matches()) {
+                throw new IllegalArgumentException("Invalid language identifier format");
             }
+            this.language = language != null ? language : "";
             return this;
         }
 
@@ -116,22 +97,17 @@ public class CodeBlock extends Element {
          * Sets the code content.
          * @param code the code content
          * @return this builder instance
-         * @throws IllegalArgumentException if code is null
          */
         public Builder setCode(String code) {
-            this.code = Objects.requireNonNull(code, "Code content cannot be null");
+            this.code = code != null ? code : "";
             return this;
         }
 
         /**
          * Builds the CodeBlock instance.
          * @return a new CodeBlock instance
-         * @throws IllegalStateException if no code content has been set
          */
         public CodeBlock build() {
-            if (code.isEmpty()) {
-                throw new IllegalStateException("Code block must contain content");
-            }
             return new CodeBlock(this);
         }
     }
