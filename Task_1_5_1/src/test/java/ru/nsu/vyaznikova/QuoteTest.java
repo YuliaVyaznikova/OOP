@@ -42,4 +42,36 @@ public class QuoteTest {
         assertEquals(quote1, quote2, "Quotes with the same content should be equal.");
         assertNotEquals(quote1, quote3, "Quotes with different content should not be equal.");
     }
+
+    /**
+     * Tests that creating a Quote with null content throws an exception.
+     */
+    @Test
+    public void testNullContent() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Quote.Builder().addContent((Element) null).build();
+        }, "Creating a Quote with null content should throw IllegalArgumentException.");
+    }
+
+    /**
+     * Tests that creating a Quote with an empty content throws an exception.
+     */
+    @Test
+    public void testEmptyContent() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Quote.Builder().build();
+        }, "Creating a Quote with empty content should throw IllegalArgumentException.");
+    }
+
+    /**
+     * Tests the creation of a quote with nested formatted text elements.
+     */
+    @Test
+    public void testNestedFormattedText() {
+        Quote quote = new Quote.Builder()
+            .addContent(new Text.Builder().setContent("Bold").setBold(true).build())
+            .addContent(new Text.Builder().setContent("Italic").setItalic(true).build())
+            .build();
+        assertEquals("&gt; **Bold**\n&gt; *Italic*", quote.toMarkdown(), "Nested formatted text should be correctly serialized in Markdown.");
+    }
 }
