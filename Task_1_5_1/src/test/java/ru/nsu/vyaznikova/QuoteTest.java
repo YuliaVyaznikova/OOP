@@ -58,9 +58,9 @@ public class QuoteTest {
      */
     @Test
     public void testEmptyContent() {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalStateException.class, () -> {
             new Quote.Builder().build();
-        }, "Creating a Quote with empty content should throw IllegalArgumentException.");
+        }, "Creating a Quote with empty content should throw IllegalStateException.");
     }
 
     /**
