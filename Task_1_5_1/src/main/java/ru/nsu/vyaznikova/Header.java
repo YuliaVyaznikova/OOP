@@ -8,6 +8,7 @@ import java.util.Objects;
 /**
  * Represents a Markdown header with a specified level (1-6) and content.
  * The header can contain multiple elements as content.
+
  * Examples:
  * - Level 1: # Header
  * - Level 2: ## Header
@@ -25,7 +26,7 @@ public class Header extends Element {
 
     /**
      * Private constructor used by the Builder.
-     *
+     * 
      * @param builder the Builder instance containing header configuration
      */
     private Header(Builder builder) {
@@ -35,17 +36,17 @@ public class Header extends Element {
 
     /**
      * Converts the header to its Markdown representation.
-     * 
+     *
      * The method generates a Markdown header by:
      * 1. Repeating '#' characters based on the header level
      * 2. Adding a space after the '#' characters
      * 3. Concatenating the content elements' Markdown representations
-     * 
+     *
      * Examples:
      * - Level 1 header: "# Content"
      * - Level 2 header: "## Content"
      * - Multiple content elements: "### First Second"
-     * 
+     *
      * @return A string containing the Markdown representation of the header
      */
     @Override
@@ -73,7 +74,7 @@ public class Header extends Element {
 
         /**
          * Sets the header level.
-         *
+         * 
          * @param level the level of the header (must be between 1 and 6)
          * @return this builder instance
          * @throws IllegalArgumentException if level is not between 1 and 6
@@ -91,7 +92,7 @@ public class Header extends Element {
         /**
          * Adds a content element to the header.
          * Multiple elements will be joined with spaces in the final header.
-         *
+         * 
          * @param element the element to add to the header content
          * @return this builder instance
          * @throws IllegalArgumentException if element is null
@@ -105,7 +106,7 @@ public class Header extends Element {
         /**
          * Adds multiple content elements to the header.
          * Elements will be joined with spaces in the final header.
-         *
+         * 
          * @param elements the elements to add to the header content
          * @return this builder instance
          * @throws IllegalArgumentException if elements is null or contains null
@@ -120,7 +121,7 @@ public class Header extends Element {
 
         /**
          * Builds the Header instance.
-         *
+         * 
          * @return a new Header instance
          * @throws IllegalStateException if no content has been added
          */
