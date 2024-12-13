@@ -1,9 +1,6 @@
 package ru.nsu.vyaznikova;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Unit tests for the Quote class.
  *
  * <p>These tests verify the functionality of quote creation and validation in Markdown format.
- * Tests include basic quote creation, nested quotes, and handling of invalid inputs.</p>
+ * Tests include basic quotes, nested quotes, and handling of invalid inputs.</p>
  */
 public class QuoteTest {
 
@@ -22,7 +19,7 @@ public class QuoteTest {
     @Test
     public void testSingleLineQuote() {
         Quote quote = new Quote.Builder().addContent(new Text.Builder().setContent("This is a single line quote.").build()).build();
-        assertEquals("&gt; This is a single line quote.", quote.toMarkdown(), "Single line quote should be prefixed with '>' in Markdown.");
+        assertEquals("> This is a single line quote.", quote.toMarkdown(), "Single line quote should be prefixed with '>' in Markdown.");
     }
 
     /**
@@ -34,7 +31,7 @@ public class QuoteTest {
                 .addContent(new Text.Builder().setContent("Line 1").build())
                 .addContent(new Text.Builder().setContent("Line 2").build())
                 .build();
-        assertEquals("&gt; Line 1\n&gt; Line 2", quote.toMarkdown(), "Each line of a multi-line quote should be prefixed with '>' in Markdown.");
+        assertEquals("> Line 1\n> Line 2", quote.toMarkdown(), "Each line of a multi-line quote should be prefixed with '>' in Markdown.");
     }
 
     /**
@@ -79,6 +76,6 @@ public class QuoteTest {
                 .addContent(new Text.Builder().setContent("Bold").setBold(true).build())
                 .addContent(new Text.Builder().setContent("Italic").setItalic(true).build())
                 .build();
-        assertEquals("&gt; **Bold**\n&gt; *Italic*", quote.toMarkdown(), "Nested formatted text should be correctly serialized in Markdown.");
+        assertEquals("> **Bold**\n> *Italic*", quote.toMarkdown(), "Nested formatted text should be correctly serialized in Markdown.");
     }
 }
