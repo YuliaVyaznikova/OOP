@@ -166,7 +166,6 @@ public class CodeBlockTest {
         CodeBlock windowsBlock = new CodeBlock.Builder().setCode(windowsStyle).build();
         CodeBlock oldMacBlock = new CodeBlock.Builder().setCode(oldMacStyle).build();
         CodeBlock unixBlock = new CodeBlock.Builder().setCode(unixStyle).build();
-        CodeBlock mixedBlock = new CodeBlock.Builder().setCode(mixedStyle).build();
 
         String expected = "```\nline1\nline2\nline3\n```";
         assertEquals(expected, windowsBlock.toMarkdown(),
@@ -175,6 +174,8 @@ public class CodeBlockTest {
             "Old Mac-style line endings should be normalized");
         assertEquals(expected, unixBlock.toMarkdown(),
             "Unix-style line endings should be preserved");
+
+        final CodeBlock mixedBlock = new CodeBlock.Builder().setCode(mixedStyle).build();
         assertEquals("```\nline1\nline2\nline3\nline4\n```", mixedBlock.toMarkdown(),
             "Mixed line endings should be normalized");
     }
