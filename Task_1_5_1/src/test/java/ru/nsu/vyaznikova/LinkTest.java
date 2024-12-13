@@ -134,7 +134,6 @@ public class LinkTest {
         Link linkWithoutTitle = builder.build();
         Link linkWithNullTitle = builder.setTitle(null).build();
         Link linkWithTitle = builder.setTitle("Official Java Docs").build();
-        Link linkWithTitleSetToNull = builder.setTitle(null).build();
 
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/)",
             linkWithoutTitle.toMarkdown(),
@@ -146,6 +145,8 @@ public class LinkTest {
             "[Java Documentation](https://docs.oracle.com/en/java/ \"Official Java Docs\")",
             linkWithTitle.toMarkdown(),
             "Link with title should include title section");
+
+        final Link linkWithTitleSetToNull = builder.setTitle(null).build();
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/)",
             linkWithTitleSetToNull.toMarkdown(),
             "Link with title set back to null should not include title section");
@@ -182,18 +183,6 @@ public class LinkTest {
             .setTitle("Official Java Documentation")
             .build();
 
-        Link differentUrl = new Link.Builder()
-            .setText(new TestElement("Java Documentation"))
-            .setUrl("https://docs.oracle.com/en/java/javase/21/")
-            .setTitle("Official Java Documentation")
-            .build();
-
-        Link differentTitle = new Link.Builder()
-            .setText(new TestElement("Java Documentation"))
-            .setUrl("https://docs.oracle.com/en/java/")
-            .setTitle("Different Title")
-            .build();
-
         assertEquals(link1, link2,
             "Links with same text, URL, and title should be equal");
         assertEquals(link1.hashCode(), link2.hashCode(),
@@ -201,8 +190,20 @@ public class LinkTest {
 
         assertNotEquals(link1, differentText,
             "Links with different text should not be equal");
+
+        final Link differentUrl = new Link.Builder()
+            .setText(new TestElement("Java Documentation"))
+            .setUrl("https://docs.oracle.com/en/java/javase/21/")
+            .setTitle("Official Java Documentation")
+            .build();
         assertNotEquals(link1, differentUrl,
             "Links with different URLs should not be equal");
+
+        final Link differentTitle = new Link.Builder()
+            .setText(new TestElement("Java Documentation"))
+            .setUrl("https://docs.oracle.com/en/java/")
+            .setTitle("Different Title")
+            .build();
         assertNotEquals(link1, differentTitle,
             "Links with different titles should not be equal");
     }
