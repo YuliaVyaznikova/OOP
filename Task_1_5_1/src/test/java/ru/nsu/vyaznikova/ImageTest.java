@@ -1,6 +1,7 @@
 package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -20,13 +21,13 @@ public class ImageTest {
     @Test
     public void testBasicImage() {
         Image image = new Image.Builder()
-            .setAlt("Java Documentation")
-            .setUrl("https://docs.oracle.com/en/java/")
-            .build();
+                .setAlt("Java Documentation")
+                .setUrl("https://docs.oracle.com/en/java/")
+                .build();
 
-        assertEquals("![Java Documentation](https://docs.oracle.com/en/java/)", 
-            image.toMarkdown(),
-            "Basic image should be formatted as ![alt](url)");
+        assertEquals("![Java Documentation](https://docs.oracle.com/en/java/)",
+                image.toMarkdown(),
+                "Basic image should be formatted as ![alt](url)");
     }
 
     /**
@@ -39,12 +40,12 @@ public class ImageTest {
     @Test
     public void testImageWithoutAlt() {
         Image image = new Image.Builder()
-            .setUrl("https://docs.oracle.com/en/java/")
-            .build();
+                .setUrl("https://docs.oracle.com/en/java/")
+                .build();
 
-        assertEquals("![](https://docs.oracle.com/en/java/)", 
-            image.toMarkdown(),
-            "Image without alt text should be formatted as ![](url)");
+        assertEquals("![](https://docs.oracle.com/en/java/)",
+                image.toMarkdown(),
+                "Image without alt text should be formatted as ![](url)");
     }
 
     /**
@@ -56,13 +57,13 @@ public class ImageTest {
     @Test
     public void testImageWithNullAlt() {
         Image image = new Image.Builder()
-            .setAlt(null)
-            .setUrl("https://docs.oracle.com/en/java/")
-            .build();
+                .setAlt(null)
+                .setUrl("https://docs.oracle.com/en/java/")
+                .build();
 
-        assertEquals("![](https://docs.oracle.com/en/java/)", 
-            image.toMarkdown(),
-            "Image with null alt text should be formatted as ![](url)");
+        assertEquals("![](https://docs.oracle.com/en/java/)",
+                image.toMarkdown(),
+                "Image with null alt text should be formatted as ![](url)");
     }
 
     /**
@@ -74,13 +75,13 @@ public class ImageTest {
     @Test
     public void testRequiredUrl() {
         Image.Builder builder = new Image.Builder();
-        
+
         IllegalStateException ex = assertThrows(IllegalStateException.class,
-            () -> builder.build(),
-            "Should throw exception when URL is not set");
-        
+                () -> builder.build(),
+                "Should throw exception when URL is not set");
+
         assertTrue(ex.getMessage().contains("URL must be set"),
-            "Exception message should mention URL requirement");
+                "Exception message should mention URL requirement");
     }
 
     /**
@@ -92,13 +93,13 @@ public class ImageTest {
     @Test
     public void testNullUrl() {
         Image.Builder builder = new Image.Builder();
-        
+
         NullPointerException ex = assertThrows(NullPointerException.class,
-            () -> builder.setUrl(null),
-            "Should throw exception when URL is null");
-        
+                () -> builder.setUrl(null),
+                "Should throw exception when URL is null");
+
         assertTrue(ex.getMessage().contains("URL cannot be null"),
-            "Exception message should mention null URL");
+                "Exception message should mention null URL");
     }
 
     /**
@@ -110,13 +111,13 @@ public class ImageTest {
     @Test
     public void testEmptyAltText() {
         Image image = new Image.Builder()
-            .setAlt("")
-            .setUrl("https://docs.oracle.com/en/java/")
-            .build();
+                .setAlt("")
+                .setUrl("https://docs.oracle.com/en/java/")
+                .build();
 
-        assertEquals("![](https://docs.oracle.com/en/java/)", 
-            image.toMarkdown(),
-            "Image with empty alt text should be formatted as ![](url)");
+        assertEquals("![](https://docs.oracle.com/en/java/)",
+                image.toMarkdown(),
+                "Image with empty alt text should be formatted as ![](url)");
     }
 
     /**
@@ -129,12 +130,12 @@ public class ImageTest {
     public void testSpecialCharactersInAlt() {
         String altWithSpecialChars = "Java & Documentation: [Version 21]";
         Image image = new Image.Builder()
-            .setAlt(altWithSpecialChars)
-            .setUrl("https://docs.oracle.com/en/java/")
-            .build();
+                .setAlt(altWithSpecialChars)
+                .setUrl("https://docs.oracle.com/en/java/")
+                .build();
 
-        assertEquals("![" + altWithSpecialChars + "](https://docs.oracle.com/en/java/)", 
-            image.toMarkdown(),
-            "Image with special characters in alt text should preserve those characters");
+        assertEquals("![" + altWithSpecialChars + "](https://docs.oracle.com/en/java/)",
+                image.toMarkdown(),
+                "Image with special characters in alt text should preserve those characters");
     }
 }

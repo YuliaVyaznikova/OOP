@@ -3,6 +3,7 @@ package ru.nsu.vyaznikova;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
@@ -37,7 +38,7 @@ public class MainTest {
     @Test
     public void testMainWithEmptyArgs() {
         assertDoesNotThrow(() -> Main.main(new String[]{}),
-            "Main should handle empty arguments array");
+                "Main should handle empty arguments array");
     }
 
     /**
@@ -46,6 +47,6 @@ public class MainTest {
     @Test
     public void testMainWithNullArgs() {
         assertDoesNotThrow(() -> Main.main(null),
-            "Main should handle null arguments array");
+                "Main should handle null arguments array");
     }
 }

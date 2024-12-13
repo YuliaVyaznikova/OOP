@@ -1,13 +1,14 @@
 package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the Element class, which is a base class for Markdown elements.
  */
 public class ElementTest {
-    
+
     private static class TestElement extends Element {
         private final String content;
 

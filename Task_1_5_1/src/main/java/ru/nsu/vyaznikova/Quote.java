@@ -8,18 +8,19 @@ import java.util.Objects;
 /**
  * Represents a Markdown quote that can span multiple lines and contain nested elements.
  * Markdown symbol: &gt;
- * 
+ * <p>
  * Examples:
  * - Single line quote: &gt; Quote content
  * - Multi-line quote:
- *   &gt; Line 1
- *   &gt; Line 2
+ * &gt; Line 1
+ * &gt; Line 2
  */
 public class Quote extends Element {
     private final List<Element> content;
 
     /**
      * Private constructor used by the Builder.
+     *
      * @param builder the Builder instance containing quote configuration
      */
     private Quote(Builder builder) {
@@ -29,7 +30,7 @@ public class Quote extends Element {
     /**
      * Converts the quote to its Markdown representation.
      * Each line of the quote is prefixed with '&gt;'
-     * 
+     *
      * @return A string containing the Markdown representation of the quote
      */
     @Override
@@ -50,6 +51,7 @@ public class Quote extends Element {
 
         /**
          * Adds a content element to the quote.
+         *
          * @param element the element to add to the quote
          * @return this builder instance
          * @throws IllegalArgumentException if element is null
@@ -64,6 +66,7 @@ public class Quote extends Element {
 
         /**
          * Adds multiple content elements to the quote.
+         *
          * @param elements the elements to add to the quote
          * @return this builder instance
          * @throws IllegalArgumentException if elements is null or contains null
@@ -78,6 +81,7 @@ public class Quote extends Element {
 
         /**
          * Builds the Quote instance.
+         *
          * @return a new Quote instance
          * @throws IllegalStateException if no content has been added
          */

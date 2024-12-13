@@ -7,7 +7,7 @@ import java.util.Objects;
 
 /**
  * Represents a Markdown task/checkbox item with support for nested elements.
- * 
+ * <p>
  * Examples:
  * - Uncompleted task: - [ ] Task description
  * - Completed task: - [x] Task description
@@ -19,6 +19,7 @@ public class Task extends Element {
 
     /**
      * Private constructor used by the Builder.
+     *
      * @param builder the Builder instance containing task configuration
      */
     private Task(Builder builder) {
@@ -29,20 +30,20 @@ public class Task extends Element {
     /**
      * Converts the task to its Markdown representation.
      * The format is: - [x] or - [ ] followed by the task content.
-     * 
+     * <p>
      * Examples:
      * - Uncompleted: - [ ] Task description
      * - Completed: - [x] Task description
      * - With nested elements: - [ ] Task with **bold** text
-     * 
+     *
      * @return A string containing the Markdown representation of the task
      */
     @Override
     public String toMarkdown() {
         StringBuilder sb = new StringBuilder()
-            .append("- [")
-            .append(completed ? "x" : " ")
-            .append("] ");
+                .append("- [")
+                .append(completed ? "x" : " ")
+                .append("] ");
 
         for (int i = 0; i < content.size(); i++) {
             sb.append(content.get(i).toMarkdown());
@@ -64,6 +65,7 @@ public class Task extends Element {
 
         /**
          * Sets the completion status of the task.
+         *
          * @param completed true if the task is completed, false otherwise
          * @return this builder instance
          */
@@ -74,6 +76,7 @@ public class Task extends Element {
 
         /**
          * Adds a content element to the task description.
+         *
          * @param element the element to add to the task content
          * @return this builder instance
          * @throws IllegalArgumentException if element is null
@@ -86,6 +89,7 @@ public class Task extends Element {
 
         /**
          * Adds multiple content elements to the task description.
+         *
          * @param elements the elements to add to the task content
          * @return this builder instance
          * @throws IllegalArgumentException if elements is null or contains null
@@ -100,6 +104,7 @@ public class Task extends Element {
 
         /**
          * Builds the Task instance.
+         *
          * @return a new Task instance
          * @throws IllegalStateException if no content has been added
          */

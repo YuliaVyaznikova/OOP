@@ -1,6 +1,7 @@
 package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -38,11 +39,11 @@ public class TaskTest {
     @Test
     public void testBasicUncompletedTask() {
         Task task = new Task.Builder()
-            .addContent(new TestElement("Write unit tests"))
-            .build();
+                .addContent(new TestElement("Write unit tests"))
+                .build();
 
         assertEquals("- [ ] Write unit tests", task.toMarkdown(),
-            "Uncompleted task should have empty checkbox");
+                "Uncompleted task should have empty checkbox");
     }
 
     /**
@@ -55,12 +56,12 @@ public class TaskTest {
     @Test
     public void testCompletedTask() {
         Task task = new Task.Builder()
-            .setCompleted(true)
-            .addContent(new TestElement("Task completed"))
-            .build();
+                .setCompleted(true)
+                .addContent(new TestElement("Task completed"))
+                .build();
 
         assertEquals("- [x] Task completed", task.toMarkdown(),
-            "Completed task should have 'x' in checkbox");
+                "Completed task should have 'x' in checkbox");
     }
 
     /**
@@ -73,15 +74,15 @@ public class TaskTest {
     @Test
     public void testTaskWithMultipleContent() {
         Task task = new Task.Builder()
-            .addContent(
-                new TestElement("Learn"),
-                new TestElement("Java"),
-                new TestElement("Programming")
-            )
-            .build();
+                .addContent(
+                        new TestElement("Learn"),
+                        new TestElement("Java"),
+                        new TestElement("Programming")
+                )
+                .build();
 
         assertEquals("- [ ] Learn Java Programming", task.toMarkdown(),
-            "Task with multiple content elements should be space-separated");
+                "Task with multiple content elements should be space-separated");
     }
 
     /**
@@ -94,17 +95,17 @@ public class TaskTest {
     @Test
     public void testTaskWithVarargsContent() {
         Element[] elements = {
-            new TestElement("First"),
-            new TestElement("Second"),
-            new TestElement("Third")
+                new TestElement("First"),
+                new TestElement("Second"),
+                new TestElement("Third")
         };
-        
+
         Task task = new Task.Builder()
-            .addContent(elements)
-            .build();
+                .addContent(elements)
+                .build();
 
         assertEquals("- [ ] First Second Third", task.toMarkdown(),
-            "Task should accept content elements via varargs");
+                "Task should accept content elements via varargs");
     }
 
     /**
@@ -116,13 +117,13 @@ public class TaskTest {
     @Test
     public void testRequiredContent() {
         Task.Builder builder = new Task.Builder();
-        
+
         IllegalStateException ex = assertThrows(IllegalStateException.class,
-            () -> builder.build(),
-            "Should throw exception when no content is added");
-        
+                () -> builder.build(),
+                "Should throw exception when no content is added");
+
         assertTrue(ex.getMessage().contains("must contain at least one content element"),
-            "Exception message should mention content requirement");
+                "Exception message should mention content requirement");
     }
 
     /**
@@ -139,23 +140,23 @@ public class TaskTest {
 
         // Test null single element
         assertThrows(NullPointerException.class,
-            () -> builder.addContent((Element) null),
-            "Should throw exception when adding null element");
+                () -> builder.addContent((Element) null),
+                "Should throw exception when adding null element");
 
         // Test null varargs array
         assertThrows(NullPointerException.class,
-            () -> builder.addContent((Element[]) null),
-            "Should throw exception when adding null array");
+                () -> builder.addContent((Element[]) null),
+                "Should throw exception when adding null array");
 
         // Test null element within varargs
         Element[] elementsWithNull = {
-            new TestElement("Valid"),
-            null,
-            new TestElement("Also Valid")
+                new TestElement("Valid"),
+                null,
+                new TestElement("Also Valid")
         };
         assertThrows(NullPointerException.class,
-            () -> builder.addContent(elementsWithNull),
-            "Should throw exception when array contains null element");
+                () -> builder.addContent(elementsWithNull),
+                "Should throw exception when array contains null element");
     }
 
     /**
@@ -169,18 +170,18 @@ public class TaskTest {
     public void testTaskWithNestedElements() {
         // Create a task with bold and italic elements
         Task task = new Task.Builder()
-            .addContent(
-                new TestElement("Complete"),
-                new TestElement("**important**"),
-                new TestElement("task"),
-                new TestElement("*urgently*")
-            )
-            .setCompleted(true)
-            .build();
+                .addContent(
+                        new TestElement("Complete"),
+                        new TestElement("**important**"),
+                        new TestElement("task"),
+                        new TestElement("*urgently*")
+                )
+                .setCompleted(true)
+                .build();
 
-        assertEquals("- [x] Complete **important** task *urgently*", 
-            task.toMarkdown(),
-            "Task should properly format nested Markdown elements");
+        assertEquals("- [x] Complete **important** task *urgently*",
+                task.toMarkdown(),
+                "Task should properly format nested Markdown elements");
     }
 
     /**
@@ -193,21 +194,21 @@ public class TaskTest {
     @Test
     public void testCompletionToggle() {
         Task.Builder builder = new Task.Builder()
-            .addContent(new TestElement("Toggle task"));
+                .addContent(new TestElement("Toggle task"));
 
         // Test default status (uncompleted)
         Task defaultTask = builder.build();
         assertEquals("- [ ] Toggle task", defaultTask.toMarkdown(),
-            "Task should be uncompleted by default");
+                "Task should be uncompleted by default");
 
         // Test completed status
         Task completedTask = builder.setCompleted(true).build();
         assertEquals("- [x] Toggle task", completedTask.toMarkdown(),
-            "Task should show as completed when set to true");
+                "Task should show as completed when set to true");
 
         // Test switching back to uncompleted
         Task uncompletedTask = builder.setCompleted(false).build();
         assertEquals("- [ ] Toggle task", uncompletedTask.toMarkdown(),
-            "Task should show as uncompleted when set back to false");
+                "Task should show as uncompleted when set back to false");
     }
 }

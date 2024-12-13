@@ -14,6 +14,7 @@ public class Text extends Element {
 
     /**
      * Private constructor used by the Builder.
+     *
      * @param builder the Builder instance containing text configuration
      */
     private Text(Builder builder) {
@@ -27,13 +28,13 @@ public class Text extends Element {
     /**
      * Converts the text to its Markdown representation.
      * Applies formatting in the order: code, bold, italic, strikethrough
-     * 
+     *
      * @return A string containing the Markdown representation of the text
      */
     @Override
     public String toMarkdown() {
         String result = content;
-        
+
         if (isCode) {
             result = "`" + result + "`";
         }
@@ -46,21 +47,22 @@ public class Text extends Element {
         if (isStrikethrough) {
             result = "~~" + result + "~~";
         }
-        
+
         return result;
     }
 
     /**
      * Static method to create bold text directly.
      * This is provided for compatibility with the example code.
+     *
      * @param content the text content
      * @return a new Text instance with bold formatting
      */
     public static Text Bold(String content) {
         return new Builder()
-            .setContent(content)
-            .setBold(true)
-            .build();
+                .setContent(content)
+                .setBold(true)
+                .build();
     }
 
     /**
@@ -76,6 +78,7 @@ public class Text extends Element {
 
         /**
          * Sets the text content.
+         *
          * @param content the text content
          * @return this builder instance
          * @throws IllegalArgumentException if content is null
@@ -87,6 +90,7 @@ public class Text extends Element {
 
         /**
          * Sets whether the text should be bold.
+         *
          * @param bold true for bold text
          * @return this builder instance
          */
@@ -97,6 +101,7 @@ public class Text extends Element {
 
         /**
          * Sets whether the text should be italic.
+         *
          * @param italic true for italic text
          * @return this builder instance
          */
@@ -107,6 +112,7 @@ public class Text extends Element {
 
         /**
          * Sets whether the text should be strikethrough.
+         *
          * @param strikethrough true for strikethrough text
          * @return this builder instance
          */
@@ -117,6 +123,7 @@ public class Text extends Element {
 
         /**
          * Sets whether the text should be formatted as inline code.
+         *
          * @param code true for inline code formatting
          * @return this builder instance
          */
@@ -127,6 +134,7 @@ public class Text extends Element {
 
         /**
          * Builds the Text instance.
+         *
          * @return a new Text instance
          * @throws IllegalStateException if no content has been set
          */

@@ -7,7 +7,7 @@ import java.util.Objects;
 
 /**
  * Represents a Markdown list (ordered or unordered) with support for nested lists.
- * Markdown symbols: 
+ * Markdown symbols:
  * - Unordered list: -
  * - Ordered list: 1., 2., etc.
  */
@@ -42,7 +42,7 @@ public class Lst extends Element {
                 sb.append("- ");
             }
             sb.append(content.toMarkdown());
-            
+
             // Add nested lists with increased indentation
             for (Lst nestedList : nestedLists) {
                 sb.append("\n").append(nestedList.toMarkdown(prefix + "  "));
@@ -58,6 +58,7 @@ public class Lst extends Element {
 
     /**
      * Converts the list to Markdown format with the specified prefix for indentation.
+     *
      * @param prefix the indentation prefix
      * @return the Markdown representation of the list
      */
@@ -87,6 +88,7 @@ public class Lst extends Element {
 
         /**
          * Creates a new Builder for a list.
+         *
          * @param ordered true for ordered list, false for unordered
          */
         public Builder(boolean ordered) {
@@ -95,6 +97,7 @@ public class Lst extends Element {
 
         /**
          * Adds a new item to the list.
+         *
          * @param content the content of the item
          * @return this builder instance
          * @throws IllegalArgumentException if content is null
@@ -108,9 +111,10 @@ public class Lst extends Element {
 
         /**
          * Adds a new nested list to the current item.
+         *
          * @param nestedList the nested list to add
          * @return this builder instance
-         * @throws IllegalStateException if no current item exists
+         * @throws IllegalStateException    if no current item exists
          * @throws IllegalArgumentException if nestedList is null
          */
         public Builder addNestedList(Lst nestedList) {
@@ -124,6 +128,7 @@ public class Lst extends Element {
 
         /**
          * Builds the Lst instance.
+         *
          * @return a new Lst instance
          * @throws IllegalStateException if the list is empty
          */

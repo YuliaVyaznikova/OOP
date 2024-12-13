@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Represents a Markdown image with URL and alt text.
  * Alt text is displayed when the image cannot be loaded and is important for accessibility.
- * 
+ * <p>
  * Examples:
  * - Basic image: ![alt text](url)
  * - Image with empty alt: ![](url)
@@ -18,6 +18,7 @@ public class Image extends Element {
 
     /**
      * Private constructor used by the Builder.
+     *
      * @param builder the Builder instance containing image configuration
      */
     private Image(Builder builder) {
@@ -28,11 +29,11 @@ public class Image extends Element {
     /**
      * Converts the image to its Markdown representation.
      * The format is: ![alt text](url)
-     * 
+     * <p>
      * Examples:
      * - With alt text: ![A beautiful sunset](https://example.com/sunset.jpg)
      * - Without alt text: ![](https://example.com/sunset.jpg)
-     * 
+     *
      * @return A string containing the Markdown representation of the image
      */
     @Override
@@ -51,6 +52,7 @@ public class Image extends Element {
         /**
          * Sets the alt text for the image.
          * Alt text is displayed when the image cannot be loaded and helps with accessibility.
+         *
          * @param alt the alternative text for the image, can be null for empty alt text
          * @return this builder instance
          */
@@ -61,6 +63,7 @@ public class Image extends Element {
 
         /**
          * Sets the image URL.
+         *
          * @param url the URL pointing to the image resource
          * @return this builder instance
          * @throws IllegalArgumentException if url is null or malformed
@@ -79,6 +82,7 @@ public class Image extends Element {
 
         /**
          * Builds the Image instance.
+         *
          * @return a new Image instance
          * @throws IllegalStateException if URL is not set
          */

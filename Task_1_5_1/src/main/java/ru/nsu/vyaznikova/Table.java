@@ -29,12 +29,12 @@ public class Table extends Element {
     @Override
     public String toMarkdown() {
         if (rows.isEmpty()) return "";
-        
+
         StringBuilder sb = new StringBuilder();
-        
+
         // Header
         sb.append(formatRow(rows.get(0)));
-        
+
         // Alignment row
         sb.append("| ");
         for (int i = 0; i < alignments.length; i++) {
@@ -42,13 +42,13 @@ public class Table extends Element {
             sb.append(i < alignments.length - 1 ? " | " : " |");
         }
         sb.append("\n");
-        
+
         // Data rows (respect row limit)
         int dataRows = Math.min(rows.size() - 1, rowLimit);
         for (int i = 1; i <= dataRows; i++) {
             sb.append(formatRow(rows.get(i)));
         }
-        
+
         return sb.toString();
     }
 
@@ -72,6 +72,7 @@ public class Table extends Element {
 
         /**
          * Sets the row limit for the table.
+         *
          * @param limit maximum number of rows
          * @return this builder instance
          * @throws IllegalArgumentException if limit is less than or equal to 0
@@ -86,6 +87,7 @@ public class Table extends Element {
 
         /**
          * Sets the alignments for table columns.
+         *
          * @param alignments the alignment strings (ALIGN_LEFT, ALIGN_RIGHT, ALIGN_CENTER)
          * @return this builder instance
          * @throws IllegalArgumentException if alignments is null or empty
@@ -105,6 +107,7 @@ public class Table extends Element {
 
         /**
          * Adds a row to the table using variable arguments of Elements.
+         *
          * @param elements the elements to add as a row
          * @return this builder instance
          */
@@ -117,6 +120,7 @@ public class Table extends Element {
         /**
          * Adds a row to the table using variable arguments of Objects.
          * Objects are converted to Text elements.
+         *
          * @param objects the objects to add as a row
          * @return this builder instance
          */
@@ -136,6 +140,7 @@ public class Table extends Element {
 
         /**
          * Builds the Table instance.
+         *
          * @return a new Table instance
          * @throws IllegalStateException if no rows have been added
          */
@@ -143,7 +148,7 @@ public class Table extends Element {
             if (rows.isEmpty()) {
                 throw new IllegalStateException("Table must have at least one row");
             }
-            
+
             // Ensure all rows have the same number of columns as the header
             int columns = rows.get(0).size();
             for (int i = 1; i < rows.size(); i++) {
@@ -152,7 +157,7 @@ public class Table extends Element {
                     row.add(new Text.Builder().setContent("").build());
                 }
             }
-            
+
             // Ensure we have enough alignment specifications
             if (alignments.length < columns) {
                 String[] newAlignments = new String[columns];
@@ -162,7 +167,7 @@ public class Table extends Element {
                 }
                 alignments = newAlignments;
             }
-            
+
             return new Table(this);
         }
     }

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 /**
  * Represents a Markdown link with text, URL, and optional title.
- * 
+ * <p>
  * Examples:
  * - Basic link: [text](url)
  * - Link with title: [text](url "title")
@@ -19,6 +19,7 @@ public class Link extends Element {
 
     /**
      * Private constructor used by the Builder.
+     *
      * @param builder the Builder instance containing link configuration
      */
     private Link(Builder builder) {
@@ -30,13 +31,13 @@ public class Link extends Element {
     @Override
     public String toMarkdown() {
         StringBuilder sb = new StringBuilder()
-            .append("[")
-            .append(text.toMarkdown())
-            .append("](")
-            .append(url);
-        
+                .append("[")
+                .append(text.toMarkdown())
+                .append("](")
+                .append(url);
+
         title.ifPresent(t -> sb.append(" \"").append(t).append("\""));
-        
+
         return sb.append(")").toString();
     }
 
@@ -51,6 +52,7 @@ public class Link extends Element {
 
         /**
          * Sets the link text.
+         *
          * @param text the element to use as link text
          * @return this builder instance
          * @throws IllegalArgumentException if text is null
@@ -62,6 +64,7 @@ public class Link extends Element {
 
         /**
          * Sets the link URL.
+         *
          * @param url the URL the link points to
          * @return this builder instance
          * @throws IllegalArgumentException if url is null or malformed
@@ -81,6 +84,7 @@ public class Link extends Element {
         /**
          * Sets the link title (optional).
          * The title appears as a tooltip when hovering over the link.
+         *
          * @param title the title for the link, can be null
          * @return this builder instance
          */
@@ -91,6 +95,7 @@ public class Link extends Element {
 
         /**
          * Builds the Link instance.
+         *
          * @return a new Link instance
          * @throws IllegalStateException if text or URL is not set
          */

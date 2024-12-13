@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for the Table class.
- * 
+ *
  * <p>These tests verify the functionality of table creation and formatting in Markdown format.
  * Tests include basic tables, alignment options, and handling of invalid inputs.</p>
  */
@@ -33,17 +33,17 @@ public class TableTest {
     @Test
     public void testTableEquality() {
         Table table1 = new Table.Builder()
-            .addRow(new Text.Builder().setContent("Row1Col1").build(), 
-                    new Text.Builder().setContent("Row1Col2").build())
-            .build();
+                .addRow(new Text.Builder().setContent("Row1Col1").build(),
+                        new Text.Builder().setContent("Row1Col2").build())
+                .build();
         Table table2 = new Table.Builder()
-            .addRow(new Text.Builder().setContent("Row1Col1").build(), 
-                    new Text.Builder().setContent("Row1Col2").build())
-            .build();
+                .addRow(new Text.Builder().setContent("Row1Col1").build(),
+                        new Text.Builder().setContent("Row1Col2").build())
+                .build();
         Table table3 = new Table.Builder()
-            .addRow(new Text.Builder().setContent("Row1Col1").build(), 
-                    new Text.Builder().setContent("Different").build())
-            .build();
+                .addRow(new Text.Builder().setContent("Row1Col1").build(),
+                        new Text.Builder().setContent("Different").build())
+                .build();
 
         assertEquals(table1, table2, "Tables with the same content should be equal.");
         assertNotEquals(table1, table3, "Tables with different content should not be equal.");
@@ -61,7 +61,7 @@ public class TableTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new Table.Builder().withRowLimit(0);
         });
-        
+
         assertThrows(IllegalArgumentException.class, () -> {
             new Table.Builder().withRowLimit(-1);
         });
@@ -72,11 +72,11 @@ public class TableTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new Table.Builder().withAlignments("invalid");
         });
-        
+
         assertThrows(IllegalArgumentException.class, () -> {
             new Table.Builder().withAlignments();
         });
-        
+
         assertThrows(IllegalArgumentException.class, () -> {
             new Table.Builder().withAlignments((String[]) null);
         });

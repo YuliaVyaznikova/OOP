@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for the Lst class.
- * 
+ *
  * <p>These tests verify the functionality of list creation and validation in Markdown format.
  * Tests include basic list creation, nested lists, and handling of invalid inputs.</p>
  */
@@ -37,16 +37,16 @@ public class LstTest {
     @Test
     public void testBasicUnorderedList() {
         Lst list = new Lst.Builder(false)
-            .addItem(new TestElement("First item"))
-            .addItem(new TestElement("Second item"))
-            .addItem(new TestElement("Third item"))
-            .build();
+                .addItem(new TestElement("First item"))
+                .addItem(new TestElement("Second item"))
+                .addItem(new TestElement("Third item"))
+                .build();
 
         String expected = "- First item\n" +
-                         "- Second item\n" +
-                         "- Third item";
+                "- Second item\n" +
+                "- Third item";
         assertEquals(expected, list.toMarkdown(),
-            "Unordered list should be formatted with dashes");
+                "Unordered list should be formatted with dashes");
     }
 
     /**
@@ -55,16 +55,16 @@ public class LstTest {
     @Test
     public void testBasicOrderedList() {
         Lst list = new Lst.Builder(true)
-            .addItem(new TestElement("First item"))
-            .addItem(new TestElement("Second item"))
-            .addItem(new TestElement("Third item"))
-            .build();
+                .addItem(new TestElement("First item"))
+                .addItem(new TestElement("Second item"))
+                .addItem(new TestElement("Third item"))
+                .build();
 
         String expected = "1. First item\n" +
-                         "2. Second item\n" +
-                         "3. Third item";
+                "2. Second item\n" +
+                "3. Third item";
         assertEquals(expected, list.toMarkdown(),
-            "Ordered list should be formatted with numbers");
+                "Ordered list should be formatted with numbers");
     }
 
     /**
@@ -77,22 +77,22 @@ public class LstTest {
     @Test
     public void testNestedUnorderedLists() {
         Lst nestedList = new Lst.Builder(false)
-            .addItem(new TestElement("Nested item 1"))
-            .addItem(new TestElement("Nested item 2"))
-            .build();
+                .addItem(new TestElement("Nested item 1"))
+                .addItem(new TestElement("Nested item 2"))
+                .build();
 
         Lst mainList = new Lst.Builder(false)
-            .addItem(new TestElement("Main item 1"))
-            .addNestedList(nestedList)
-            .addItem(new TestElement("Main item 2"))
-            .build();
+                .addItem(new TestElement("Main item 1"))
+                .addNestedList(nestedList)
+                .addItem(new TestElement("Main item 2"))
+                .build();
 
         String expected = "- Main item 1\n" +
-                         "  - Nested item 1\n" +
-                         "  - Nested item 2\n" +
-                         "- Main item 2";
+                "  - Nested item 1\n" +
+                "  - Nested item 2\n" +
+                "- Main item 2";
         assertEquals(expected, mainList.toMarkdown(),
-            "Nested unordered lists should be properly indented");
+                "Nested unordered lists should be properly indented");
     }
 
     /**
@@ -105,22 +105,22 @@ public class LstTest {
     @Test
     public void testNestedOrderedLists() {
         Lst nestedList = new Lst.Builder(true)
-            .addItem(new TestElement("Nested item 1"))
-            .addItem(new TestElement("Nested item 2"))
-            .build();
+                .addItem(new TestElement("Nested item 1"))
+                .addItem(new TestElement("Nested item 2"))
+                .build();
 
         Lst mainList = new Lst.Builder(true)
-            .addItem(new TestElement("Main item 1"))
-            .addNestedList(nestedList)
-            .addItem(new TestElement("Main item 2"))
-            .build();
+                .addItem(new TestElement("Main item 1"))
+                .addNestedList(nestedList)
+                .addItem(new TestElement("Main item 2"))
+                .build();
 
         String expected = "1. Main item 1\n" +
-                         "  1. Nested item 1\n" +
-                         "  2. Nested item 2\n" +
-                         "2. Main item 2";
+                "  1. Nested item 1\n" +
+                "  2. Nested item 2\n" +
+                "2. Main item 2";
         assertEquals(expected, mainList.toMarkdown(),
-            "Nested ordered lists should maintain proper numbering");
+                "Nested ordered lists should maintain proper numbering");
     }
 
     /**
@@ -133,22 +133,22 @@ public class LstTest {
     @Test
     public void testMixedNestedLists() {
         Lst nestedOrdered = new Lst.Builder(true)
-            .addItem(new TestElement("Ordered nested 1"))
-            .addItem(new TestElement("Ordered nested 2"))
-            .build();
+                .addItem(new TestElement("Ordered nested 1"))
+                .addItem(new TestElement("Ordered nested 2"))
+                .build();
 
         Lst mainUnordered = new Lst.Builder(false)
-            .addItem(new TestElement("Unordered main 1"))
-            .addNestedList(nestedOrdered)
-            .addItem(new TestElement("Unordered main 2"))
-            .build();
+                .addItem(new TestElement("Unordered main 1"))
+                .addNestedList(nestedOrdered)
+                .addItem(new TestElement("Unordered main 2"))
+                .build();
 
         String expected = "- Unordered main 1\n" +
-                         "  1. Ordered nested 1\n" +
-                         "  2. Ordered nested 2\n" +
-                         "- Unordered main 2";
+                "  1. Ordered nested 1\n" +
+                "  2. Ordered nested 2\n" +
+                "- Unordered main 2";
         assertEquals(expected, mainUnordered.toMarkdown(),
-            "Mixed nested lists should maintain their respective formats");
+                "Mixed nested lists should maintain their respective formats");
     }
 
     /**
@@ -160,13 +160,13 @@ public class LstTest {
     @Test
     public void testRequiredItems() {
         Lst.Builder builder = new Lst.Builder(false);
-        
+
         IllegalStateException ex = assertThrows(IllegalStateException.class,
-            () -> builder.build(),
-            "Should throw exception when list is empty");
-        
+                () -> builder.build(),
+                "Should throw exception when list is empty");
+
         assertTrue(ex.getMessage().contains("must contain at least one item"),
-            "Exception message should mention item requirement");
+                "Exception message should mention item requirement");
     }
 
     /**
@@ -182,27 +182,27 @@ public class LstTest {
 
         // Test null item content
         assertThrows(NullPointerException.class,
-            () -> builder.addItem(null),
-            "Should throw exception when adding null item content");
+                () -> builder.addItem(null),
+                "Should throw exception when adding null item content");
 
         // Test null nested list
         builder.addItem(new TestElement("Parent item"));
         assertThrows(NullPointerException.class,
-            () -> builder.addNestedList(null),
-            "Should throw exception when adding null nested list");
+                () -> builder.addNestedList(null),
+                "Should throw exception when adding null nested list");
 
         // Test adding nested list without parent item
         Lst.Builder newBuilder = new Lst.Builder(false);
         Lst validList = new Lst.Builder(false)
-            .addItem(new TestElement("Valid item"))
-            .build();
-        
+                .addItem(new TestElement("Valid item"))
+                .build();
+
         IllegalStateException ex = assertThrows(IllegalStateException.class,
-            () -> newBuilder.addNestedList(validList),
-            "Should throw exception when adding nested list without parent item");
-        
+                () -> newBuilder.addNestedList(validList),
+                "Should throw exception when adding nested list without parent item");
+
         assertTrue(ex.getMessage().contains("Cannot add nested list without a parent item"),
-            "Exception message should mention missing parent item");
+                "Exception message should mention missing parent item");
     }
 
     /**
@@ -216,25 +216,25 @@ public class LstTest {
     public void testDeeplyNestedLists() {
         // Create level 3 (innermost)
         Lst level3 = new Lst.Builder(true)
-            .addItem(new TestElement("Level 3 item"))
-            .build();
+                .addItem(new TestElement("Level 3 item"))
+                .build();
 
         // Create level 2
         Lst level2 = new Lst.Builder(false)
-            .addItem(new TestElement("Level 2 item"))
-            .addNestedList(level3)
-            .build();
+                .addItem(new TestElement("Level 2 item"))
+                .addNestedList(level3)
+                .build();
 
         // Create level 1 (outermost)
         Lst level1 = new Lst.Builder(true)
-            .addItem(new TestElement("Level 1 item"))
-            .addNestedList(level2)
-            .build();
+                .addItem(new TestElement("Level 1 item"))
+                .addNestedList(level2)
+                .build();
 
         String expected = "1. Level 1 item\n" +
-                         "  - Level 2 item\n" +
-                         "    1. Level 3 item";
+                "  - Level 2 item\n" +
+                "    1. Level 3 item";
         assertEquals(expected, level1.toMarkdown(),
-            "Deeply nested lists should maintain proper indentation and formatting");
+                "Deeply nested lists should maintain proper indentation and formatting");
     }
 }
