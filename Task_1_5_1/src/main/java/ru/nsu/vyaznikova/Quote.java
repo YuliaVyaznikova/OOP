@@ -7,13 +7,13 @@ import java.util.Objects;
 
 /**
  * Represents a Markdown quote that can span multiple lines and contain nested elements.
- * Markdown symbol: >
+ * Markdown symbol: &gt;
  * <p>
  * Examples:
- * - Single line quote: > Quote content
+ * - Single line quote: &gt; Quote content
  * - Multi-line quote:
- * > Line 1
- * > Line 2
+ * &gt; Line 1
+ * &gt; Line 2
  */
 public class Quote extends Element {
     private final List<Element> content;
