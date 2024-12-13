@@ -136,9 +136,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public abstract class <span class="typeNameLabel">Element</span>
 extends java.lang.Object</pre>
-<div class="block">Abstract base class for all Markdown elements.
- This class provides the foundation for creating various Markdown elements
- such as text formatting, tables, lists, headers, etc.</div>
+<div class="block">Abstract class representing a Markdown element.
+ This is the base class for all Markdown elements in the library.</div>
 </li>
 </ul>
 </div>
@@ -184,7 +183,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#equals(java.lang.Object)">equals</a></span>&#8203;(java.lang.Object&nbsp;obj)</code></th>
 <td class="colLast">
-<div class="block">Compares this element to the specified object for equality.</div>
+<div class="block">Checks if this element is equal to another object.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -251,10 +250,11 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>toMarkdown</h4>
 <pre class="methodSignature">public abstract&nbsp;java.lang.String&nbsp;toMarkdown()</pre>
-<div class="block">Converts the element to its Markdown representation.</div>
+<div class="block">Converts the element to its Markdown representation.
+ Each subclass must implement this method to provide its specific Markdown format.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A string containing the Markdown representation of the element</dd>
+<dd>the Markdown string representation of the element</dd>
 </dl>
 </li>
 </ul>
@@ -265,16 +265,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>equals</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;equals&#8203;(java.lang.Object&nbsp;obj)</pre>
-<div class="block">Compares this element to the specified object for equality.
- Two elements are considered equal if they are of the same class
- and their Markdown representations are identical.</div>
+<div class="block">Checks if this element is equal to another object.
+ Two elements are considered equal if their Markdown representations are identical.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>equals</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>obj</code> - the object to compare this element against</dd>
+<dd><code>obj</code> - the object to compare with</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>true if the given object is equal to this element, false otherwise</dd>
+<dd>true if the objects are equal, false otherwise</dd>
 </dl>
 </li>
 </ul>
