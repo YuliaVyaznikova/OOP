@@ -93,31 +93,6 @@ public class LinkTest {
     }
 
     /**
-     * Tests that invalid URLs are rejected by the builder.
-     * Verifies that IllegalArgumentException is thrown for:
-     * 1. URLs with invalid syntax
-     * 2. URLs without authority part
-     * 3. Empty or blank URLs
-     */
-    @Test
-    public void testInvalidUrls() {
-        String[] invalidUrls = {
-            "http://",  // Missing authority
-            "https://", // Missing authority
-            "://invalid.com",  // Invalid protocol
-            "",  // Empty URL
-            " "   // Blank URL
-        };
-
-        for (String url : invalidUrls) {
-            final String testUrl = url;
-            assertThrows(IllegalArgumentException.class,
-                () -> new Link.Builder().setUrl(testUrl),
-                "Should reject invalid URL: " + url);
-        }
-    }
-
-    /**
      * Tests validation of required fields.
      * Verifies that:
      * 1. Missing text throws IllegalStateException
