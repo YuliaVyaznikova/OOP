@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 /**
  * Represents a Markdown code block with language specification and proper escaping.
- * <p>
  * Examples:
  * - Simple code block:
  * ```java
@@ -41,7 +40,9 @@ public class CodeBlock extends Element {
      * @return escaped code string
      */
     private static String escapeCode(String code) {
-        if (code == null) return "";
+        if (code == null) {
+            return "";
+        }
 
         return code
                 // Escape any existing fence patterns
@@ -88,7 +89,8 @@ public class CodeBlock extends Element {
          * @throws IllegalArgumentException if language contains invalid characters
          */
         public Builder setLanguage(String language) {
-            if (language != null && !language.isEmpty() && !LANGUAGE_PATTERN.matcher(language).matches()) {
+            if (language != null && !language.isEmpty() 
+                    && !LANGUAGE_PATTERN.matcher(language).matches()) {
                 throw new IllegalArgumentException("Invalid language identifier format");
             }
             this.language = language != null ? language : "";

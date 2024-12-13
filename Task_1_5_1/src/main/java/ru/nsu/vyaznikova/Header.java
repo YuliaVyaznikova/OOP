@@ -35,17 +35,17 @@ public class Header extends Element {
 
     /**
      * Converts the header to its Markdown representation.
-     * <p>
+     * 
      * The method generates a Markdown header by:
      * 1. Repeating '#' characters based on the header level
      * 2. Adding a space after the '#' characters
      * 3. Concatenating the content elements' Markdown representations
-     * <p>
+     * 
      * Examples:
      * - Level 1 header: "# Content"
      * - Level 2 header: "## Content"
      * - Multiple content elements: "### First Second"
-     *
+     * 
      * @return A string containing the Markdown representation of the header
      */
     @Override
