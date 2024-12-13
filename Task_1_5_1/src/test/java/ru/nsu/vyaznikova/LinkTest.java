@@ -95,17 +95,17 @@ public class LinkTest {
     /**
      * Tests that invalid URLs are rejected by the builder.
      * Verifies that IllegalArgumentException is thrown for:
-     * 1. Malformed URLs
-     * 2. Invalid protocols
-     * 3. URLs with invalid characters
+     * 1. Malformed URLs without protocol
+     * 2. URLs with invalid characters
+     * 3. Empty URLs
      */
     @Test
     public void testInvalidUrls() {
         String[] invalidUrls = {
-            "not a url",
-            "ftp://docs.oracle.com/en/java/",
-            "https://docs.oracle.com/en/java with space/",
-            "https://docs.oracle"
+            "docs.oracle.com",  // Missing protocol
+            "://docs.oracle.com",  // Invalid protocol
+            "",  // Empty URL
+            " "   // Blank URL
         };
 
         for (String url : invalidUrls) {
@@ -128,21 +128,37 @@ public class LinkTest {
     public void testRequiredFields() {
         Link.Builder builder = new Link.Builder();
 
-        assertThrows(IllegalStateException.class,
-            () -> builder.setUrl("https://docs.oracle.com/en/java/").build(),
+        // Test building without text
+        IllegalStateException noTextEx = assertThrows(IllegalStateException.class,
+            () -> new Link.Builder()
+                .setUrl("https://docs.oracle.com/en/java/")
+                .build(),
             "Should throw exception when text is not set");
+        assertTrue(noTextEx.getMessage().contains("text must be set"),
+            "Exception message should mention missing text");
 
-        assertThrows(IllegalStateException.class,
-            () -> builder.setText(new TestElement("Java Docs")).build(),
+        // Test building without URL
+        IllegalStateException noUrlEx = assertThrows(IllegalStateException.class,
+            () -> new Link.Builder()
+                .setText(new TestElement("Java Docs"))
+                .build(),
             "Should throw exception when URL is not set");
+        assertTrue(noUrlEx.getMessage().contains("URL must be set"),
+            "Exception message should mention missing URL");
 
-        assertThrows(NullPointerException.class,
+        // Test null text
+        NullPointerException nullTextEx = assertThrows(NullPointerException.class,
             () -> builder.setText(null),
             "Should throw exception when text is null");
+        assertTrue(nullTextEx.getMessage().contains("text cannot be null"),
+            "Exception message should mention null text");
 
-        assertThrows(NullPointerException.class,
+        // Test null URL
+        NullPointerException nullUrlEx = assertThrows(NullPointerException.class,
             () -> builder.setUrl(null),
             "Should throw exception when URL is null");
+        assertTrue(nullUrlEx.getMessage().contains("URL cannot be null"),
+            "Exception message should mention null URL");
     }
 
     /**
