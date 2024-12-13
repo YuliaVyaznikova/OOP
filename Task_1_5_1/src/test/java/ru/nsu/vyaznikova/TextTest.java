@@ -3,7 +3,7 @@ package ru.nsu.vyaznikova;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Unit tests for the Text class.
