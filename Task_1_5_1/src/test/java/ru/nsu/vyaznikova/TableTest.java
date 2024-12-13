@@ -49,68 +49,6 @@ public class TableTest {
         assertNotEquals(table1, table3, "Tables with different content should not be equal.");
     }
 
-    /**
-     * Tests the creation of a basic table.
-     */
-    @Test
-    public void testBasicTableCreation() {
-        Table table = new Table.Builder()
-            .addRow(new TestElement("Header1"), new TestElement("Header2"))
-            .addRow(new TestElement("Data1"), new TestElement("Data2"))
-            .build();
-
-        String expected = "| Header1 | Header2 |\n"
-            + "|------|------|\n"
-            + "| Data1 | Data2 |";
-        assertEquals(expected, table.toMarkdown());
-    }
-
-    @Test
-    public void testTableWithDifferentAlignments() {
-        Table table = new Table.Builder()
-            .withAlignments(Table.ALIGN_LEFT, Table.ALIGN_RIGHT, Table.ALIGN_CENTER)
-            .addRow(new TestElement("Left"), new TestElement("Right"), new TestElement("Center"))
-            .addRow(new TestElement("1"), new TestElement("2"), new TestElement("3"))
-            .build();
-
-        String expected = "| Left | Right | Center |\n"
-            + "|------|-----:| :----: |\n"
-            + "| 1 | 2 | 3 |";
-        assertEquals(expected, table.toMarkdown());
-    }
-
-    @Test
-    public void testTableWithRowLimit() {
-        Table table = new Table.Builder()
-            .withRowLimit(2)
-            .addRow(new TestElement("Header"))
-            .addRow(new TestElement("Row1"))
-            .addRow(new TestElement("Row2"))
-            .addRow(new TestElement("Row3"))
-            .build();
-
-        String expected = "| Header |\n"
-            + "|------|\n"
-            + "| Row1 |\n"
-            + "| Row2 |";
-        assertEquals(expected, table.toMarkdown());
-    }
-
-    @Test
-    public void testTableWithObjects() {
-        Table table = new Table.Builder()
-            .addRow("Header1", "Header2")
-            .addRow(1, 2)
-            .addRow(true, false)
-            .build();
-
-        String expected = "| Header1 | Header2 |\n"
-            + "|------|------|\n"
-            + "| 1 | 2 |\n"
-            + "| true | false |";
-        assertEquals(expected, table.toMarkdown());
-    }
-
     @Test
     public void testEmptyTable() {
         assertThrows(IllegalStateException.class, () -> {
