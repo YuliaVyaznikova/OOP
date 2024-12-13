@@ -8,7 +8,6 @@ import java.util.Objects;
 /**
  * Represents a Markdown header with a specified level (1-6) and content.
  * The header can contain multiple elements as content.
-
  * Examples:
  * - Level 1: # Header
  * - Level 2: ## Header
@@ -34,12 +33,10 @@ public class Header extends Element {
 
     /**
      * Converts the header to its Markdown representation.
-     *
      * The method generates a Markdown header by:
      * 1. Repeating '#' characters based on the header level
      * 2. Adding a space after the '#' characters
      * 3. Concatenating the content elements' Markdown representations
-     *
      * Examples:
      * - Level 1 header: "# Content"
      * - Level 2 header: "## Content"
