@@ -26,9 +26,6 @@ public class Header extends Element {
 
     /**
      * Private constructor used by the Builder.
-     *
-     * 
-     * @param builder the Builder instance containing header configuration
      */
     private Header(Builder builder) {
         this.content = Collections.unmodifiableList(new ArrayList<>(builder.content));
@@ -47,9 +44,6 @@ public class Header extends Element {
      * - Level 1 header: "# Content"
      * - Level 2 header: "## Content"
      * - Multiple content elements: "### First Second"
-     *
-     * 
-     * @return A string containing the Markdown representation of the header
      */
     @Override
     public String toMarkdown() {
@@ -75,12 +69,7 @@ public class Header extends Element {
         private int level = 1; // Default level is 1
 
         /**
-         * Sets the header level.
-         * 
-         * 
-         * @param level the level of the header (must be between 1 and 6)
-         * @return this builder instance
-         * @throws IllegalArgumentException if level is not between 1 and 6
+         * Sets the header level (must be between 1 and 6).
          */
         public Builder setLevel(int level) {
             if (level < MIN_LEVEL || level > MAX_LEVEL) {
@@ -95,11 +84,6 @@ public class Header extends Element {
         /**
          * Adds a content element to the header.
          * Multiple elements will be joined with spaces in the final header.
-         * 
-         * 
-         * @param element the element to add to the header content
-         * @return this builder instance
-         * @throws IllegalArgumentException if element is null
          */
         public Builder addContent(Element element) {
             Objects.requireNonNull(element, "Header content element cannot be null");
@@ -110,11 +94,6 @@ public class Header extends Element {
         /**
          * Adds multiple content elements to the header.
          * Elements will be joined with spaces in the final header.
-         * 
-         * 
-         * @param elements the elements to add to the header content
-         * @return this builder instance
-         * @throws IllegalArgumentException if elements is null or contains null
          */
         public Builder addContent(Element... elements) {
             Objects.requireNonNull(elements, "Elements array cannot be null");
@@ -125,11 +104,8 @@ public class Header extends Element {
         }
 
         /**
-         * Builds the Header instance.
-         * 
-         * 
-         * @return a new Header instance
-         * @throws IllegalStateException if no content has been added
+         * Builds and returns a new Header instance.
+         * Throws IllegalStateException if no content has been added.
          */
         public Header build() {
             if (content.isEmpty()) {
