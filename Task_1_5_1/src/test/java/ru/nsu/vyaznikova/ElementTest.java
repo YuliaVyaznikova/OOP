@@ -7,30 +7,28 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for the Element class, which is a base class for Markdown elements.
  */
 public class ElementTest {
+    
+    private static class TestElement extends Element {
+        private final String content;
+
+        public TestElement(String content) {
+            this.content = content;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return content;
+        }
+    }
 
     /**
      * Tests the equality method for Element objects.
      */
     @Test
     public void testElementEquality() {
-        Element element1 = new Element() {
-            @Override
-            public String toMarkdown() {
-                return "Element1";
-            }
-        };
-        Element element2 = new Element() {
-            @Override
-            public String toMarkdown() {
-                return "Element1";
-            }
-        };
-        Element element3 = new Element() {
-            @Override
-            public String toMarkdown() {
-                return "Element3";
-            }
-        };
+        Element element1 = new TestElement("test");
+        Element element2 = new TestElement("test");
+        Element element3 = new TestElement("different");
 
         assertEquals(element1, element2, "Elements with the same content should be equal.");
         assertNotEquals(element1, element3, "Elements with different content should not be equal.");
@@ -41,18 +39,8 @@ public class ElementTest {
      */
     @Test
     public void testElementHashCode() {
-        Element element1 = new Element() {
-            @Override
-            public String toMarkdown() {
-                return "Element1";
-            }
-        };
-        Element element2 = new Element() {
-            @Override
-            public String toMarkdown() {
-                return "Element1";
-            }
-        };
+        Element element1 = new TestElement("test");
+        Element element2 = new TestElement("test");
 
         assertEquals(element1.hashCode(), element2.hashCode(), "Equal elements should have the same hash code.");
     }
@@ -62,13 +50,7 @@ public class ElementTest {
      */
     @Test
     public void testToMarkdown() {
-        Element element = new Element() {
-            @Override
-            public String toMarkdown() {
-                return "ElementMarkdown";
-            }
-        };
-
-        assertEquals("ElementMarkdown", element.toMarkdown(), "toMarkdown should return the correct Markdown representation.");
+        Element element = new TestElement("test");
+        assertEquals("test", element.toMarkdown(), "toMarkdown should return the correct Markdown representation.");
     }
 }
