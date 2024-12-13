@@ -95,15 +95,16 @@ public class LinkTest {
     /**
      * Tests that invalid URLs are rejected by the builder.
      * Verifies that IllegalArgumentException is thrown for:
-     * 1. Malformed URLs without protocol
-     * 2. URLs with invalid characters
-     * 3. Empty URLs
+     * 1. URLs with invalid syntax
+     * 2. URLs without authority part
+     * 3. Empty or blank URLs
      */
     @Test
     public void testInvalidUrls() {
         String[] invalidUrls = {
-            "docs.oracle.com",  // Missing protocol
-            "://docs.oracle.com",  // Invalid protocol
+            "http://",  // Missing authority
+            "https://", // Missing authority
+            "://invalid.com",  // Invalid protocol
             "",  // Empty URL
             " "   // Blank URL
         };
