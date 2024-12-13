@@ -1,8 +1,11 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the Header class.
@@ -158,23 +161,24 @@ public class HeaderTest {
                 .addContent(new TestElement("Test Content"))
                 .build();
 
-        Header differentLevel = new Header.Builder()
-                .setLevel(3)
-                .addContent(new TestElement("Test Content"))
-                .build();
-
-        Header differentContent = new Header.Builder()
-                .setLevel(2)
-                .addContent(new TestElement("Different Content"))
-                .build();
-
         assertEquals(header1, header2,
                 "Headers with same level and content should be equal");
         assertEquals(header1.hashCode(), header2.hashCode(),
                 "Equal headers should have same hash code");
 
+        Header differentLevel = new Header.Builder()
+                .setLevel(3)
+                .addContent(new TestElement("Test Content"))
+                .build();
+
         assertNotEquals(header1, differentLevel,
                 "Headers with different levels should not be equal");
+
+        final Header differentContent = new Header.Builder()
+                .setLevel(2)
+                .addContent(new TestElement("Different Content"))
+                .build();
+
         assertNotEquals(header1, differentContent,
                 "Headers with different content should not be equal");
     }
