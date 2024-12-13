@@ -1,12 +1,15 @@
 package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for the Lst class.
- * These tests verify the functionality of creating and formatting Markdown lists,
- * including both ordered and unordered lists, nested lists, and various edge cases.
+ * 
+ * <p>These tests verify the functionality of list creation and validation in Markdown format.
+ * Tests include basic list creation, nested lists, and handling of invalid inputs.</p>
  */
 public class LstTest {
 
@@ -29,10 +32,6 @@ public class LstTest {
 
     /**
      * Tests the creation of a basic unordered list.
-     * Verifies that:
-     * 1. Each item is properly prefixed with "-"
-     * 2. Items are separated by newlines
-     * 3. The overall formatting is correct
      */
     @Test
     public void testBasicUnorderedList() {
@@ -51,10 +50,6 @@ public class LstTest {
 
     /**
      * Tests the creation of a basic ordered list.
-     * Verifies that:
-     * 1. Each item is properly numbered
-     * 2. Numbers are followed by dots
-     * 3. Items are separated by newlines
      */
     @Test
     public void testBasicOrderedList() {

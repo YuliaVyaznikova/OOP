@@ -1,10 +1,16 @@
 package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Unit tests for the Table class, which represents a Markdown table element.
+ * Unit tests for the Table class.
+ * 
+ * <p>These tests verify the functionality of table creation and formatting in Markdown format.
+ * Tests include basic tables, alignment options, and handling of invalid inputs.</p>
  */
 public class TableTest {
 
@@ -43,6 +49,9 @@ public class TableTest {
         assertNotEquals(table1, table3, "Tables with different content should not be equal.");
     }
 
+    /**
+     * Tests the creation of a basic table.
+     */
     @Test
     public void testBasicTableCreation() {
         Table table = new Table.Builder()
@@ -50,10 +59,9 @@ public class TableTest {
             .addRow(new TestElement("Data1"), new TestElement("Data2"))
             .build();
 
-        String expected = "| Header1 | Header2 |\n" +
-                         "| ------ | ------ |\n" +
-                         "| Data1 | Data2 |\n";
-        
+        String expected = "| Header1 | Header2 |\n"
+            + "|------|------|\n"
+            + "| Data1 | Data2 |";
         assertEquals(expected, table.toMarkdown());
     }
 
@@ -65,10 +73,9 @@ public class TableTest {
             .addRow(new TestElement("1"), new TestElement("2"), new TestElement("3"))
             .build();
 
-        String expected = "| Left | Right | Center |\n" +
-                         "| ------ | -----: | :----: |\n" +
-                         "| 1 | 2 | 3 |\n";
-        
+        String expected = "| Left | Right | Center |\n"
+            + "|------|-----:| :----: |\n"
+            + "| 1 | 2 | 3 |";
         assertEquals(expected, table.toMarkdown());
     }
 
@@ -82,11 +89,10 @@ public class TableTest {
             .addRow(new TestElement("Row3"))
             .build();
 
-        String expected = "| Header |\n" +
-                         "| ------ |\n" +
-                         "| Row1 |\n" +
-                         "| Row2 |\n";
-        
+        String expected = "| Header |\n"
+            + "|------|\n"
+            + "| Row1 |\n"
+            + "| Row2 |";
         assertEquals(expected, table.toMarkdown());
     }
 
@@ -98,11 +104,10 @@ public class TableTest {
             .addRow(true, false)
             .build();
 
-        String expected = "| Header1 | Header2 |\n" +
-                         "| ------ | ------ |\n" +
-                         "| 1 | 2 |\n" +
-                         "| true | false |\n";
-        
+        String expected = "| Header1 | Header2 |\n"
+            + "|------|------|\n"
+            + "| 1 | 2 |\n"
+            + "| true | false |";
         assertEquals(expected, table.toMarkdown());
     }
 

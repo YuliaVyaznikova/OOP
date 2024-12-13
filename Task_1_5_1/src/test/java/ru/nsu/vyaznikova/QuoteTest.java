@@ -1,11 +1,18 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 /**
- * Unit tests for the Quote class, which represents a Markdown quote element.
+ * Unit tests for the Quote class.
+ * 
+ * <p>These tests verify the functionality of quote creation and validation in Markdown format.
+ * Tests include basic quote creation, nested quotes, and handling of invalid inputs.</p>
  */
 public class QuoteTest {
 

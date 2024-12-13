@@ -1,12 +1,19 @@
 package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Unit tests for the Link class.
- * These tests verify the functionality of creating and formatting Markdown links
- * with different combinations of text, URLs, and titles.
+ * 
+ * <p>These tests verify the functionality of link creation and validation in Markdown format.
+ * Tests include basic link creation, links with titles, and handling of invalid inputs.</p>
  */
 public class LinkTest {
 
@@ -28,11 +35,7 @@ public class LinkTest {
     }
 
     /**
-     * Tests the creation of a basic link with text and URL only.
-     * Verifies that:
-     * 1. The link text is correctly enclosed in square brackets
-     * 2. The URL is correctly enclosed in parentheses
-     * 3. The overall Markdown format is correct
+     * Tests the creation of a basic link with text and URL.
      */
     @Test
     public void testBasicLink() {
@@ -47,10 +50,6 @@ public class LinkTest {
 
     /**
      * Tests the creation of a link with a title.
-     * Verifies that:
-     * 1. The link text and URL are correctly formatted
-     * 2. The title is properly enclosed in quotes
-     * 3. The title appears after the URL with a space
      */
     @Test
     public void testLinkWithTitle() {

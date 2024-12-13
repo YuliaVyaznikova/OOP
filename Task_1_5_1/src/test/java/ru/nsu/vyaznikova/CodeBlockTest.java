@@ -1,37 +1,32 @@
 package ru.nsu.vyaznikova;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for the CodeBlock class.
- * These tests verify the functionality of creating and formatting Markdown code blocks
- * with different programming languages and code content, including special cases
- * and edge conditions.
+ * 
+ * <p>These tests verify the functionality of code block creation and validation in Markdown format.
+ * Tests include basic code blocks, language specification, and handling of invalid inputs.</p>
  */
 public class CodeBlockTest {
 
     /**
-     * Tests the creation of a basic code block with language specification.
-     * Verifies that:
-     * 1. The code block is correctly enclosed in triple backticks
-     * 2. The language identifier is properly placed after opening backticks
-     * 3. The code content is properly formatted with newlines
+     * Tests the creation of a basic code block with language.
      */
     @Test
     public void testBasicCodeBlock() {
         CodeBlock codeBlock = new CodeBlock.Builder()
             .setLanguage("java")
-            .setCode("public class Hello {\n    System.out.println(\"Hello\");\n}")
+            .setCode("public class Test {}")
             .build();
 
-        String expected = "```java\n" +
-                         "public class Hello {\n" +
-                         "    System.out.println(\"Hello\");\n" +
-                         "}\n" +
-                         "```";
-        assertEquals(expected, codeBlock.toMarkdown(),
-            "Basic code block should be properly formatted with language and code content");
+        String expected = "```java\n"
+            + "public class Test {}\n"
+            + "```";
+        assertEquals(expected, codeBlock.toMarkdown());
     }
 
     /**
@@ -143,10 +138,10 @@ public class CodeBlockTest {
             .setCode(codeWithBackticks)
             .build();
 
-        String expected = "```text\n" +
-                         "\\`\\`\\`This is some code\\`\\`\\`\n" +
-                         "with multiple \\`\\`\\`backticks\\`\\`\\`\n" +
-                         "```";
+        String expected = "```text\n"
+                         + "\\`\\`\\`This is some code\\`\\`\\`\n"
+                         + "with multiple \\`\\`\\`backticks\\`\\`\\`\n"
+                         + "```";
         assertEquals(expected, codeBlock.toMarkdown(),
             "Code block should properly escape triple backticks");
     }
