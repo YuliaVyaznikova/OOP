@@ -28,7 +28,9 @@ public class Table extends Element {
 
     @Override
     public String toMarkdown() {
-        if (rows.isEmpty()) return "";
+        if (rows.isEmpty()) {
+            return "";
+        }
 
         StringBuilder sb = new StringBuilder();
 
@@ -97,7 +99,9 @@ public class Table extends Element {
                 throw new IllegalArgumentException("Alignments cannot be null or empty");
             }
             for (String align : alignments) {
-                if (!ALIGN_LEFT.equals(align) && !ALIGN_RIGHT.equals(align) && !ALIGN_CENTER.equals(align)) {
+                if (!ALIGN_LEFT.equals(align)
+                        && !ALIGN_RIGHT.equals(align)
+                        && !ALIGN_CENTER.equals(align)) {
                     throw new IllegalArgumentException("Invalid alignment: " + align);
                 }
             }

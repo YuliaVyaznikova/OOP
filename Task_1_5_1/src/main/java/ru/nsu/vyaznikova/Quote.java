@@ -8,7 +8,6 @@ import java.util.Objects;
 /**
  * Represents a Markdown quote that can span multiple lines and contain nested elements.
  * Markdown symbol: &quot;&gt;&quot;
- * <p>
  * Examples:
  * - Single line quote: &quot;&gt;&quot; Quote content
  * - Multi-line quote:
