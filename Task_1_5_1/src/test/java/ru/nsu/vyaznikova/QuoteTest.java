@@ -28,9 +28,9 @@ public class QuoteTest {
     @Test
     public void testMultiLineQuote() {
         Quote quote = new Quote.Builder()
-                .addContent(new Text.Builder().setContent("Line 1").build())
-                .addContent(new Text.Builder().setContent("Line 2").build())
-                .build();
+            .addContent(new Text.Builder().setContent("Line 1").build())
+            .addContent(new Text.Builder().setContent("Line 2").build())
+            .build();
         assertEquals("> Line 1\n> Line 2", quote.toMarkdown(), "Each line of a multi-line quote should be prefixed with '>' in Markdown.");
     }
 
@@ -73,9 +73,9 @@ public class QuoteTest {
     @Test
     public void testNestedFormattedText() {
         Quote quote = new Quote.Builder()
-                .addContent(new Text.Builder().setContent("Bold").setBold(true).build())
-                .addContent(new Text.Builder().setContent("Italic").setItalic(true).build())
-                .build();
+            .addContent(new Text.Builder().setContent("Bold").setBold(true).build())
+            .addContent(new Text.Builder().setContent("Italic").setItalic(true).build())
+            .build();
         assertEquals("> **Bold**\n> *Italic*", quote.toMarkdown(), "Nested formatted text should be correctly serialized in Markdown.");
     }
 }

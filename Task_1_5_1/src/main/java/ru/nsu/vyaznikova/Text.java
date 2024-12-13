@@ -60,9 +60,9 @@ public class Text extends Element {
      */
     public static Text bold(String content) {
         return new Builder()
-                .setContent(content)
-                .setBold(true)
-                .build();
+            .setContent(content)
+            .setBold(true)
+            .build();
     }
 
     /**

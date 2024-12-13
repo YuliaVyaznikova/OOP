@@ -38,12 +38,12 @@ public class LinkTest {
     @Test
     public void testBasicLink() {
         Link link = new Link.Builder()
-                .setText(new TestElement("Java Documentation"))
-                .setUrl("https://docs.oracle.com/en/java/")
-                .build();
+            .setText(new TestElement("Java Documentation"))
+            .setUrl("https://docs.oracle.com/en/java/")
+            .build();
 
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/)", link.toMarkdown(),
-                "Basic link should be formatted as [text](url)");
+            "Basic link should be formatted as [text](url)");
     }
 
     /**
@@ -52,14 +52,14 @@ public class LinkTest {
     @Test
     public void testLinkWithTitle() {
         Link link = new Link.Builder()
-                .setText(new TestElement("Java Documentation"))
-                .setUrl("https://docs.oracle.com/en/java/")
-                .setTitle("Official Java Documentation")
-                .build();
+            .setText(new TestElement("Java Documentation"))
+            .setUrl("https://docs.oracle.com/en/java/")
+            .setTitle("Official Java Documentation")
+            .build();
 
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/ \"Official Java Documentation\")",
-                link.toMarkdown(),
-                "Link with title should be formatted as [text](url \"title\")");
+            link.toMarkdown(),
+            "Link with title should be formatted as [text](url \"title\")");
     }
 
     /**
@@ -72,20 +72,20 @@ public class LinkTest {
     @Test
     public void testValidUrls() {
         String[] validUrls = {
-                "https://docs.oracle.com/en/java/",
-                "https://docs.oracle.com/en/java/javase/",
-                "https://docs.oracle.com/en/java/javase/21/",
-                "https://docs.oracle.com/en/java/javase/21/docs/api/"
+            "https://docs.oracle.com/en/java/",
+            "https://docs.oracle.com/en/java/javase/",
+            "https://docs.oracle.com/en/java/javase/21/",
+            "https://docs.oracle.com/en/java/javase/21/docs/api/"
         };
 
         for (String url : validUrls) {
             Link link = new Link.Builder()
-                    .setText(new TestElement("Java Docs"))
-                    .setUrl(url)
-                    .build();
+                .setText(new TestElement("Java Docs"))
+                .setUrl(url)
+                .build();
 
             assertTrue(link.toMarkdown().contains(url),
-                    "Link should contain the valid URL: " + url);
+                "Link should contain the valid URL: " + url);
         }
     }
 
@@ -103,35 +103,35 @@ public class LinkTest {
 
         // Test building without text
         IllegalStateException noTextEx = assertThrows(IllegalStateException.class,
-                () -> new Link.Builder()
-                        .setUrl("https://docs.oracle.com/en/java/")
-                        .build(),
-                "Should throw exception when text is not set");
+            () -> new Link.Builder()
+                .setUrl("https://docs.oracle.com/en/java/")
+                .build(),
+            "Should throw exception when text is not set");
         assertTrue(noTextEx.getMessage().contains("text must be set"),
-                "Exception message should mention missing text");
+            "Exception message should mention missing text");
 
         // Test building without URL
         IllegalStateException noUrlEx = assertThrows(IllegalStateException.class,
-                () -> new Link.Builder()
-                        .setText(new TestElement("Java Docs"))
-                        .build(),
-                "Should throw exception when URL is not set");
+            () -> new Link.Builder()
+                .setText(new TestElement("Java Docs"))
+                .build(),
+            "Should throw exception when URL is not set");
         assertTrue(noUrlEx.getMessage().contains("URL must be set"),
-                "Exception message should mention missing URL");
+            "Exception message should mention missing URL");
 
         // Test null text
         NullPointerException nullTextEx = assertThrows(NullPointerException.class,
-                () -> builder.setText(null),
-                "Should throw exception when text is null");
+            () -> builder.setText(null),
+            "Should throw exception when text is null");
         assertTrue(nullTextEx.getMessage().contains("text cannot be null"),
-                "Exception message should mention null text");
+            "Exception message should mention null text");
 
         // Test null URL
         NullPointerException nullUrlEx = assertThrows(NullPointerException.class,
-                () -> builder.setUrl(null),
-                "Should throw exception when URL is null");
+            () -> builder.setUrl(null),
+            "Should throw exception when URL is null");
         assertTrue(nullUrlEx.getMessage().contains("URL cannot be null"),
-                "Exception message should mention null URL");
+            "Exception message should mention null URL");
     }
 
     /**
@@ -144,8 +144,8 @@ public class LinkTest {
     @Test
     public void testOptionalTitle() {
         Link.Builder builder = new Link.Builder()
-                .setText(new TestElement("Java Documentation"))
-                .setUrl("https://docs.oracle.com/en/java/");
+            .setText(new TestElement("Java Documentation"))
+            .setUrl("https://docs.oracle.com/en/java/");
 
         Link linkWithoutTitle = builder.build();
         Link linkWithNullTitle = builder.setTitle(null).build();
@@ -153,17 +153,17 @@ public class LinkTest {
         Link linkWithTitleSetToNull = builder.setTitle(null).build();
 
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/)",
-                linkWithoutTitle.toMarkdown(),
-                "Link without title should not include title section");
+            linkWithoutTitle.toMarkdown(),
+            "Link without title should not include title section");
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/)",
-                linkWithNullTitle.toMarkdown(),
-                "Link with null title should not include title section");
+            linkWithNullTitle.toMarkdown(),
+            "Link with null title should not include title section");
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/ \"Official Java Docs\")",
-                linkWithTitle.toMarkdown(),
-                "Link with title should include title section");
+            linkWithTitle.toMarkdown(),
+            "Link with title should include title section");
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/)",
-                linkWithTitleSetToNull.toMarkdown(),
-                "Link with title set back to null should not include title section");
+            linkWithTitleSetToNull.toMarkdown(),
+            "Link with title set back to null should not include title section");
     }
 
     /**
@@ -180,45 +180,45 @@ public class LinkTest {
     @Test
     public void testLinkEquality() {
         Link link1 = new Link.Builder()
-                .setText(new TestElement("Java Documentation"))
-                .setUrl("https://docs.oracle.com/en/java/")
-                .setTitle("Official Java Documentation")
-                .build();
+            .setText(new TestElement("Java Documentation"))
+            .setUrl("https://docs.oracle.com/en/java/")
+            .setTitle("Official Java Documentation")
+            .build();
 
         Link link2 = new Link.Builder()
-                .setText(new TestElement("Java Documentation"))
-                .setUrl("https://docs.oracle.com/en/java/")
-                .setTitle("Official Java Documentation")
-                .build();
+            .setText(new TestElement("Java Documentation"))
+            .setUrl("https://docs.oracle.com/en/java/")
+            .setTitle("Official Java Documentation")
+            .build();
 
         Link differentText = new Link.Builder()
-                .setText(new TestElement("Different Text"))
-                .setUrl("https://docs.oracle.com/en/java/")
-                .setTitle("Official Java Documentation")
-                .build();
+            .setText(new TestElement("Different Text"))
+            .setUrl("https://docs.oracle.com/en/java/")
+            .setTitle("Official Java Documentation")
+            .build();
 
         Link differentUrl = new Link.Builder()
-                .setText(new TestElement("Java Documentation"))
-                .setUrl("https://docs.oracle.com/en/java/javase/21/")
-                .setTitle("Official Java Documentation")
-                .build();
+            .setText(new TestElement("Java Documentation"))
+            .setUrl("https://docs.oracle.com/en/java/javase/21/")
+            .setTitle("Official Java Documentation")
+            .build();
 
         Link differentTitle = new Link.Builder()
-                .setText(new TestElement("Java Documentation"))
-                .setUrl("https://docs.oracle.com/en/java/")
-                .setTitle("Different Title")
-                .build();
+            .setText(new TestElement("Java Documentation"))
+            .setUrl("https://docs.oracle.com/en/java/")
+            .setTitle("Different Title")
+            .build();
 
         assertEquals(link1, link2,
-                "Links with same text, URL, and title should be equal");
+            "Links with same text, URL, and title should be equal");
         assertEquals(link1.hashCode(), link2.hashCode(),
-                "Equal links should have same hash code");
+            "Equal links should have same hash code");
 
         assertNotEquals(link1, differentText,
-                "Links with different text should not be equal");
+            "Links with different text should not be equal");
         assertNotEquals(link1, differentUrl,
-                "Links with different URLs should not be equal");
+            "Links with different URLs should not be equal");
         assertNotEquals(link1, differentTitle,
-                "Links with different titles should not be equal");
+            "Links with different titles should not be equal");
     }
 }

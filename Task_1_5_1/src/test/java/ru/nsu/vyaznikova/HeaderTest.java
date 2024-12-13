@@ -41,12 +41,12 @@ public class HeaderTest {
     @Test
     public void testBasicHeaderLevel1() {
         Header header = new Header.Builder()
-                .setLevel(1)
-                .addContent(new TestElement("Basic Header"))
-                .build();
+            .setLevel(1)
+            .addContent(new TestElement("Basic Header"))
+            .build();
 
         assertEquals("# Basic Header", header.toMarkdown(),
-                "Level 1 header should be prefixed with a single '#' and a space");
+            "Level 1 header should be prefixed with a single '#' and a space");
     }
 
     /**
@@ -61,13 +61,13 @@ public class HeaderTest {
         String content = "Test Header";
         for (int level = 1; level <= 6; level++) {
             Header header = new Header.Builder()
-                    .setLevel(level)
-                    .addContent(new TestElement(content))
-                    .build();
+                .setLevel(level)
+                .addContent(new TestElement(content))
+                .build();
 
             String expected = "#".repeat(level) + " " + content;
             assertEquals(expected, header.toMarkdown(),
-                    String.format("Level %d header should have %d '#' symbols", level, level));
+                String.format("Level %d header should have %d '#' symbols", level, level));
         }
     }
 
@@ -81,16 +81,16 @@ public class HeaderTest {
     @Test
     public void testHeaderWithMultipleContent() {
         Header header = new Header.Builder()
-                .setLevel(2)
-                .addContent(
-                        new TestElement("First"),
-                        new TestElement("Second"),
-                        new TestElement("Third")
-                )
-                .build();
+            .setLevel(2)
+            .addContent(
+                new TestElement("First"),
+                new TestElement("Second"),
+                new TestElement("Third")
+            )
+            .build();
 
         assertEquals("## First Second Third", header.toMarkdown(),
-                "Multiple content elements should be space-separated");
+            "Multiple content elements should be space-separated");
     }
 
     /**
@@ -105,13 +105,13 @@ public class HeaderTest {
         Header.Builder builder = new Header.Builder();
 
         Exception tooLow = assertThrows(IllegalArgumentException.class,
-                () -> builder.setLevel(0),
-                "Should throw exception for level 0");
+            () -> builder.setLevel(0),
+            "Should throw exception for level 0");
         assertTrue(tooLow.getMessage().contains("must be between 1 and 6"));
 
         Exception tooHigh = assertThrows(IllegalArgumentException.class,
-                () -> builder.setLevel(7),
-                "Should throw exception for level 7");
+            () -> builder.setLevel(7),
+            "Should throw exception for level 7");
         assertTrue(tooHigh.getMessage().contains("must be between 1 and 6"));
     }
 
@@ -127,16 +127,16 @@ public class HeaderTest {
         Header.Builder builder = new Header.Builder();
 
         assertThrows(IllegalStateException.class,
-                () -> builder.build(),
-                "Should throw exception when building header without content");
+            () -> builder.build(),
+            "Should throw exception when building header without content");
 
         assertThrows(NullPointerException.class,
-                () -> builder.addContent((Element) null),
-                "Should throw exception when adding null element");
+            () -> builder.addContent((Element) null),
+            "Should throw exception when adding null element");
 
         assertThrows(NullPointerException.class,
-                () -> builder.addContent((Element[]) null),
-                "Should throw exception when adding null elements array");
+            () -> builder.addContent((Element[]) null),
+            "Should throw exception when adding null elements array");
     }
 
     /**
@@ -152,35 +152,35 @@ public class HeaderTest {
     @Test
     public void testHeaderEquality() {
         Header header1 = new Header.Builder()
-                .setLevel(2)
-                .addContent(new TestElement("Test Content"))
-                .build();
+            .setLevel(2)
+            .addContent(new TestElement("Test Content"))
+            .build();
 
         Header header2 = new Header.Builder()
-                .setLevel(2)
-                .addContent(new TestElement("Test Content"))
-                .build();
+            .setLevel(2)
+            .addContent(new TestElement("Test Content"))
+            .build();
 
         assertEquals(header1, header2,
-                "Headers with same level and content should be equal");
+            "Headers with same level and content should be equal");
         assertEquals(header1.hashCode(), header2.hashCode(),
-                "Equal headers should have same hash code");
+            "Equal headers should have same hash code");
 
         Header differentLevel = new Header.Builder()
-                .setLevel(3)
-                .addContent(new TestElement("Test Content"))
-                .build();
+            .setLevel(3)
+            .addContent(new TestElement("Test Content"))
+            .build();
 
         assertNotEquals(header1, differentLevel,
-                "Headers with different levels should not be equal");
+            "Headers with different levels should not be equal");
 
         final Header differentContent = new Header.Builder()
-                .setLevel(2)
-                .addContent(new TestElement("Different Content"))
-                .build();
+            .setLevel(2)
+            .addContent(new TestElement("Different Content"))
+            .build();
 
         assertNotEquals(header1, differentContent,
-                "Headers with different content should not be equal");
+            "Headers with different content should not be equal");
     }
 
     /**
@@ -192,10 +192,10 @@ public class HeaderTest {
     @Test
     public void testDefaultHeaderLevel() {
         Header header = new Header.Builder()
-                .addContent(new TestElement("Default Level"))
-                .build();
+            .addContent(new TestElement("Default Level"))
+            .build();
 
         assertEquals("# Default Level", header.toMarkdown(),
-                "Header should default to level 1 if not specified");
+            "Header should default to level 1 if not specified");
     }
 }

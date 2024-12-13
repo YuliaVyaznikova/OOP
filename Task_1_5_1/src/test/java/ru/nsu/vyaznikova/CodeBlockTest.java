@@ -21,13 +21,13 @@ public class CodeBlockTest {
     @Test
     public void testBasicCodeBlock() {
         CodeBlock codeBlock = new CodeBlock.Builder()
-                .setLanguage("java")
-                .setCode("public class Test {}")
-                .build();
+            .setLanguage("java")
+            .setCode("public class Test {}")
+            .build();
 
         String expected = "```java\n"
-                + "public class Test {}\n"
-                + "```";
+            + "public class Test {}\n"
+            + "```";
         assertEquals(expected, codeBlock.toMarkdown());
     }
 
@@ -41,12 +41,12 @@ public class CodeBlockTest {
     @Test
     public void testCodeBlockWithoutLanguage() {
         CodeBlock codeBlock = new CodeBlock.Builder()
-                .setCode("print('Hello')")
-                .build();
+            .setCode("print('Hello')")
+            .build();
 
         assertEquals("```\nprint('Hello')\n```",
-                codeBlock.toMarkdown(),
-                "Code block without language should omit language identifier");
+            codeBlock.toMarkdown(),
+            "Code block without language should omit language identifier");
     }
 
     /**
@@ -58,13 +58,13 @@ public class CodeBlockTest {
     @Test
     public void testCodeBlockWithEmptyLanguage() {
         CodeBlock codeBlock = new CodeBlock.Builder()
-                .setLanguage("")
-                .setCode("print('Hello')")
-                .build();
+            .setLanguage("")
+            .setCode("print('Hello')")
+            .build();
 
         assertEquals("```\nprint('Hello')\n```",
-                codeBlock.toMarkdown(),
-                "Code block with empty language should omit language identifier");
+            codeBlock.toMarkdown(),
+            "Code block with empty language should omit language identifier");
     }
 
     /**
@@ -77,13 +77,13 @@ public class CodeBlockTest {
     @Test
     public void testCodeBlockWithNullValues() {
         CodeBlock codeBlock = new CodeBlock.Builder()
-                .setLanguage(null)
-                .setCode(null)
-                .build();
+            .setLanguage(null)
+            .setCode(null)
+            .build();
 
         assertEquals("```\n\n```",
-                codeBlock.toMarkdown(),
-                "Code block should handle null values gracefully");
+            codeBlock.toMarkdown(),
+            "Code block should handle null values gracefully");
     }
 
     /**
@@ -97,31 +97,31 @@ public class CodeBlockTest {
     public void testLanguageValidation() {
         // Valid language identifiers
         String[] validLanguages = {
-                "java", "python3", "c++", "f#", "javascript", "typescript",
-                "go", "rust", "ruby", "php", "html", "css", "shell",
-                "kotlin", "scala", "swift", "r", "matlab", "perl"
+            "java", "python3", "c++", "f#", "javascript", "typescript",
+            "go", "rust", "ruby", "php", "html", "css", "shell",
+            "kotlin", "scala", "swift", "r", "matlab", "perl"
         };
 
         for (String lang : validLanguages) {
             assertDoesNotThrow(() -> new CodeBlock.Builder().setLanguage(lang),
-                    "Should accept valid language identifier: " + lang);
+                "Should accept valid language identifier: " + lang);
         }
 
         // Invalid language identifiers
         String[] invalidLanguages = {
-                "java script", // Contains space
-                "c/c++",      // Contains slash
-                "python!",    // Contains exclamation mark
-                "ruby@",      // Contains at sign
-                "php$"       // Contains dollar sign
+            "java script", // Contains space
+            "c/c++",      // Contains slash
+            "python!",    // Contains exclamation mark
+            "ruby@",      // Contains at sign
+            "php$"       // Contains dollar sign
         };
 
         for (String lang : invalidLanguages) {
             IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                    () -> new CodeBlock.Builder().setLanguage(lang),
-                    "Should reject invalid language identifier: " + lang);
+                () -> new CodeBlock.Builder().setLanguage(lang),
+                "Should reject invalid language identifier: " + lang);
             assertTrue(ex.getMessage().contains("Invalid language identifier"),
-                    "Exception message should mention invalid language identifier");
+                "Exception message should mention invalid language identifier");
         }
     }
 
@@ -136,16 +136,16 @@ public class CodeBlockTest {
     public void testSpecialCharactersEscaping() {
         String codeWithBackticks = "```This is some code```\nwith multiple ```backticks```";
         CodeBlock codeBlock = new CodeBlock.Builder()
-                .setLanguage("text")
-                .setCode(codeWithBackticks)
-                .build();
+            .setLanguage("text")
+            .setCode(codeWithBackticks)
+            .build();
 
         String expected = "```text\n"
-                + "\\`\\`\\`This is some code\\`\\`\\`\n"
-                + "with multiple \\`\\`\\`backticks\\`\\`\\`\n"
-                + "```";
+            + "\\`\\`\\`This is some code\\`\\`\\`\n"
+            + "with multiple \\`\\`\\`backticks\\`\\`\\`\n"
+            + "```";
         assertEquals(expected, codeBlock.toMarkdown(),
-                "Code block should properly escape triple backticks");
+            "Code block should properly escape triple backticks");
     }
 
     /**
@@ -170,12 +170,12 @@ public class CodeBlockTest {
 
         String expected = "```\nline1\nline2\nline3\n```";
         assertEquals(expected, windowsBlock.toMarkdown(),
-                "Windows-style line endings should be normalized");
+            "Windows-style line endings should be normalized");
         assertEquals(expected, oldMacBlock.toMarkdown(),
-                "Old Mac-style line endings should be normalized");
+            "Old Mac-style line endings should be normalized");
         assertEquals(expected, unixBlock.toMarkdown(),
-                "Unix-style line endings should be preserved");
+            "Unix-style line endings should be preserved");
         assertEquals("```\nline1\nline2\nline3\nline4\n```", mixedBlock.toMarkdown(),
-                "Mixed line endings should be normalized");
+            "Mixed line endings should be normalized");
     }
 }

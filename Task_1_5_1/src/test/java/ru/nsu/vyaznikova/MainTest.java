@@ -38,7 +38,7 @@ public class MainTest {
     @Test
     public void testMainWithEmptyArgs() {
         assertDoesNotThrow(() -> Main.main(new String[]{}),
-                "Main should handle empty arguments array");
+            "Main should handle empty arguments array");
     }
 
     /**
@@ -47,6 +47,6 @@ public class MainTest {
     @Test
     public void testMainWithNullArgs() {
         assertDoesNotThrow(() -> Main.main(null),
-                "Main should handle null arguments array");
+            "Main should handle null arguments array");
     }
 }

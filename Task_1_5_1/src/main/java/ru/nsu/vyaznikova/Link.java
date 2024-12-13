@@ -31,10 +31,10 @@ public class Link extends Element {
     @Override
     public String toMarkdown() {
         StringBuilder sb = new StringBuilder()
-                .append("[")
-                .append(text.toMarkdown())
-                .append("](")
-                .append(url);
+            .append("[")
+            .append(text.toMarkdown())
+            .append("](")
+            .append(url);
 
         title.ifPresent(t -> sb.append(" \"").append(t).append("\""));
 

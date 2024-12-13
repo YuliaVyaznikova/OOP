@@ -31,10 +31,10 @@ public class ElementTest {
         Element element2 = new TestElement("test");
         Element element3 = new TestElement("different");
 
-        assertEquals(element1, element2, 
-                "Elements with the same content should be equal.");
-        assertNotEquals(element1, element3, 
-                "Elements with different content should not be equal.");
+        assertEquals(element1, element2,
+            "Elements with the same content should be equal.");
+        assertNotEquals(element1, element3,
+            "Elements with different content should not be equal.");
     }
 
     /**
@@ -45,8 +45,8 @@ public class ElementTest {
         Element element1 = new TestElement("test");
         Element element2 = new TestElement("test");
 
-        assertEquals(element1.hashCode(), element2.hashCode(), 
-                "Equal elements should have the same hash code.");
+        assertEquals(element1.hashCode(), element2.hashCode(),
+            "Equal elements should have the same hash code.");
     }
 
     /**
@@ -55,7 +55,7 @@ public class ElementTest {
     @Test
     public void testToMarkdown() {
         Element element = new TestElement("test");
-        assertEquals("test", element.toMarkdown(), 
-                "toMarkdown should return the correct Markdown representation.");
+        assertEquals("test", element.toMarkdown(),
+            "toMarkdown should return the correct Markdown representation.");
     }
 }

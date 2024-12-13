@@ -71,8 +71,8 @@ public class Header extends Element {
         public Builder setLevel(int level) {
             if (level < MIN_LEVEL || level > MAX_LEVEL) {
                 throw new IllegalArgumentException(
-                        String.format("Header level must be between %d and %d, got: %d",
-                                MIN_LEVEL, MAX_LEVEL, level));
+                    String.format("Header level must be between %d and %d, got: %d",
+                        MIN_LEVEL, MAX_LEVEL, level));
             }
             this.level = level;
             return this;

@@ -100,8 +100,8 @@ public class Table extends Element {
             }
             for (String align : alignments) {
                 if (!ALIGN_LEFT.equals(align)
-                        && !ALIGN_RIGHT.equals(align)
-                        && !ALIGN_CENTER.equals(align)) {
+                    && !ALIGN_RIGHT.equals(align)
+                    && !ALIGN_CENTER.equals(align)) {
                     throw new IllegalArgumentException("Invalid alignment: " + align);
                 }
             }

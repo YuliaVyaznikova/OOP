@@ -39,9 +39,9 @@ public class Task extends Element {
     @Override
     public String toMarkdown() {
         StringBuilder sb = new StringBuilder()
-                .append("- [")
-                .append(completed ? "x" : " ")
-                .append("] ");
+            .append("- [")
+            .append(completed ? "x" : " ")
+            .append("] ");
 
         for (int i = 0; i < content.size(); i++) {
             sb.append(content.get(i).toMarkdown());
