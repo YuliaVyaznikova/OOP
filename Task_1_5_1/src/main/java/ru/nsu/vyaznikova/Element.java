@@ -26,4 +26,14 @@ public abstract class Element {
         if (obj == null || getClass() != obj.getClass()) return false;
         return toMarkdown().equals(((Element) obj).toMarkdown());
     }
+
+    /**
+     * Returns a hash code value for the element.
+     * The hash code is based on the element's Markdown representation.
+     * @return a hash code value for this element
+     */
+    @Override
+    public int hashCode() {
+        return toMarkdown().hashCode();
+    }
 }
