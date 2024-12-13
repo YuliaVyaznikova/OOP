@@ -7,13 +7,13 @@ import java.util.Objects;
 
 /**
  * Represents a Markdown quote that can span multiple lines and contain nested elements.
- * Markdown symbol: &gt;
+ * Markdown symbol: >
  * <p>
  * Examples:
- * - Single line quote: &gt; Quote content
+ * - Single line quote: > Quote content
  * - Multi-line quote:
- * &gt; Line 1
- * &gt; Line 2
+ * > Line 1
+ * > Line 2
  */
 public class Quote extends Element {
     private final List<Element> content;
@@ -29,7 +29,7 @@ public class Quote extends Element {
 
     /**
      * Converts the quote to its Markdown representation.
-     * Each line of the quote is prefixed with '&gt;'
+     * Each line of the quote is prefixed with '>'
      *
      * @return A string containing the Markdown representation of the quote
      */
@@ -37,7 +37,7 @@ public class Quote extends Element {
     public String toMarkdown() {
         StringBuilder sb = new StringBuilder();
         for (Element element : content) {
-            sb.append("&gt; ").append(element.toMarkdown()).append("\n");
+            sb.append("> ").append(element.toMarkdown()).append("\n");
         }
         return sb.toString().trim();
     }
