@@ -30,8 +30,8 @@ public class Main {
                 );
             } else {
                 tableBuilder.addRow(
-                        String.valueOf(i),
-                        String.valueOf(value)
+                    String.valueOf(i),
+                    String.valueOf(value)
                 );
             }
         }

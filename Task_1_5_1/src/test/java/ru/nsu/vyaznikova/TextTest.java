@@ -1,9 +1,9 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the Text class.
@@ -47,7 +47,8 @@ public class TextTest {
             .setContent("Italic Text")
             .setItalic(true)
             .build();
-        assertEquals("*Italic Text*", italicText.toMarkdown(), "Italic text should be wrapped with single asterisks.");
+        assertEquals("*Italic Text*", italicText.toMarkdown(),
+            "Italic text should be wrapped with single asterisks.");
     }
 
     /**
@@ -59,7 +60,8 @@ public class TextTest {
             .setContent("Strikethrough Text")
             .setStrikethrough(true)
             .build();
-        assertEquals("~~Strikethrough Text~~", strikethroughText.toMarkdown(), "Strikethrough text should be wrapped with double tildes.");
+        assertEquals("~~Strikethrough Text~~", strikethroughText.toMarkdown(),
+            "Strikethrough text should be wrapped with double tildes.");
     }
 
     /**
@@ -71,7 +73,8 @@ public class TextTest {
             .setContent("Code Text")
             .setCode(true)
             .build();
-        assertEquals("`Code Text`", codeText.toMarkdown(), "Code text should be wrapped with backticks.");
+        assertEquals("`Code Text`", codeText.toMarkdown(),
+            "Code text should be wrapped with backticks.");
     }
 
     /**
@@ -92,7 +95,8 @@ public class TextTest {
             .setBold(true)
             .build();
 
-        assertEquals(text1, text2, "Text objects with the same content and formatting should be equal.");
+        assertEquals(text1, text2,
+            "Text objects with the same content and formatting should be equal.");
         assertNotEquals(text1, text3, "Text objects with different content should not be equal.");
     }
 }

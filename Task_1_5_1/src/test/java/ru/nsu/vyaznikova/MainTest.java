@@ -1,13 +1,12 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the Main class.
@@ -37,7 +36,7 @@ public class MainTest {
      */
     @Test
     public void testMainWithEmptyArgs() {
-        assertDoesNotThrow(() -> Main.main(new String[]{}),
+        assertDoesNotThrow(() -> Main.main(new String[] {}),
             "Main should handle empty arguments array");
     }
 

@@ -1,11 +1,11 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the Link class.
@@ -14,23 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Tests include basic link creation, links with titles, and handling of invalid inputs.</p>
  */
 public class LinkTest {
-
-    /**
-     * Helper class for testing Link with simple text content.
-     * This class provides a predictable Markdown output for testing purposes.
-     */
-    private static class TestElement extends Element {
-        private final String content;
-
-        public TestElement(String content) {
-            this.content = content;
-        }
-
-        @Override
-        public String toMarkdown() {
-            return content;
-        }
-    }
 
     /**
      * Tests the creation of a basic link with text and URL.
@@ -57,7 +40,8 @@ public class LinkTest {
             .setTitle("Official Java Documentation")
             .build();
 
-        assertEquals("[Java Documentation](https://docs.oracle.com/en/java/ \"Official Java Documentation\")",
+        assertEquals(
+            "[Java Documentation](https://docs.oracle.com/en/java/ \"Official Java Documentation\")",
             link.toMarkdown(),
             "Link with title should be formatted as [text](url \"title\")");
     }
@@ -158,7 +142,8 @@ public class LinkTest {
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/)",
             linkWithNullTitle.toMarkdown(),
             "Link with null title should not include title section");
-        assertEquals("[Java Documentation](https://docs.oracle.com/en/java/ \"Official Java Docs\")",
+        assertEquals(
+            "[Java Documentation](https://docs.oracle.com/en/java/ \"Official Java Docs\")",
             linkWithTitle.toMarkdown(),
             "Link with title should include title section");
         assertEquals("[Java Documentation](https://docs.oracle.com/en/java/)",
@@ -220,5 +205,22 @@ public class LinkTest {
             "Links with different URLs should not be equal");
         assertNotEquals(link1, differentTitle,
             "Links with different titles should not be equal");
+    }
+
+    /**
+     * Helper class for testing Link with simple text content.
+     * This class provides a predictable Markdown output for testing purposes.
+     */
+    private static class TestElement extends Element {
+        private final String content;
+
+        public TestElement(String content) {
+            this.content = content;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return content;
+        }
     }
 }

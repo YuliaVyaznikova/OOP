@@ -1,26 +1,14 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the Element class, which is a base class for Markdown elements.
  */
 public class ElementTest {
-
-    private static class TestElement extends Element {
-        private final String content;
-
-        public TestElement(String content) {
-            this.content = content;
-        }
-
-        @Override
-        public String toMarkdown() {
-            return content;
-        }
-    }
 
     /**
      * Tests the equality method for Element objects.
@@ -57,5 +45,18 @@ public class ElementTest {
         Element element = new TestElement("test");
         assertEquals("test", element.toMarkdown(),
             "toMarkdown should return the correct Markdown representation.");
+    }
+
+    private static class TestElement extends Element {
+        private final String content;
+
+        public TestElement(String content) {
+            this.content = content;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return content;
+        }
     }
 }

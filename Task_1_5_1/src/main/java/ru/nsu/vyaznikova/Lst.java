@@ -15,6 +15,33 @@ public class Lst extends Element {
     private final List<ListItem> items;
     private final boolean ordered;
 
+    private Lst(Builder builder) {
+        this.ordered = builder.ordered;
+        this.items = Collections.unmodifiableList(new ArrayList<>(builder.items));
+    }
+
+    /**
+     * Converts the list to Markdown format with the specified prefix for indentation.
+     *
+     * @param prefix the indentation prefix
+     * @return the Markdown representation of the list
+     */
+    private String toMarkdown(String prefix) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < items.size(); i++) {
+            if (i > 0) {
+                sb.append("\n");
+            }
+            sb.append(items.get(i).toMarkdown(prefix, ordered, i + 1));
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String toMarkdown() {
+        return toMarkdown("");
+    }
+
     /**
      * Represents a single item in the list, which can contain an element and nested lists.
      */
@@ -49,33 +76,6 @@ public class Lst extends Element {
             }
             return sb.toString();
         }
-    }
-
-    private Lst(Builder builder) {
-        this.ordered = builder.ordered;
-        this.items = Collections.unmodifiableList(new ArrayList<>(builder.items));
-    }
-
-    /**
-     * Converts the list to Markdown format with the specified prefix for indentation.
-     *
-     * @param prefix the indentation prefix
-     * @return the Markdown representation of the list
-     */
-    private String toMarkdown(String prefix) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < items.size(); i++) {
-            if (i > 0) {
-                sb.append("\n");
-            }
-            sb.append(items.get(i).toMarkdown(prefix, ordered, i + 1));
-        }
-        return sb.toString();
-    }
-
-    @Override
-    public String toMarkdown() {
-        return toMarkdown("");
     }
 
     /**

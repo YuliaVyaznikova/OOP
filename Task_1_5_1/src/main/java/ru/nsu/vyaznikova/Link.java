@@ -7,7 +7,7 @@ import java.util.Optional;
 
 /**
  * Represents a Markdown link with text, URL, and optional title.
-
+ * <p>
  * Examples:
  * - Basic link: [text](url)
  * - Link with title: [text](url "title")

@@ -14,19 +14,6 @@ import org.junit.jupiter.api.Test;
  */
 public class TableTest {
 
-    private static class TestElement extends Element {
-        private final String content;
-
-        public TestElement(String content) {
-            this.content = content;
-        }
-
-        @Override
-        public String toMarkdown() {
-            return content;
-        }
-    }
-
     /**
      * Tests the equality method for Table objects.
      */
@@ -80,5 +67,18 @@ public class TableTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new Table.Builder().withAlignments((String[]) null);
         });
+    }
+
+    private static class TestElement extends Element {
+        private final String content;
+
+        public TestElement(String content) {
+            this.content = content;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return content;
+        }
     }
 }

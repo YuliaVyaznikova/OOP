@@ -1,10 +1,10 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the Lst class.
@@ -13,23 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Tests include basic list creation, nested lists, and handling of invalid inputs.</p>
  */
 public class LstTest {
-
-    /**
-     * Helper class for testing Lst with simple text content.
-     * This class provides a predictable Markdown output for testing purposes.
-     */
-    private static class TestElement extends Element {
-        private final String content;
-
-        public TestElement(String content) {
-            this.content = content;
-        }
-
-        @Override
-        public String toMarkdown() {
-            return content;
-        }
-    }
 
     /**
      * Tests the creation of a basic unordered list.
@@ -236,5 +219,22 @@ public class LstTest {
             "    1. Level 3 item";
         assertEquals(expected, level1.toMarkdown(),
             "Deeply nested lists should maintain proper indentation and formatting");
+    }
+
+    /**
+     * Helper class for testing Lst with simple text content.
+     * This class provides a predictable Markdown output for testing purposes.
+     */
+    private static class TestElement extends Element {
+        private final String content;
+
+        public TestElement(String content) {
+            this.content = content;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return content;
+        }
     }
 }

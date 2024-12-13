@@ -26,6 +26,20 @@ public class Text extends Element {
     }
 
     /**
+     * Static method to create bold text directly.
+     * This is provided for compatibility with the example code.
+     *
+     * @param content the text content
+     * @return a new Text instance with bold formatting
+     */
+    public static Text bold(String content) {
+        return new Builder()
+            .setContent(content)
+            .setBold(true)
+            .build();
+    }
+
+    /**
      * Converts the text to its Markdown representation.
      * Applies formatting in the order: code, bold, italic, strikethrough
      *
@@ -49,20 +63,6 @@ public class Text extends Element {
         }
 
         return result;
-    }
-
-    /**
-     * Static method to create bold text directly.
-     * This is provided for compatibility with the example code.
-     *
-     * @param content the text content
-     * @return a new Text instance with bold formatting
-     */
-    public static Text bold(String content) {
-        return new Builder()
-            .setContent(content)
-            .setBold(true)
-            .build();
     }
 
     /**

@@ -1,6 +1,5 @@
 package ru.nsu.vyaznikova;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -16,11 +15,10 @@ import java.util.regex.Pattern;
  * ```
  */
 public class CodeBlock extends Element {
-    private final String code;
-    private final String language;
-
     // Common programming language identifiers pattern
     private static final Pattern LANGUAGE_PATTERN = Pattern.compile("^[a-zA-Z0-9+#._-]+$");
+    private final String code;
+    private final String language;
 
     /**
      * Private constructor used by the Builder.
@@ -45,11 +43,11 @@ public class CodeBlock extends Element {
         }
 
         return code
-                // Escape any existing fence patterns
-                .replace("```", "\\`\\`\\`")
-                // Preserve line endings
-                .replace("\r\n", "\n")
-                .replace("\r", "\n");
+            // Escape any existing fence patterns
+            .replace("```", "\\`\\`\\`")
+            // Preserve line endings
+            .replace("\r\n", "\n")
+            .replace("\r", "\n");
     }
 
     /**
@@ -67,8 +65,8 @@ public class CodeBlock extends Element {
         }
 
         sb.append("\n")
-                .append(escapeCode(code))
-                .append("\n```");
+            .append(escapeCode(code))
+            .append("\n```");
 
         return sb.toString();
     }
@@ -89,8 +87,8 @@ public class CodeBlock extends Element {
          * @throws IllegalArgumentException if language contains invalid characters
          */
         public Builder setLanguage(String language) {
-            if (language != null && !language.isEmpty() 
-                    && !LANGUAGE_PATTERN.matcher(language).matches()) {
+            if (language != null && !language.isEmpty()
+                && !LANGUAGE_PATTERN.matcher(language).matches()) {
                 throw new IllegalArgumentException("Invalid language identifier format");
             }
             this.language = language != null ? language : "";

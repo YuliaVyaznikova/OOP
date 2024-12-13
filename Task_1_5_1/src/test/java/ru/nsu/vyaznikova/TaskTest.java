@@ -1,8 +1,10 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the Task class.
@@ -11,23 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * and various edge cases.
  */
 public class TaskTest {
-
-    /**
-     * Helper class for testing Task with simple text content.
-     * This class provides a predictable Markdown output for testing purposes.
-     */
-    private static class TestElement extends Element {
-        private final String content;
-
-        public TestElement(String content) {
-            this.content = content;
-        }
-
-        @Override
-        public String toMarkdown() {
-            return content;
-        }
-    }
 
     /**
      * Tests the creation of a basic uncompleted task.
@@ -210,5 +195,22 @@ public class TaskTest {
         Task uncompletedTask = builder.setCompleted(false).build();
         assertEquals("- [ ] Toggle task", uncompletedTask.toMarkdown(),
             "Task should show as uncompleted when set back to false");
+    }
+
+    /**
+     * Helper class for testing Task with simple text content.
+     * This class provides a predictable Markdown output for testing purposes.
+     */
+    private static class TestElement extends Element {
+        private final String content;
+
+        public TestElement(String content) {
+            this.content = content;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return content;
+        }
     }
 }

@@ -15,23 +15,6 @@ import org.junit.jupiter.api.Test;
 public class HeaderTest {
 
     /**
-     * Helper class for testing Header with simple text content.
-     * This class provides a predictable Markdown output for testing purposes.
-     */
-    private static class TestElement extends Element {
-        private final String content;
-
-        public TestElement(String content) {
-            this.content = content;
-        }
-
-        @Override
-        public String toMarkdown() {
-            return content;
-        }
-    }
-
-    /**
      * Tests the creation of a basic level 1 header with a single content element.
      * Verifies that:
      * 1. The header level is correctly represented with a single '#'
@@ -197,5 +180,22 @@ public class HeaderTest {
 
         assertEquals("# Default Level", header.toMarkdown(),
             "Header should default to level 1 if not specified");
+    }
+
+    /**
+     * Helper class for testing Header with simple text content.
+     * This class provides a predictable Markdown output for testing purposes.
+     */
+    private static class TestElement extends Element {
+        private final String content;
+
+        public TestElement(String content) {
+            this.content = content;
+        }
+
+        @Override
+        public String toMarkdown() {
+            return content;
+        }
     }
 }
