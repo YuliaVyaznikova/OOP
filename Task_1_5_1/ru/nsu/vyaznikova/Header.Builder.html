@@ -197,14 +197,14 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="Header.html" title="class in ru.nsu.vyaznikova">Header</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#build()">build</a></span>()</code></th>
 <td class="colLast">
-<div class="block">Builds the Header instance.</div>
+<div class="block">Builds and returns a new Header instance.</div>
 </td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="Header.Builder.html" title="class in ru.nsu.vyaznikova">Header.Builder</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLevel(int)">setLevel</a></span>&#8203;(int&nbsp;level)</code></th>
 <td class="colLast">
-<div class="block">Sets the header level.</div>
+<div class="block">Sets the header level (must be between 1 and 6).</div>
 </td>
 </tr>
 </table>
@@ -257,15 +257,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>setLevel</h4>
 <pre class="methodSignature">public&nbsp;<a href="Header.Builder.html" title="class in ru.nsu.vyaznikova">Header.Builder</a>&nbsp;setLevel&#8203;(int&nbsp;level)</pre>
-<div class="block">Sets the header level.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>level</code> - the level of the header (must be between 1 and 6)</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>this builder instance</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if level is not between 1 and 6</dd>
-</dl>
+<div class="block">Sets the header level (must be between 1 and 6).</div>
 </li>
 </ul>
 <a id="addContent(ru.nsu.vyaznikova.Element)">
@@ -277,14 +269,6 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;<a href="Header.Builder.html" title="class in ru.nsu.vyaznikova">Header.Builder</a>&nbsp;addContent&#8203;(<a href="Element.html" title="class in ru.nsu.vyaznikova">Element</a>&nbsp;element)</pre>
 <div class="block">Adds a content element to the header.
  Multiple elements will be joined with spaces in the final header.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>element</code> - the element to add to the header content</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>this builder instance</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if element is null</dd>
-</dl>
 </li>
 </ul>
 <a id="addContent(ru.nsu.vyaznikova.Element...)">
@@ -296,14 +280,6 @@ extends java.lang.Object</pre>
 <pre class="methodSignature">public&nbsp;<a href="Header.Builder.html" title="class in ru.nsu.vyaznikova">Header.Builder</a>&nbsp;addContent&#8203;(<a href="Element.html" title="class in ru.nsu.vyaznikova">Element</a>...&nbsp;elements)</pre>
 <div class="block">Adds multiple content elements to the header.
  Elements will be joined with spaces in the final header.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elements</code> - the elements to add to the header content</dd>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>this builder instance</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if elements is null or contains null</dd>
-</dl>
 </li>
 </ul>
 <a id="build()">
@@ -313,13 +289,8 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>build</h4>
 <pre class="methodSignature">public&nbsp;<a href="Header.html" title="class in ru.nsu.vyaznikova">Header</a>&nbsp;build()</pre>
-<div class="block">Builds the Header instance.</div>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>a new Header instance</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalStateException</code> - if no content has been added</dd>
-</dl>
+<div class="block">Builds and returns a new Header instance.
+ Throws IllegalStateException if no content has been added.</div>
 </li>
 </ul>
 </li>
