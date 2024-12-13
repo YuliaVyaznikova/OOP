@@ -7,7 +7,6 @@ import java.util.Objects;
 
 /**
  * Represents a Markdown task/checkbox item with support for nested elements.
- * <p>
  * Examples:
  * - Uncompleted task: - [ ] Task description
  * - Completed task: - [x] Task description
@@ -30,7 +29,6 @@ public class Task extends Element {
     /**
      * Converts the task to its Markdown representation.
      * The format is: - [x] or - [ ] followed by the task content.
-     * <p>
      * Examples:
      * - Uncompleted: - [ ] Task description
      * - Completed: - [x] Task description

@@ -58,7 +58,7 @@ public class Text extends Element {
      * @param content the text content
      * @return a new Text instance with bold formatting
      */
-    public static Text Bold(String content) {
+    public static Text bold(String content) {
         return new Builder()
                 .setContent(content)
                 .setBold(true)
