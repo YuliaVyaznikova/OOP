@@ -25,9 +25,9 @@ public class LstTest {
             .addItem(new TestElement("Third item"))
             .build();
 
-        String expected = "- First item\n" +
-            "- Second item\n" +
-            "- Third item";
+        String expected = "- First item\n"
+            + "- Second item\n"
+            + "- Third item";
         assertEquals(expected, list.toMarkdown(),
             "Unordered list should be formatted with dashes");
     }
@@ -43,9 +43,9 @@ public class LstTest {
             .addItem(new TestElement("Third item"))
             .build();
 
-        String expected = "1. First item\n" +
-            "2. Second item\n" +
-            "3. Third item";
+        String expected = "1. First item\n"
+            + "2. Second item\n"
+            + "3. Third item";
         assertEquals(expected, list.toMarkdown(),
             "Ordered list should be formatted with numbers");
     }
@@ -70,10 +70,10 @@ public class LstTest {
             .addItem(new TestElement("Main item 2"))
             .build();
 
-        String expected = "- Main item 1\n" +
-            "  - Nested item 1\n" +
-            "  - Nested item 2\n" +
-            "- Main item 2";
+        String expected = "- Main item 1\n"
+            + "  - Nested item 1\n"
+            + "  - Nested item 2\n"
+            + "- Main item 2";
         assertEquals(expected, mainList.toMarkdown(),
             "Nested unordered lists should be properly indented");
     }
@@ -98,10 +98,10 @@ public class LstTest {
             .addItem(new TestElement("Main item 2"))
             .build();
 
-        String expected = "1. Main item 1\n" +
-            "  1. Nested item 1\n" +
-            "  2. Nested item 2\n" +
-            "2. Main item 2";
+        String expected = "1. Main item 1\n"
+            + "  1. Nested item 1\n"
+            + "  2. Nested item 2\n"
+            + "2. Main item 2";
         assertEquals(expected, mainList.toMarkdown(),
             "Nested ordered lists should maintain proper numbering");
     }
@@ -126,10 +126,10 @@ public class LstTest {
             .addItem(new TestElement("Unordered main 2"))
             .build();
 
-        String expected = "- Unordered main 1\n" +
-            "  1. Ordered nested 1\n" +
-            "  2. Ordered nested 2\n" +
-            "- Unordered main 2";
+        String expected = "- Unordered main 1\n"
+            + "  1. Ordered nested 1\n"
+            + "  2. Ordered nested 2\n"
+            + "- Unordered main 2";
         assertEquals(expected, mainUnordered.toMarkdown(),
             "Mixed nested lists should maintain their respective formats");
     }
@@ -214,9 +214,9 @@ public class LstTest {
             .addNestedList(level2)
             .build();
 
-        String expected = "1. Level 1 item\n" +
-            "  - Level 2 item\n" +
-            "    1. Level 3 item";
+        String expected = "1. Level 1 item\n"
+            + "  - Level 2 item\n"
+            + "    1. Level 3 item";
         assertEquals(expected, level1.toMarkdown(),
             "Deeply nested lists should maintain proper indentation and formatting");
     }
