@@ -7,8 +7,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The {@code ThreadedCheckerTest} class contains unit tests for
+ * the {@link ThreadedChecker} class.
+ */
 public class ThreadedCheckerTest {
 
+    /**
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method
+     * with an array containing a non-prime number
+     * and different thread counts.
+     * @throws InterruptedException if any thread is interrupted during the test.
+     */
     @Test
     void testHasNonPrime_WithNonPrime() throws InterruptedException {
         int[] numbers = {2, 3, 5, 6, 7, 11};
@@ -16,24 +26,45 @@ public class ThreadedCheckerTest {
         assertTrue(ThreadedChecker.hasNonPrime(numbers, 3));
     }
 
+    /**
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method
+     * with an array containing only prime numbers.
+     * @throws InterruptedException if any thread is interrupted during the test.
+     */
     @Test
     void testHasNonPrime_OnlyPrimes() throws InterruptedException {
         int[] numbers = {2, 3, 5, 7, 11, 13};
         assertFalse(ThreadedChecker.hasNonPrime(numbers, 2));
     }
 
+    /**
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method
+     * with an empty array.
+     * @throws InterruptedException if any thread is interrupted during the test.
+     */
     @Test
     void testHasNonPrime_EmptyArray() throws InterruptedException {
         int[] numbers = {};
         assertFalse(ThreadedChecker.hasNonPrime(numbers, 2));
     }
 
+    /**
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method
+     * with an array containing a single non-prime number.
+     * @throws InterruptedException if any thread is interrupted during the test.
+     */
     @Test
     void testHasNonPrime_OneNonPrime() throws InterruptedException {
         int[] numbers = {9};
         assertTrue(ThreadedChecker.hasNonPrime(numbers, 2));
     }
 
+    /**
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method
+     * with a large array containing non-prime numbers
+     * and different thread counts.
+     * @throws InterruptedException if any thread is interrupted during the test.
+     */
     @Test
     void testHasNonPrime_BigArrayWithNonPrime() throws InterruptedException {
         int size = 1000;
@@ -43,15 +74,19 @@ public class ThreadedCheckerTest {
         }
         assertTrue(ThreadedChecker.hasNonPrime(numbers, 4));
         assertTrue(ThreadedChecker.hasNonPrime(numbers, 1));
-        assertTrue(ThreadedChecker.hasNonPrime(numbers, size * 2)); // Потоков больше, чем элементов
+        assertTrue(ThreadedChecker.hasNonPrime(numbers, size * 2));
     }
 
+    /**
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method
+     * with a large array containing only prime numbers.
+     * @throws InterruptedException if any thread is interrupted during the test.
+     */
     @Test
     void testHasNonPrime_BigArrayOnlyPrimes() throws InterruptedException {
         int size = 1000;
         int[] numbers = new int[size];
 
-        // Generate a list of prime numbers up to a certain limit
         List<Integer> primes = new ArrayList<>();
         int num = 2;
         while (primes.size() < size) {
@@ -61,7 +96,6 @@ public class ThreadedCheckerTest {
             num++;
         }
 
-        // Fill the array with prime numbers
         for (int i = 0; i < size; i++) {
             numbers[i] = primes.get(i);
         }
@@ -69,14 +103,27 @@ public class ThreadedCheckerTest {
         assertFalse(ThreadedChecker.hasNonPrime(numbers, 4));
     }
 
+    /**
+     * Tests that the {@link ThreadedChecker#hasNonPrime(int[], int)} method
+     * throws an {@link IllegalArgumentException}
+     * when the input array is null.
+     */
     @Test
     void testHasNonPrime_NullArray_ThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> ThreadedChecker.hasNonPrime(null, 2));
+        assertThrows(IllegalArgumentException.class, () ->
+            ThreadedChecker.hasNonPrime(null, 2));
     }
 
+    /**
+     * Tests that the {@link ThreadedChecker#hasNonPrime(int[], int)} method
+     * throws an {@link IllegalArgumentException}
+     * when the thread count is invalid (0 or negative).
+     */
     @Test
     void testHasNonPrime_InvalidThreadCount_ThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> ThreadedChecker.hasNonPrime(new int[]{1, 2, 3}, 0));
-        assertThrows(IllegalArgumentException.class, () -> ThreadedChecker.hasNonPrime(new int[]{1, 2, 3}, -1));
+        assertThrows(IllegalArgumentException.class, () ->
+            ThreadedChecker.hasNonPrime(new int[]{1, 2, 3}, 0));
+        assertThrows(IllegalArgumentException.class, () ->
+            ThreadedChecker.hasNonPrime(new int[]{1, 2, 3}, -1));
     }
 }

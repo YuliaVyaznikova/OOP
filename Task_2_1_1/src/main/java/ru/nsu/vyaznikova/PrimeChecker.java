@@ -1,7 +1,16 @@
 package ru.nsu.vyaznikova;
 
+/**
+ * The {@code PrimeChecker} class provides a method for checking if a number is prime.
+ */
 public class PrimeChecker {
 
+    /**
+     * Checks if a given number is prime.
+     *
+     * @param number The number to check for primality.
+     * @return {@code true} if the number is prime, {@code false} otherwise.
+     */
     public static boolean isPrime(int number) {
         if (number <= 1) {
             return false;

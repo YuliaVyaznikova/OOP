@@ -3,8 +3,16 @@ package ru.nsu.vyaznikova;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The {@code PrimeCheckerTest} class contains unit tests for the
+ * {@link PrimeChecker} class.
+ */
 public class PrimeCheckerTest {
 
+    /**
+     * Tests the {@link PrimeChecker#isPrime(int)} method
+     * with various prime numbers.
+     */
     @Test
     void testIsPrime_PrimeNumber() {
         assertTrue(PrimeChecker.isPrime(2));
@@ -15,6 +23,10 @@ public class PrimeCheckerTest {
         assertTrue(PrimeChecker.isPrime(101));
     }
 
+    /**
+     * Tests the {@link PrimeChecker#isPrime(int)} method
+     * with various non-prime numbers.
+     */
     @Test
     void testIsPrime_NonPrimeNumber() {
         assertFalse(PrimeChecker.isPrime(1));
@@ -26,6 +38,10 @@ public class PrimeCheckerTest {
         assertFalse(PrimeChecker.isPrime(12));
     }
 
+    /**
+     * Tests the {@link PrimeChecker#isPrime(int)} method
+     * with edge cases such as 0 and negative numbers.
+     */
     @Test
     void testIsPrime_EdgeCases() {
         assertFalse(PrimeChecker.isPrime(0));
