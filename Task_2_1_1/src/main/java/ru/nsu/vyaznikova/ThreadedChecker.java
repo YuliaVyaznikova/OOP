@@ -13,14 +13,6 @@ public class ThreadedChecker {
     /**
      * Checks if the given array contains at least one non-prime number using
      * a specified number of threads.
-     *
-     * @param numbers    The array of integers to check.
-     * @param numThreads The number of threads to use for the check.
-     * @return {@code true} if the array contains at least one non-prime number,
-     * {@code false} otherwise.
-     * @throws IllegalArgumentException if the input array is {@code null} or
-     * the number of threads is not positive.
-     * @throws InterruptedException   if any thread is interrupted during execution.
      */
     public static boolean hasNonPrime(int[] numbers, int numThreads) throws InterruptedException {
         if (numbers == null) {
@@ -29,7 +21,9 @@ public class ThreadedChecker {
         if (numThreads <= 0) {
             throw new IllegalArgumentException("Number of threads must be greater than 0");
         }
-        if (numbers.length == 0) return false;
+        if (numbers.length == 0) {
+            return false;
+        }
 
         AtomicBoolean result = new AtomicBoolean(false);
         List<Thread> threads = new ArrayList<>();

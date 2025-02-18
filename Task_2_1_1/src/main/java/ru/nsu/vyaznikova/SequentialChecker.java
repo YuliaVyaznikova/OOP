@@ -11,11 +11,6 @@ public class SequentialChecker {
 
     /**
      * Checks if the given array contains at least one non-prime number.
-     *
-     * @param numbers The array of integers to check.
-     * @return {@code true} if the array contains at least one non-prime number,
-     * {@code false} otherwise.
-     * @throws IllegalArgumentException if the input array is {@code null}.
      */
     public static boolean hasNonPrime(int[] numbers) {
         if (numbers == null) {
