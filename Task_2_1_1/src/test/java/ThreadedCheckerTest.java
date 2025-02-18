@@ -1,14 +1,11 @@
 package ru.nsu.vyaznikova;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import java.util.List;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * The {@code ThreadedCheckerTest} class contains unit tests for the {@link ThreadedChecker} class.
