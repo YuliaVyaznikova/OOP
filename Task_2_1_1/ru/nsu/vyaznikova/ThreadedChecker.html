@@ -76,6 +76,8 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ThreadedChecker</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">The <code>ThreadedChecker</code> class provides a method to check if
+ an array contains a non-prime number using multiple threads.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -106,7 +108,10 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#hasNonPrime(int%5B%5D,int)" class="member-name-link">hasNonPrime</a><wbr>(int[]&nbsp;numbers,
  int&nbsp;numThreads)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Checks if the given array contains at least one non-prime number using
+ a specified number of threads.</div>
+</div>
 </div>
 </div>
 </div>
@@ -144,9 +149,19 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasNonPrime</span><wbr><span class="parameters">(int[]&nbsp;numbers,
  int&nbsp;numThreads)</span>
                            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
+<div class="block">Checks if the given array contains at least one non-prime number using
+ a specified number of threads.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>numbers</code> - The array of integers to check.</dd>
+<dd><code>numThreads</code> - The number of threads to use for the check.</dd>
+<dt>Returns:</dt>
+<dd><code>true</code> if the array contains at least one non-prime number,
+ <code>false</code> otherwise.</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the input array is <code>null</code> or
+ the number of threads is not positive.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - if any thread is interrupted during execution.</dd>
 </dl>
 </section>
 </li>

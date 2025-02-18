@@ -76,6 +76,11 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PerformanceAnalyzer</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">The <code>PerformanceAnalyzer</code> class measures and records
+ the performance of different algorithms
+ for finding non-prime numbers in an array.
+ It generates test data, runs the algorithms, and
+ outputs the results to a CSV file.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -105,20 +110,30 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int[]</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#generateTestArray(int)" class="member-name-link">generateTestArray</a><wbr>(int&nbsp;size)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Generates a test array of integers.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#main(java.lang.String%5B%5D)" class="member-name-link">main</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;args)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">The main method of the <code>PerformanceAnalyzer</code> class.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#measureParallelStream(int%5B%5D)" class="member-name-link">measureParallelStream</a><wbr>(int[]&nbsp;numbers)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Measures the average execution time of the parallel stream non-prime checker.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#measureSequential(int%5B%5D)" class="member-name-link">measureSequential</a><wbr>(int[]&nbsp;numbers)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Measures the average execution time of the sequential non-prime checker.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#measureThreaded(int%5B%5D,int)" class="member-name-link">measureThreaded</a><wbr>(int[]&nbsp;numbers,
  int&nbsp;numThreads)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Measures the average execution time of the threaded non-prime checker.</div>
+</div>
 </div>
 </div>
 </div>
@@ -154,6 +169,13 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="measureSequential(int[])">
 <h3>measureSequential</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">measureSequential</span><wbr><span class="parameters">(int[]&nbsp;numbers)</span></div>
+<div class="block">Measures the average execution time of the sequential non-prime checker.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>numbers</code> - The array of numbers to check.</dd>
+<dt>Returns:</dt>
+<dd>The average execution time in nanoseconds.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -162,9 +184,15 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">measureThreaded</span><wbr><span class="parameters">(int[]&nbsp;numbers,
  int&nbsp;numThreads)</span>
                             throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
+<div class="block">Measures the average execution time of the threaded non-prime checker.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>numbers</code> - The array of numbers to check.</dd>
+<dd><code>numThreads</code> - The number of threads to use.</dd>
+<dt>Returns:</dt>
+<dd>The average execution time in nanoseconds.</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - If any thread is interrupted during execution.</dd>
 </dl>
 </section>
 </li>
@@ -172,12 +200,27 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="measureParallelStream(int[])">
 <h3>measureParallelStream</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">measureParallelStream</span><wbr><span class="parameters">(int[]&nbsp;numbers)</span></div>
+<div class="block">Measures the average execution time of the parallel stream non-prime checker.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>numbers</code> - The array of numbers to check.</dd>
+<dt>Returns:</dt>
+<dd>The average execution time in nanoseconds.</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="generateTestArray(int)">
 <h3>generateTestArray</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int[]</span>&nbsp;<span class="element-name">generateTestArray</span><wbr><span class="parameters">(int&nbsp;size)</span></div>
+<div class="block">Generates a test array of integers. The array contains numbers close to Integer.MAX_VALUE
+ and includes a few composite numbers to ensure the algorithm doesn't terminate prematurely.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>size</code> - The size of the array to generate.</dd>
+<dt>Returns:</dt>
+<dd>The generated array of integers.</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -185,9 +228,14 @@ loadScripts(document, 'script');</script>
 <h3>main</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">main</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;args)</span>
                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
+<div class="block">The main method of the <code>PerformanceAnalyzer</code> class.  It generates test data,
+ measures the performance of different non-prime checking algorithms, and writes the
+ results to a CSV file.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>args</code> - Command line arguments (not used).</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></code> - If any thread is interrupted.</dd>
 </dl>
 </section>
 </li>
