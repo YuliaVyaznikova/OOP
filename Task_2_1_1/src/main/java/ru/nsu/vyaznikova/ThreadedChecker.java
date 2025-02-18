@@ -37,7 +37,6 @@ public class ThreadedChecker {
                         }
                     }
                 } catch (Exception e) {
-                    // Обработка исключения внутри потока
                     System.err.println("Thread interrupted: " + e.getMessage());
                 }
             });
