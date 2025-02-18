@@ -1,7 +1,9 @@
 package ru.nsu.vyaznikova;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The {@code PrimeCheckerTest} class contains unit tests for the

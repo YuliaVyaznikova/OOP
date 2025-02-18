@@ -1,8 +1,9 @@
-package ru.nsu.vyaznikova;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import ru.nsu.vyaznikova.ParallelStreamChecker;
+import ru.nsu.vyaznikova.SequentialChecker;
+import ru.nsu.vyaznikova.ThreadedChecker;
 
 /**
  * The {@code PerformanceAnalyzer} class measures and records

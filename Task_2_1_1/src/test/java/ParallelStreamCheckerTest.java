@@ -64,9 +64,7 @@ public class ParallelStreamCheckerTest {
     }
 
     /**
-     * Tests that the {@link ParallelStreamChecker#hasNonPrime(int[])} method
-     * throws an {@link IllegalArgumentException}
-     * when the input array is null.
+     * Test
      */
     @Test
     void testHasNonPrime_NullArray_ThrowsException() {
