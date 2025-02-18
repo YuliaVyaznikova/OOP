@@ -1,22 +1,22 @@
 package ru.nsu.vyaznikova;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
- * The {@code ThreadedCheckerTest} class contains unit tests for
- * the {@link ThreadedChecker} class.
+ * The {@code ThreadedCheckerTest} class contains unit tests for the {@link ThreadedChecker} class.
  */
 public class ThreadedCheckerTest {
 
     /**
-     * Test
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method with an array containing a non-prime number
+     * and different thread counts.
      */
     @Test
     void testHasNonPrime_WithNonPrime() throws InterruptedException {
@@ -26,7 +26,7 @@ public class ThreadedCheckerTest {
     }
 
     /**
-     * Test
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method with an array containing only prime numbers.
      */
     @Test
     void testHasNonPrime_OnlyPrimes() throws InterruptedException {
@@ -35,7 +35,7 @@ public class ThreadedCheckerTest {
     }
 
     /**
-     * Test
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method with an empty array.
      */
     @Test
     void testHasNonPrime_EmptyArray() throws InterruptedException {
@@ -44,7 +44,8 @@ public class ThreadedCheckerTest {
     }
 
     /**
-     * Test
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method with an array containing a single non-prime
+     * number.
      */
     @Test
     void testHasNonPrime_OneNonPrime() throws InterruptedException {
@@ -53,7 +54,8 @@ public class ThreadedCheckerTest {
     }
 
     /**
-     * Test
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method with a large array containing non-prime numbers
+     * and different thread counts.
      */
     @Test
     void testHasNonPrime_BigArrayWithNonPrime() throws InterruptedException {
@@ -68,7 +70,8 @@ public class ThreadedCheckerTest {
     }
 
     /**
-     * Test
+     * Tests the {@link ThreadedChecker#hasNonPrime(int[], int)} method with a large array containing only prime
+     * numbers.
      */
     @Test
     void testHasNonPrime_BigArrayOnlyPrimes() throws InterruptedException {
@@ -92,7 +95,8 @@ public class ThreadedCheckerTest {
     }
 
     /**
-     * Test
+     * Tests that the {@link ThreadedChecker#hasNonPrime(int[], int)} method throws an
+     * {@link IllegalArgumentException} when the input array is null.
      */
     @Test
     void testHasNonPrime_NullArray_ThrowsException() {
@@ -101,7 +105,8 @@ public class ThreadedCheckerTest {
     }
 
     /**
-     * Test
+     * Tests that the {@link ThreadedChecker#hasNonPrime(int[], int)} method throws an
+     * {@link IllegalArgumentException} when the thread count is invalid (0 or negative).
      */
     @Test
     void testHasNonPrime_InvalidThreadCount_ThrowsException() {
