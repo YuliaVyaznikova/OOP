@@ -104,7 +104,7 @@ public class ThreadedCheckerTest {
     @Test
     void testHasNonPrime_NullArray_ThrowsException() {
         assertThrows(IllegalArgumentException.class, () ->
-            hreadedChecker.hasNonPrime(null, 2));
+            ThreadedChecker.hasNonPrime(null, 2));
     }
 
     /**
