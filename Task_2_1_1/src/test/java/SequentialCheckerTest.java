@@ -1,13 +1,9 @@
 package ru.nsu.vyaznikova;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * The {@code SequentialCheckerTest} class contains unit tests for the
