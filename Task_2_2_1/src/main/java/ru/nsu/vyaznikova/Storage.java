@@ -8,62 +8,71 @@ import java.util.Queue;
 public class Storage {
     private final int capacity;
     private final Queue<PizzaOrder> storageQueue = new LinkedList<>();
+    private final Object lock = new Object();
     private volatile boolean isRunning = true;
 
     public Storage(int capacity) {
         this.capacity = capacity;
     }
 
-    public synchronized void storePizza(PizzaOrder order) {
-        while (storageQueue.size() >= capacity && isRunning) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+    public void storePizza(PizzaOrder order) {
+        synchronized (lock) {
+            while (storageQueue.size() >= capacity && isRunning) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.err.println("Storage interrupted while waiting to store pizza.");
+                    return;
+                }
+            }
+
+            if (!isRunning) {
                 return;
             }
-        }
 
-        if (!isRunning) {
-            return;
+            storageQueue.add(order);
+            lock.notifyAll();
         }
-
-        storageQueue.add(order);
-        notifyAll();
     }
 
-    public synchronized List<PizzaOrder> takePizzas(int count) {
-        while (storageQueue.isEmpty() && isRunning) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+    public List<PizzaOrder> takePizzas(int count) {
+        synchronized (lock) {
+            while (storageQueue.isEmpty() && isRunning) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.err.println("Storage interrupted while waiting to take pizzas.");
+                    return List.of();
+                }
+            }
+
+            if (!isRunning) {
                 return List.of();
             }
-        }
 
-        if (!isRunning) {
-            return List.of();
+            List<PizzaOrder> orders = new ArrayList<>();
+            for (int i = 0; i < count && !storageQueue.isEmpty(); i++) {
+                orders.add(storageQueue.poll());
+            }
+            lock.notifyAll();
+            return orders;
         }
-
-        List<PizzaOrder> orders = new ArrayList<>();
-        for (int i = 0; i < count && !storageQueue.isEmpty(); i++) {
-            orders.add(storageQueue.poll());
-        }
-        notifyAll();
-        return orders;
     }
 
-    public synchronized Object getStorageLock() {
-        return this;
-    }
-
-    public synchronized void stop() {
-        isRunning = false;
-        notifyAll();
+    public void stop() {
+        synchronized (lock) {
+            isRunning = false;
+            lock.notifyAll();
+        }
     }
 
     public boolean isRunning() {
         return isRunning;
+    }
+
+    public Object getStorageLock() {
+        return lock;
     }
 }

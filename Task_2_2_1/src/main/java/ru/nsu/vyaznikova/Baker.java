@@ -22,41 +22,43 @@ public class Baker implements Runnable {
     public void run() {
         try {
             while (isRunning) {
-                PizzaOrder order = null;
-                synchronized (queueLock) {
-                    while (orderQueue.isEmpty() && isRunning) {
-                        try {
-                            queueLock.wait();
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                            System.err.println("Пекарь " + id + " прерван во время ожидания заказа.");
-                            return;
-                        }
-                    }
-
-                    if (!orderQueue.isEmpty()) {
-                        order = orderQueue.poll();
-                    } else {
-                        break;
-                    }
+                PizzaOrder order = takeOrderFromQueue();
+                if (order == null) {
+                    break;
                 }
-
-                if (order != null) {
-                    System.out.println("[" + order.getOrderId() + "] [Принят в работу пекарем " + id + "]");
-                    try {
-                        Thread.sleep(cookingSpeed);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        System.err.println("Пекарь " + id + " прерван во время приготовления заказа " + order.getOrderId());
-                        return;
-                    }
-                    System.out.println("[" + order.getOrderId() + "] [Готово]");
-                    storage.storePizza(order);
-                }
+                processOrder(order);
             }
         } finally {
             System.out.println("Пекарь " + id + " завершил работу.");
         }
+    }
+
+    private PizzaOrder takeOrderFromQueue() {
+        synchronized (queueLock) {
+            while (orderQueue.isEmpty() && isRunning) {
+                try {
+                    queueLock.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.err.println("Пекарь " + id + " прерван во время ожидания заказа.");
+                    return null;
+                }
+            }
+            return orderQueue.isEmpty() ? null : orderQueue.poll();
+        }
+    }
+
+    private void processOrder(PizzaOrder order) {
+        System.out.println("[" + order.getOrderId() + "] [Принят в работу пекарем " + id + "]");
+        try {
+            Thread.sleep(cookingSpeed);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.err.println("Пекарь " + id + " прерван во время приготовления заказа " + order.getOrderId());
+            return;
+        }
+        System.out.println("[" + order.getOrderId() + "] [Готово]");
+        storage.storePizza(order);
     }
 
     public void stop() {

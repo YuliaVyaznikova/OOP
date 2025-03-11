@@ -18,40 +18,51 @@ public class Courier implements Runnable {
     public void run() {
         try {
             while (isRunning) {
-                List<PizzaOrder> orders = storage.takePizzas(trunkCapacity);
-
-                if (orders.isEmpty() && isRunning) {
-                    synchronized (storage.getStorageLock()) {
-                        try {
-                            storage.getStorageLock().wait();
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                            System.err.println("Курьер " + id + " прерван во время ожидания пиццы.");
-                            return;
-                        }
-                    }
+                List<PizzaOrder> orders = takePizzasFromStorage();
+                if (orders.isEmpty()) {
+                    break;
                 }
-
-                if (!orders.isEmpty()) {
-                    for (PizzaOrder order : orders) {
-                        System.out.println("[" + order.getOrderId() + "] [Доставка курьером " + id + "]");
-                    }
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        System.err.println("Курьер " + id + " прерван во время доставки.");
-                        return;
-                    }
-
-                    for (PizzaOrder order : orders) {
-                        System.out.println("[" + order.getOrderId() + "] [Доставлено]");
-                    }
-                }
+                deliverPizzas(orders);
             }
         } finally {
             System.out.println("Курьер " + id + " завершил работу.");
+        }
+    }
+
+    private List<PizzaOrder> takePizzasFromStorage() {
+        List<PizzaOrder> orders = storage.takePizzas(trunkCapacity);
+        if (orders.isEmpty() && isRunning) {
+            synchronized (storage.getStorageLock()) {
+                while (orders.isEmpty() && isRunning) {
+                    try {
+                        storage.getStorageLock().wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        System.err.println("Курьер " + id + " прерван во время ожидания пиццы.");
+                        return List.of();
+                    }
+                    orders = storage.takePizzas(trunkCapacity);
+                }
+            }
+        }
+        return orders;
+    }
+
+    private void deliverPizzas(List<PizzaOrder> orders) {
+        for (PizzaOrder order : orders) {
+            System.out.println("[" + order.getOrderId() + "] [Доставка курьером " + id + "]");
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.err.println("Курьер " + id + " прерван во время доставки.");
+            return;
+        }
+
+        for (PizzaOrder order : orders) {
+            System.out.println("[" + order.getOrderId() + "] [Доставлено]");
         }
     }
 

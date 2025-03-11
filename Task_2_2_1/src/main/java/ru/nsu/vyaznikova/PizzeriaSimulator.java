@@ -19,16 +19,26 @@ public class PizzeriaSimulator {
 
     public PizzeriaSimulator(int N, int M, int T, int[] bakerSpeeds, int[] courierCapacities) {
         this.storage = new Storage(T);
-        this.bakers = new Baker[N];
+        this.bakers = createBakers(N, bakerSpeeds);
+        this.couriers = createCouriers(M, courierCapacities);
         this.bakerExecutor = Executors.newFixedThreadPool(N);
+        this.courierExecutor = Executors.newFixedThreadPool(M);
+    }
+
+    private Baker[] createBakers(int N, int[] bakerSpeeds) {
+        Baker[] bakers = new Baker[N];
         for (int i = 0; i < N; i++) {
             bakers[i] = new Baker(i + 1, bakerSpeeds[i], orderQueue, storage, queueLock);
         }
-        this.couriers = new Courier[M];
-        this.courierExecutor = Executors.newFixedThreadPool(M);
+        return bakers;
+    }
+
+    private Courier[] createCouriers(int M, int[] courierCapacities) {
+        Courier[] couriers = new Courier[M];
         for (int i = 0; i < M; i++) {
             couriers[i] = new Courier(i + 1, courierCapacities[i], storage);
         }
+        return couriers;
     }
 
     public void startSimulation() {
@@ -74,10 +84,8 @@ public class PizzeriaSimulator {
             System.err.println("Interrupted while waiting for threads to terminate.");
         }
 
-
         System.out.println("Simulation stopped.");
     }
-
 
     public static void main(String[] args) {
         int N = 2;
@@ -96,7 +104,6 @@ public class PizzeriaSimulator {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.err.println("Interrupted while placing orders.");
-                Thread.currentThread().interrupt();
                 return;
             }
         }
