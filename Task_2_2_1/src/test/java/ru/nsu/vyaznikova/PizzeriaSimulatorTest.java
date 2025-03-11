@@ -8,10 +8,10 @@ class PizzeriaSimulatorTest {
 
     @Test
     void testStartAndStopSimulation() throws InterruptedException {
-        int N = 1;
-        int M = 1;
-        int T = 10;
-        int[] bakerSpeeds = {1000};
+        int N = 10;
+        int M = 10;
+        int T = 100;
+        int[] bakerSpeeds = {11};
         int[] courierCapacities = {2};
 
         PizzeriaSimulator simulator = new PizzeriaSimulator(N, M, T, bakerSpeeds, courierCapacities);
@@ -20,7 +20,7 @@ class PizzeriaSimulatorTest {
 
         simulator.placeOrder(new PizzaOrder(1));
 
-        Thread.sleep(2000);
+        Thread.sleep(20);
 
         simulator.stopSimulation();
 
