@@ -98,8 +98,10 @@ public class GameModel {
 
             // Проверяем победу
             if (snake.getLength() >= targetLength) {
+                GameState oldState = this.gameState;
                 gameState = GameState.VICTORY;
                 EventBus.getInstance().publish(new VictoryEvent(snake.getLength()));
+                EventBus.getInstance().publish(new StateChangedEvent(oldState, gameState));
                 return;
             }
         } else {

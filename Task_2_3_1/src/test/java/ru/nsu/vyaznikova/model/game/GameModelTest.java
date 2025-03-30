@@ -194,25 +194,47 @@ public class GameModelTest {
                 }
             }
 
-            assertNotNull(foodPosition);
-            assertNotNull(headPosition);
+            assertNotNull(foodPosition, "Food should be present on the grid");
+            assertNotNull(headPosition, "Snake head should be present on the grid");
 
-            // Двигаемся к еде
-            if (foodPosition.x() > headPosition.x()) {
-                gameModel.setDirection(Direction.RIGHT);
-            } else if (foodPosition.x() < headPosition.x()) {
-                gameModel.setDirection(Direction.LEFT);
-            } else if (foodPosition.y() > headPosition.y()) {
-                gameModel.setDirection(Direction.DOWN);
-            } else {
-                gameModel.setDirection(Direction.UP);
+            // Сначала выравниваем по горизонтали, затем по вертикали
+            if (foodPosition.x() != headPosition.x()) {
+                // Проверяем, что следующий ход не приведет к столкновению
+                int nextX = headPosition.x() + (foodPosition.x() > headPosition.x() ? 1 : -1);
+                if (gameModel.getCellType(nextX, headPosition.y()) != CellType.WALL &&
+                    gameModel.getCellType(nextX, headPosition.y()) != CellType.SNAKE_BODY) {
+                    gameModel.setDirection(foodPosition.x() > headPosition.x() ? Direction.RIGHT : Direction.LEFT);
+                } else {
+                    // Если путь заблокирован, пробуем двигаться вертикально
+                    if (headPosition.y() > 1) {
+                        gameModel.setDirection(Direction.UP);
+                    } else {
+                        gameModel.setDirection(Direction.DOWN);
+                    }
+                }
+            } else if (foodPosition.y() != headPosition.y()) {
+                // Проверяем, что следующий ход не приведет к столкновению
+                int nextY = headPosition.y() + (foodPosition.y() > headPosition.y() ? 1 : -1);
+                if (gameModel.getCellType(headPosition.x(), nextY) != CellType.WALL &&
+                    gameModel.getCellType(headPosition.x(), nextY) != CellType.SNAKE_BODY) {
+                    gameModel.setDirection(foodPosition.y() > headPosition.y() ? Direction.DOWN : Direction.UP);
+                } else {
+                    // Если путь заблокирован, пробуем двигаться горизонтально
+                    if (headPosition.x() > 1) {
+                        gameModel.setDirection(Direction.LEFT);
+                    } else {
+                        gameModel.setDirection(Direction.RIGHT);
+                    }
+                }
             }
 
             gameModel.update();
         }
 
-        assertEquals(GameState.VICTORY, gameModel.getGameState());
+        assertEquals(GameState.VICTORY, gameModel.getGameState(), "Game should end in victory");
         assertTrue(eventListener.getReceivedEvents().stream()
-                .anyMatch(e -> e.getEventType().equals("VICTORY")));
+                .anyMatch(e -> e.getEventType().equals("VICTORY")), "Victory event should be published");
+        assertTrue(eventListener.getReceivedEvents().stream()
+                .anyMatch(e -> e.getEventType().equals("STATE_CHANGED")), "State changed event should be published");
     }
 }
