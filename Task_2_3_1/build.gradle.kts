@@ -15,7 +15,7 @@ repositories {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21) // Use 17 or higher
+        languageVersion = JavaLanguageVersion.of(21)
 
     }
 }
@@ -44,7 +44,6 @@ tasks.named<JacocoReport>("jacocoTestReport") {
 
 tasks.withType<JavaExec> {
     doFirst {
-        // Ensure JavaFX is on the runtime classpath
         jvmArgs = listOf(
             "--module-path", configurations.runtimeClasspath.get().asPath,
             "--add-modules", "javafx.controls,javafx.fxml"
@@ -58,5 +57,5 @@ javafx {
 }
 
 application {
-    mainClass.set("ru.nsu.vyaznikova.MainApp") // Replace with your actual main class
+    mainClass.set("ru.nsu.vyaznikova.MainApp")
 }
