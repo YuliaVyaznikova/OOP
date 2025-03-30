@@ -1,0 +1,10 @@
+ru.nsu.vyaznikova
+ru.nsu.vyaznikova.controller
+ru.nsu.vyaznikova.controller.input
+ru.nsu.vyaznikova.engine
+ru.nsu.vyaznikova.engine.events
+ru.nsu.vyaznikova.model.game
+ru.nsu.vyaznikova.model.grid
+ru.nsu.vyaznikova.model.snake
+ru.nsu.vyaznikova.view
+ru.nsu.vyaznikova.view.input
