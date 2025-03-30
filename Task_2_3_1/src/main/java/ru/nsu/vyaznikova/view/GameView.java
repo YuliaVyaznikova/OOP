@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import ru.nsu.vyaznikova.model.grid.CellType;
 import ru.nsu.vyaznikova.model.game.GameModel;
 import ru.nsu.vyaznikova.engine.events.EventBus;
-import ru.nsu.vyaznikova.engine.events.GameEvent;
+import ru.nsu.vyaznikova.engine.events.*;
 import ru.nsu.vyaznikova.model.game.GameState;
 import javafx.scene.text.Text;
 
@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
  * - Обновление счета и отображение игровых сообщений
  * - Перерисовку поля при изменении состояния игры
  */
-public class GameView extends Canvas {
+public class GameView extends Canvas implements EventListener {
     private final GameModel gameModel;
     private final int cellSize = 30;
     private final Color wallColor = Color.GRAY;
@@ -104,19 +104,39 @@ public class GameView extends Canvas {
     private void subscribeToEvents() {
         EventBus eventBus = EventBus.getInstance();
         
-        eventBus.subscribe(GameEvent.EventType.SNAKE_MOVED, event -> draw());
-        eventBus.subscribe(GameEvent.EventType.FOOD_EATEN, event -> {
-            draw();
-            updateScore();
-        });
-        eventBus.subscribe(GameEvent.EventType.GAME_OVER, event -> {
-            draw();
-            scoreText.setText("Game Over! Length: " + gameModel.getLength());
-        });
-        eventBus.subscribe(GameEvent.EventType.VICTORY, event -> {
-            draw();
-            scoreText.setText("Victory! Length: " + gameModel.getLength());
-        });
+        eventBus.subscribe("SNAKE_MOVED", this);
+        eventBus.subscribe("FOOD_EATEN", this);
+        eventBus.subscribe("GAME_OVER", this);
+        eventBus.subscribe("VICTORY", this);
+        eventBus.subscribe("STATE_CHANGED", this);
+    }
+
+    @Override
+    public void onEvent(Event event) {
+        switch (event.getEventType()) {
+            case "SNAKE_MOVED" -> draw();
+            case "FOOD_EATEN" -> {
+                FoodEatenEvent e = (FoodEatenEvent) event;
+                draw();
+                scoreText.setText("Length: " + e.getNewScore());
+            }
+            case "GAME_OVER" -> {
+                GameOverEvent e = (GameOverEvent) event;
+                draw();
+                scoreText.setText("Game Over! " + e.getReason());
+            }
+            case "VICTORY" -> {
+                VictoryEvent e = (VictoryEvent) event;
+                draw();
+                scoreText.setText("Victory! Score: " + e.getFinalScore());
+            }
+            case "STATE_CHANGED" -> {
+                StateChangedEvent e = (StateChangedEvent) event;
+                if (e.getNewState() == GameState.RUNNING) {
+                    updateScore();
+                }
+            }
+        }
     }
 
     private void updateScore() {

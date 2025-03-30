@@ -11,7 +11,7 @@
 package ru.nsu.vyaznikova.model.game;
 
 import ru.nsu.vyaznikova.engine.events.EventBus;
-import ru.nsu.vyaznikova.engine.events.GameEvent;
+import ru.nsu.vyaznikova.engine.events.*;
 import ru.nsu.vyaznikova.model.grid.CellType;
 import ru.nsu.vyaznikova.model.grid.Position;
 import ru.nsu.vyaznikova.model.snake.Direction;
@@ -79,26 +79,29 @@ public class GameModel {
         // Проверяем столкновения
         if (checkCollision(newHead)) {
             gameState = GameState.GAME_OVER;
-            EventBus.getInstance().publish(new GameEvent(GameEvent.EventType.GAME_OVER));
+            EventBus.getInstance().publish(new GameOverEvent("Collision with wall or self"));
             return;
         }
 
         // Очищаем старые позиции змейки
+        Position oldTail = null;
         for (Position pos : snake.getBody()) {
             grid[pos.y()][pos.x()] = CellType.EMPTY;
+            oldTail = pos;
         }
 
         // Проверяем еду
         boolean growing = grid[newHead.y()][newHead.x()] == CellType.FOOD;
         if (growing) {
             snake.grow(newHead);
+            Position eatenFoodPos = food;
             spawnFood();
-            EventBus.getInstance().publish(new GameEvent(GameEvent.EventType.FOOD_EATEN));
+            EventBus.getInstance().publish(new FoodEatenEvent(eatenFoodPos, snake.getLength()));
 
             // Проверяем победу
             if (snake.getLength() >= targetLength) {
                 gameState = GameState.VICTORY;
-                EventBus.getInstance().publish(new GameEvent(GameEvent.EventType.VICTORY));
+                EventBus.getInstance().publish(new VictoryEvent(snake.getLength()));
                 return;
             }
         } else {
@@ -111,7 +114,7 @@ public class GameModel {
         }
         grid[snake.getHeadPosition().y()][snake.getHeadPosition().x()] = CellType.SNAKE_HEAD;
 
-        EventBus.getInstance().publish(new GameEvent(GameEvent.EventType.SNAKE_MOVED));
+        EventBus.getInstance().publish(new SnakeMovedEvent(newHead, oldTail));
     }
 
     private boolean checkCollision(Position pos) {
@@ -138,11 +141,17 @@ public class GameModel {
     public void setDirection(Direction newDirection) {
         if (!snakeInitialized) return;
         
+        GameState oldState = gameState;
+        
         // Проверяем, что новое направление не противоположно текущему
         if (currentDirection != null && !currentDirection.isOpposite(newDirection)) {
             currentDirection = newDirection;
         } else if (currentDirection == null) {
             currentDirection = newDirection;
+        }
+        
+        if (oldState != gameState) {
+            EventBus.getInstance().publish(new StateChangedEvent(oldState, gameState));
         }
     }
 

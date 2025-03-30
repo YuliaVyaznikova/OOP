@@ -14,13 +14,10 @@ import java.util.Map;
  */
 public class EventBus {
     private static EventBus instance;
-    private final Map<GameEvent.EventType, List<EventListener>> listeners;
+    private final Map<String, List<EventListener>> listeners;
 
     private EventBus() {
         listeners = new HashMap<>();
-        for (GameEvent.EventType type : GameEvent.EventType.values()) {
-            listeners.put(type, new ArrayList<>());
-        }
     }
 
     public static EventBus getInstance() {
@@ -30,18 +27,23 @@ public class EventBus {
         return instance;
     }
 
-    public void subscribe(GameEvent.EventType eventType, EventListener listener) {
-        listeners.get(eventType).add(listener);
+    public void subscribe(String eventType, EventListener listener) {
+        listeners.computeIfAbsent(eventType, k -> new ArrayList<>()).add(listener);
     }
 
-    public void unsubscribe(GameEvent.EventType eventType, EventListener listener) {
-        listeners.get(eventType).remove(listener);
+    public void unsubscribe(String eventType, EventListener listener) {
+        if (listeners.containsKey(eventType)) {
+            listeners.get(eventType).remove(listener);
+        }
     }
 
-    public void publish(GameEvent event) {
-        List<EventListener> eventListeners = listeners.get(event.getType());
-        for (EventListener listener : eventListeners) {
-            listener.onEvent(event);
+    public void publish(Event event) {
+        String eventType = event.getEventType();
+        if (listeners.containsKey(eventType)) {
+            List<EventListener> eventListeners = listeners.get(eventType);
+            for (EventListener listener : eventListeners) {
+                listener.onEvent(event);
+            }
         }
     }
 }
