@@ -2,13 +2,14 @@ package ru.nsu.vyaznikova;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ru.nsu.vyaznikova.controller.GameController;
 import ru.nsu.vyaznikova.engine.JavaFXGameLoop;
 import ru.nsu.vyaznikova.model.game.GameModel;
 import ru.nsu.vyaznikova.view.GameView;
+import ru.nsu.vyaznikova.view.input.JavaFXInputAdapter;
 
 /**
  * Главный класс приложения, отвечающий за:
@@ -27,28 +28,28 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Создаем компоненты игры
-        GameModel gameModel = new GameModel(GRID_WIDTH, GRID_HEIGHT, TARGET_LENGTH);
+        GameModel model = new GameModel(GRID_WIDTH, GRID_HEIGHT, TARGET_LENGTH);
+        GameController controller = new GameController(model);
         Text scoreText = new Text("Length: 1");
-        GameView gameView = new GameView(gameModel, scoreText);
-        GameController gameController = new GameController(gameModel);
-        JavaFXGameLoop gameLoop = new JavaFXGameLoop(gameModel, gameView::draw);
+        GameView view = new GameView(model, scoreText);
 
-        // Создаем layout
-        VBox root = new VBox(10); // 10 - отступ между элементами
-        root.getChildren().addAll(scoreText, gameView);
-        
         // Настраиваем сцену
+        StackPane root = new StackPane();
+        root.getChildren().addAll(view, scoreText);
         Scene scene = new Scene(root);
-        scene.setOnKeyPressed(gameController::handleKeyEvent);
         
-        // Настраиваем окно
+        // Настраиваем ввод через адаптер
+        new JavaFXInputAdapter(scene, controller);
+
+        // Настраиваем и запускаем игровой цикл
+        JavaFXGameLoop gameLoop = new JavaFXGameLoop(model, view::draw);
+        gameLoop.start();
+
+        // Настраиваем и показываем окно
         primaryStage.setTitle("Snake Game");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
-
-        // Запускаем игровой цикл
-        gameLoop.start();
     }
 
     public static void main(String[] args) {
