@@ -1,4 +1,5 @@
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import org.gradle.api.tasks.Copy
 
 plugins {
     id("java")
@@ -47,6 +48,14 @@ dependencies {
     implementation("org.jetbrains:annotations:24.1.0")
     implementation("org.openjdk.jmh:jmh-core:1.37")
     implementation("org.json:json:20240303")
+}
+
+tasks.withType<Copy> {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 tasks.test {
