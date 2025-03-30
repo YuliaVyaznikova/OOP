@@ -116,14 +116,13 @@ public class GameView extends Canvas implements EventListener {
         switch (event.getEventType()) {
             case "SNAKE_MOVED" -> draw();
             case "FOOD_EATEN" -> {
-                FoodEatenEvent e = (FoodEatenEvent) event;
                 draw();
-                scoreText.setText("Length: " + e.getNewScore());
+                scoreText.setText("Length: " + gameModel.getLength());
             }
             case "GAME_OVER" -> {
                 GameOverEvent e = (GameOverEvent) event;
                 draw();
-                scoreText.setText("Game Over! " + e.getReason());
+                scoreText.setText("Game Over! " + e.getCollisionPosition());
             }
             case "VICTORY" -> {
                 VictoryEvent e = (VictoryEvent) event;

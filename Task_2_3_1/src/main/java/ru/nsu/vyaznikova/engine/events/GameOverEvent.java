@@ -1,14 +1,16 @@
 package ru.nsu.vyaznikova.engine.events;
 
+import ru.nsu.vyaznikova.model.grid.Position;
+
 /**
  * Событие окончания игры.
- * Содержит информацию о причине окончания игры.
+ * Содержит информацию о позиции столкновения, которое привело к окончанию игры.
  */
 public class GameOverEvent implements Event {
-    private final String reason;
+    private final Position collisionPosition;
 
-    public GameOverEvent(String reason) {
-        this.reason = reason;
+    public GameOverEvent(Position collisionPosition) {
+        this.collisionPosition = collisionPosition;
     }
 
     @Override
@@ -16,7 +18,13 @@ public class GameOverEvent implements Event {
         return "GAME_OVER";
     }
 
-    public String getReason() {
-        return reason;
+    public Position getCollisionPosition() {
+        return collisionPosition;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("GameOverEvent{collision at (%d, %d)}", 
+            collisionPosition.x(), collisionPosition.y());
     }
 }

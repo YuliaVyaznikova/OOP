@@ -1,4 +1,5 @@
 import org.gradle.testing.jacoco.tasks.JacocoReport
+
 plugins {
     id("java")
     id("jacoco")
@@ -6,7 +7,7 @@ plugins {
     id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
-group = "ru.nsu.kolodina.snake"
+group = "ru.nsu.vyaznikova"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -16,23 +17,43 @@ repositories {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main/java")
+        }
+        resources {
+            srcDirs("src/main/resources")
+        }
+    }
+    test {
+        java {
+            srcDirs("src/test/java")
+        }
+        resources {
+            srcDirs("src/test/resources")
+        }
     }
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    implementation ("org.jetbrains:annotations:16.0.2")
-    implementation("org.openjdk.jmh:jmh-core:1.36")
-    implementation ("org.json:json:20171018")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.2")
-
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    implementation("org.jetbrains:annotations:24.1.0")
+    implementation("org.openjdk.jmh:jmh-core:1.37")
+    implementation("org.json:json:20240303")
 }
 
 tasks.test {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 
 tasks.named<JacocoReport>("jacocoTestReport") {

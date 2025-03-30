@@ -29,7 +29,6 @@ public class GameModel {
     private Direction currentDirection;
     private Position food;
     private GameState gameState;
-    private boolean snakeInitialized;
 
     public GameModel(int width, int height, int targetLength) {
         this.width = width;
@@ -62,7 +61,6 @@ public class GameModel {
         int startY = height / 2;
         snake = new Snake(new Position(startX, startY));
         grid[startY][startX] = CellType.SNAKE_HEAD;
-        snakeInitialized = true;
     }
 
     public void update() {
@@ -79,7 +77,7 @@ public class GameModel {
         // Проверяем столкновения
         if (checkCollision(newHead)) {
             gameState = GameState.GAME_OVER;
-            EventBus.getInstance().publish(new GameOverEvent("Collision with wall or self"));
+            EventBus.getInstance().publish(new GameOverEvent(newHead));
             return;
         }
 
@@ -96,7 +94,7 @@ public class GameModel {
             snake.grow(newHead);
             Position eatenFoodPos = food;
             spawnFood();
-            EventBus.getInstance().publish(new FoodEatenEvent(eatenFoodPos, snake.getLength()));
+            EventBus.getInstance().publish(new FoodEatenEvent(eatenFoodPos, food));
 
             // Проверяем победу
             if (snake.getLength() >= targetLength) {
@@ -108,19 +106,23 @@ public class GameModel {
             snake.move(newHead);
         }
 
-        // Обновляем отображение змейки на поле
+        // Обновляем позиции змейки на поле
         for (Position pos : snake.getBody()) {
             grid[pos.y()][pos.x()] = CellType.SNAKE_BODY;
         }
-        grid[snake.getHeadPosition().y()][snake.getHeadPosition().x()] = CellType.SNAKE_HEAD;
+        grid[newHead.y()][newHead.x()] = CellType.SNAKE_HEAD;
 
-        EventBus.getInstance().publish(new SnakeMovedEvent(newHead, oldTail));
+        // Публикуем событие о движении змейки
+        EventBus.getInstance().publish(new SnakeMovedEvent(head, newHead, oldTail));
     }
 
     private boolean checkCollision(Position pos) {
-        if (isOutOfBounds(pos)) return true;
-        CellType cell = grid[pos.y()][pos.x()];
-        return cell == CellType.WALL || cell == CellType.SNAKE_BODY || cell == CellType.SNAKE_HEAD;
+        if (isOutOfBounds(pos)) {
+            return true;
+        }
+
+        CellType cellType = grid[pos.y()][pos.x()];
+        return cellType == CellType.WALL || cellType == CellType.SNAKE_BODY;
     }
 
     private boolean isOutOfBounds(Position pos) {
@@ -128,31 +130,46 @@ public class GameModel {
     }
 
     private void spawnFood() {
-        int x, y;
-        do {
-            x = random.nextInt(width - 2) + 1; // Не спавним еду в стенах
-            y = random.nextInt(height - 2) + 1;
-        } while (grid[y][x] != CellType.EMPTY);
+        // Находим все пустые клетки
+        int emptyCells = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (grid[y][x] == CellType.EMPTY) {
+                    emptyCells++;
+                }
+            }
+        }
 
-        food = new Position(x, y);
-        grid[y][x] = CellType.FOOD;
+        if (emptyCells == 0) {
+            return;
+        }
+
+        // Выбираем случайную пустую клетку
+        int targetCell = random.nextInt(emptyCells);
+        int currentCell = 0;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (grid[y][x] == CellType.EMPTY) {
+                    if (currentCell == targetCell) {
+                        grid[y][x] = CellType.FOOD;
+                        food = new Position(x, y);
+                        return;
+                    }
+                    currentCell++;
+                }
+            }
+        }
     }
 
     public void setDirection(Direction newDirection) {
-        if (!snakeInitialized) return;
-        
-        GameState oldState = gameState;
-        
         // Проверяем, что новое направление не противоположно текущему
-        if (currentDirection != null && !currentDirection.isOpposite(newDirection)) {
-            currentDirection = newDirection;
-        } else if (currentDirection == null) {
-            currentDirection = newDirection;
+        if (currentDirection != null && 
+            newDirection.dx == -currentDirection.dx && 
+            newDirection.dy == -currentDirection.dy) {
+            return;
         }
-        
-        if (oldState != gameState) {
-            EventBus.getInstance().publish(new StateChangedEvent(oldState, gameState));
-        }
+        currentDirection = newDirection;
     }
 
     public CellType getCellType(int x, int y) {
@@ -173,5 +190,17 @@ public class GameModel {
 
     public GameState getGameState() {
         return gameState;
+    }
+
+    /**
+     * Устанавливает новое состояние игры
+     * @param newState новое состояние
+     */
+    public void setGameState(GameState newState) {
+        if (this.gameState != newState) {
+            GameState oldState = this.gameState;
+            this.gameState = newState;
+            EventBus.getInstance().publish(new StateChangedEvent(oldState, newState));
+        }
     }
 }

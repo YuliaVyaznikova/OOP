@@ -44,4 +44,12 @@ public class GameController implements InputHandler {
         isPaused = !isPaused;
         // TODO: Implement pause functionality in GameModel
     }
+
+    /**
+     * Проверяет, находится ли игра в состоянии паузы
+     * @return true если игра на паузе, false в противном случае
+     */
+    public boolean isPaused() {
+        return isPaused;
+    }
 }
