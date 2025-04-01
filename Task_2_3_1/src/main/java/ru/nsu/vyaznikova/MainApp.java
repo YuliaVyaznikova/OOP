@@ -17,8 +17,8 @@ import ru.nsu.vyaznikova.engine.JavaFXGameLoop;
  * Главный класс приложения.
  */
 public class MainApp extends Application implements EventListener {
-    private static final int GRID_WIDTH = 20;
-    private static final int GRID_HEIGHT = 20;
+    private static final int GRID_WIDTH = 30;
+    private static final int GRID_HEIGHT = 30;
     private static final int TARGET_LENGTH = 10;
     private static final int FOOD_COUNT = 3;
 

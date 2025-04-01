@@ -20,6 +20,7 @@ import ru.nsu.vyaznikova.model.snake.AISnake;
 import ru.nsu.vyaznikova.model.snake.ai.SnakeStrategy;
 import ru.nsu.vyaznikova.model.snake.ai.HunterStrategy;
 import ru.nsu.vyaznikova.model.snake.ai.RandomStrategy;
+import ru.nsu.vyaznikova.model.snake.ai.FoodHunterStrategy;
 
 import java.util.*;
 
@@ -88,13 +89,35 @@ public class GameModel {
     }
 
     private void initializeAISnakes() {
-        // Создаем змейку-охотника в левом верхнем углу (с отступом от стен)
-        Position hunterPos = new Position(2, 2);
-        addAISnake(hunterPos, new HunterStrategy());
+        // Создаем змейку-охотника, которая следует за игроком
+        AISnake hunterSnake = new AISnake(
+            new Position(width / 4, height / 4),
+            new HunterStrategy(),
+            this,
+            aiSnakes.size() + 2
+        );
+        aiSnakes.add(hunterSnake);
+        snakeIdToCellType.put(hunterSnake.getId(), CellType.AI_SNAKE);
 
-        // Создаем змейку со случайной стратегией в правом верхнем углу
-        Position randomPos = new Position(width - 3, 2);
-        addAISnake(randomPos, new RandomStrategy());
+        // Создаем змейку со случайным движением
+        AISnake randomSnake = new AISnake(
+            new Position(width * 3 / 4, height / 4),
+            new RandomStrategy(),
+            this,
+            aiSnakes.size() + 2
+        );
+        aiSnakes.add(randomSnake);
+        snakeIdToCellType.put(randomSnake.getId(), CellType.AI_SNAKE);
+
+        // Создаем змейку-охотника за едой
+        AISnake foodHunterSnake = new AISnake(
+            new Position(width / 2, height * 3 / 4),
+            new FoodHunterStrategy(),
+            this,
+            aiSnakes.size() + 2
+        );
+        aiSnakes.add(foodHunterSnake);
+        snakeIdToCellType.put(foodHunterSnake.getId(), CellType.AI_SNAKE);
     }
 
     public void addAISnake(Position startPosition, SnakeStrategy strategy) {
