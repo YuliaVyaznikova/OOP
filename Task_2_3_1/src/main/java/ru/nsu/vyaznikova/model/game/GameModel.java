@@ -24,7 +24,7 @@ import ru.nsu.vyaznikova.model.snake.ai.FoodHunterStrategy;
 
 import java.util.*;
 
-public class GameModel {
+public class GameModel implements GameStateView {
     private final int width;
     private final int height;
     private final int targetLength;

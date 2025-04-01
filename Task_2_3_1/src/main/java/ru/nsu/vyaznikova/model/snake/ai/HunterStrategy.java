@@ -1,88 +1,93 @@
 package ru.nsu.vyaznikova.model.snake.ai;
 
-import ru.nsu.vyaznikova.model.game.GameModel;
-import ru.nsu.vyaznikova.model.grid.CellType;
 import ru.nsu.vyaznikova.model.grid.Position;
 import ru.nsu.vyaznikova.model.snake.Direction;
+import ru.nsu.vyaznikova.model.game.GameStateView;
+import ru.nsu.vyaznikova.model.grid.CellType;
 
 /**
- * Стратегия "охотника" - змейка преследует голову игрока.
+ * Стратегия охотника - змейка преследует игрока.
  */
 public class HunterStrategy implements SnakeStrategy {
     private Direction lastDirection = Direction.RIGHT;
 
     @Override
-    public Direction getNextMove(Position currentPosition, GameModel gameModel) {
-        // Ищем голову змейки игрока
-        Position targetPosition = null;
-        for (int y = 0; y < gameModel.getHeight(); y++) {
-            for (int x = 0; x < gameModel.getWidth(); x++) {
-                if (gameModel.getCellType(x, y) == CellType.SNAKE_HEAD) {
-                    targetPosition = new Position(x, y);
-                    break;
-                }
-            }
-            if (targetPosition != null) break;
-        }
-
-        if (targetPosition == null) {
-            return lastDirection; // Если цель не найдена, продолжаем двигаться в текущем направлении
+    public Direction getNextMove(Position currentPosition, GameStateView gameState) {
+        // Ищем позицию игрока
+        Position playerPosition = findPlayerPosition(gameState);
+        if (playerPosition == null) {
+            return lastDirection; // Если игрок не найден, продолжаем двигаться в текущем направлении
         }
 
         // Вычисляем разницу в координатах
-        int dx = targetPosition.x() - currentPosition.x();
-        int dy = targetPosition.y() - currentPosition.y();
+        int dx = playerPosition.x() - currentPosition.x();
+        int dy = playerPosition.y() - currentPosition.y();
 
-        // Пробуем двигаться в направлении цели
-        Direction[] possibleDirections = new Direction[2];
+        // Пробуем двигаться в направлении игрока
+        Direction primaryDirection = null;
+        Direction secondaryDirection = null;
+
+        // Выбираем приоритетное направление
         if (Math.abs(dx) > Math.abs(dy)) {
-            // Приоритет горизонтального движения
-            possibleDirections[0] = dx > 0 ? Direction.RIGHT : Direction.LEFT;
-            possibleDirections[1] = dy > 0 ? Direction.DOWN : Direction.UP;
+            primaryDirection = dx > 0 ? Direction.RIGHT : Direction.LEFT;
+            secondaryDirection = dy > 0 ? Direction.DOWN : Direction.UP;
         } else {
-            // Приоритет вертикального движения
-            possibleDirections[0] = dy > 0 ? Direction.DOWN : Direction.UP;
-            possibleDirections[1] = dx > 0 ? Direction.RIGHT : Direction.LEFT;
+            primaryDirection = dy > 0 ? Direction.DOWN : Direction.UP;
+            secondaryDirection = dx > 0 ? Direction.RIGHT : Direction.LEFT;
         }
 
-        // Проверяем возможные направления
-        for (Direction direction : possibleDirections) {
-            // Не двигаемся в противоположном направлении
-            if (direction.dx == -lastDirection.dx && direction.dy == -lastDirection.dy) {
+        // Проверяем безопасность основного направления
+        Position nextPosition = new Position(
+            currentPosition.x() + primaryDirection.dx,
+            currentPosition.y() + primaryDirection.dy
+        );
+
+        if (isSafeMove(nextPosition, gameState)) {
+            lastDirection = primaryDirection;
+            return primaryDirection;
+        }
+
+        // Пробуем вторичное направление
+        nextPosition = new Position(
+            currentPosition.x() + secondaryDirection.dx,
+            currentPosition.y() + secondaryDirection.dy
+        );
+
+        if (isSafeMove(nextPosition, gameState)) {
+            lastDirection = secondaryDirection;
+            return secondaryDirection;
+        }
+
+        // Если оба направления опасны, ищем любое безопасное
+        for (Direction dir : Direction.values()) {
+            if (dir.dx == -lastDirection.dx && dir.dy == -lastDirection.dy) {
                 continue;
             }
-
-            Position newPosition = new Position(
-                currentPosition.x() + direction.dx,
-                currentPosition.y() + direction.dy
+            nextPosition = new Position(
+                currentPosition.x() + dir.dx,
+                currentPosition.y() + dir.dy
             );
-
-            // Проверяем, что новая позиция безопасна
-            if (!gameModel.checkCollision(newPosition, -1)) {
-                lastDirection = direction;
-                return direction;
+            if (isSafeMove(nextPosition, gameState)) {
+                lastDirection = dir;
+                return dir;
             }
         }
 
-        // Если все предпочтительные направления заблокированы, 
-        // пробуем любое доступное направление
-        for (Direction direction : Direction.values()) {
-            if (direction.dx == -lastDirection.dx && direction.dy == -lastDirection.dy) {
-                continue;
-            }
+        return lastDirection; // В крайнем случае идем в текущем направлении
+    }
 
-            Position newPosition = new Position(
-                currentPosition.x() + direction.dx,
-                currentPosition.y() + direction.dy
-            );
-
-            if (!gameModel.checkCollision(newPosition, -1)) {
-                lastDirection = direction;
-                return direction;
+    private Position findPlayerPosition(GameStateView gameState) {
+        for (int x = 0; x < gameState.getWidth(); x++) {
+            for (int y = 0; y < gameState.getHeight(); y++) {
+                if (gameState.getCellType(x, y) == CellType.SNAKE_HEAD) {
+                    return new Position(x, y);
+                }
             }
         }
+        return null;
+    }
 
-        // Если все направления заблокированы, продолжаем двигаться в текущем направлении
-        return lastDirection;
+    private boolean isSafeMove(Position position, GameStateView gameState) {
+        return !gameState.isOutOfBounds(position) && !gameState.checkCollision(position, -1);
     }
 }
