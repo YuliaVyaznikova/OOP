@@ -4,13 +4,24 @@ import ru.nsu.vyaznikova.model.grid.Position;
 
 /**
  * Событие окончания игры.
- * Содержит информацию о позиции столкновения, которое привело к окончанию игры.
  */
 public class GameOverEvent implements Event {
-    private final Position collisionPosition;
+    private final Position position;
 
-    public GameOverEvent(Position collisionPosition) {
-        this.collisionPosition = collisionPosition;
+    /**
+     * Создает новое событие окончания игры.
+     *
+     * @param position позиция, где произошло столкновение
+     */
+    public GameOverEvent(Position position) {
+        this.position = position;
+    }
+
+    /**
+     * @return позиция, где произошло столкновение
+     */
+    public Position getPosition() {
+        return position;
     }
 
     @Override
@@ -18,13 +29,23 @@ public class GameOverEvent implements Event {
         return "GAME_OVER";
     }
 
-    public Position getCollisionPosition() {
-        return collisionPosition;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameOverEvent that = (GameOverEvent) o;
+        return position.equals(that.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return position.hashCode();
     }
 
     @Override
     public String toString() {
-        return String.format("GameOverEvent{collision at (%d, %d)}", 
-            collisionPosition.x(), collisionPosition.y());
+        return "GameOverEvent{" +
+                "position=" + position +
+                '}';
     }
 }

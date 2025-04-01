@@ -4,15 +4,34 @@ import ru.nsu.vyaznikova.model.grid.Position;
 
 /**
  * Событие поедания еды змейкой.
- * Содержит информацию о позиции съеденной еды и новой длине змейки.
  */
 public class FoodEatenEvent implements Event {
-    private final Position eatenFoodPosition;
+    private final Position oldFoodPosition;
     private final Position newFoodPosition;
 
-    public FoodEatenEvent(Position eatenFoodPosition, Position newFoodPosition) {
-        this.eatenFoodPosition = eatenFoodPosition;
+    /**
+     * Создает новое событие поедания еды.
+     *
+     * @param oldFoodPosition позиция съеденной еды
+     * @param newFoodPosition позиция новой еды
+     */
+    public FoodEatenEvent(Position oldFoodPosition, Position newFoodPosition) {
+        this.oldFoodPosition = oldFoodPosition;
         this.newFoodPosition = newFoodPosition;
+    }
+
+    /**
+     * @return позиция съеденной еды
+     */
+    public Position getOldFoodPosition() {
+        return oldFoodPosition;
+    }
+
+    /**
+     * @return позиция новой еды
+     */
+    public Position getNewFoodPosition() {
+        return newFoodPosition;
     }
 
     @Override
@@ -20,34 +39,27 @@ public class FoodEatenEvent implements Event {
         return "FOOD_EATEN";
     }
 
-    public Position getEatenFoodPosition() {
-        return eatenFoodPosition;
-    }
-
-    public Position getNewFoodPosition() {
-        return newFoodPosition;
-    }
-
     @Override
-    public String toString() {
-        return String.format("FoodEatenEvent{eaten at (%d, %d), new at (%d, %d)}", 
-            eatenFoodPosition.x(), eatenFoodPosition.y(),
-            newFoodPosition.x(), newFoodPosition.y());
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        FoodEatenEvent that = (FoodEatenEvent) obj;
-        return eatenFoodPosition.equals(that.eatenFoodPosition) && 
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FoodEatenEvent that = (FoodEatenEvent) o;
+        return oldFoodPosition.equals(that.oldFoodPosition) &&
                newFoodPosition.equals(that.newFoodPosition);
     }
 
     @Override
     public int hashCode() {
-        int result = eatenFoodPosition.hashCode();
+        int result = oldFoodPosition.hashCode();
         result = 31 * result + newFoodPosition.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "FoodEatenEvent{" +
+                "oldFoodPosition=" + oldFoodPosition +
+                ", newFoodPosition=" + newFoodPosition +
+                '}';
     }
 }

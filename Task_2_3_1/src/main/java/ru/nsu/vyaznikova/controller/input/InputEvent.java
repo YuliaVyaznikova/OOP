@@ -1,23 +1,19 @@
 package ru.nsu.vyaznikova.controller.input;
 
+import javafx.scene.input.KeyCode;
+
 /**
- * Класс, представляющий событие ввода в игре.
- * Инкапсулирует тип события и связанные с ним данные.
+ * Класс, представляющий событие ввода.
  */
-public class InputEvent {
-    private final InputEventType type;
-    private final Key key;
-
-    public InputEvent(InputEventType type, Key key) {
-        this.type = type;
-        this.key = key;
-    }
-
-    public InputEventType getType() {
-        return type;
-    }
-
-    public Key getKey() {
-        return key;
+public record InputEvent(KeyCode keyCode) {
+    /**
+     * Создает новое событие ввода.
+     *
+     * @param keyCode код клавиши
+     */
+    public InputEvent {
+        if (keyCode == null) {
+            throw new IllegalArgumentException("KeyCode cannot be null");
+        }
     }
 }

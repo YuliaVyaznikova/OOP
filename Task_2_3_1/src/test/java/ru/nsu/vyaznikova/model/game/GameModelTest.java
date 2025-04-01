@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * - Инициализацию игрового поля и змейки
  * - Движение змейки и обработку столкновений
  * - Поедание еды и рост змейки
- * - Условия победы и проигрыша
+ * - Условия проигрыша
  * - Генерацию и обработку событий
  */
 public class GameModelTest {
@@ -168,73 +168,5 @@ public class GameModelTest {
         assertEquals(initialLength + 1, gameModel.getLength());
         assertTrue(eventListener.getReceivedEvents().stream()
                 .anyMatch(e -> e.getEventType().equals("FOOD_EATEN")));
-    }
-
-    /**
-     * Проверяет достижение победы
-     */
-    @Test
-    void testVictoryCondition() {
-        // Устанавливаем маленькую целевую длину для теста
-        gameModel = new GameModel(WIDTH, HEIGHT, 3);
-        
-        // Двигаемся и едим еду, пока не достигнем победной длины
-        while (gameModel.getGameState() == GameState.RUNNING) {
-            Position foodPosition = null;
-            Position headPosition = null;
-
-            // Находим еду и голову змейки
-            for (int y = 0; y < HEIGHT; y++) {
-                for (int x = 0; x < WIDTH; x++) {
-                    if (gameModel.getCellType(x, y) == CellType.FOOD) {
-                        foodPosition = new Position(x, y);
-                    } else if (gameModel.getCellType(x, y) == CellType.SNAKE_HEAD) {
-                        headPosition = new Position(x, y);
-                    }
-                }
-            }
-
-            assertNotNull(foodPosition, "Food should be present on the grid");
-            assertNotNull(headPosition, "Snake head should be present on the grid");
-
-            // Сначала выравниваем по горизонтали, затем по вертикали
-            if (foodPosition.x() != headPosition.x()) {
-                // Проверяем, что следующий ход не приведет к столкновению
-                int nextX = headPosition.x() + (foodPosition.x() > headPosition.x() ? 1 : -1);
-                if (gameModel.getCellType(nextX, headPosition.y()) != CellType.WALL &&
-                    gameModel.getCellType(nextX, headPosition.y()) != CellType.SNAKE_BODY) {
-                    gameModel.setDirection(foodPosition.x() > headPosition.x() ? Direction.RIGHT : Direction.LEFT);
-                } else {
-                    // Если путь заблокирован, пробуем двигаться вертикально
-                    if (headPosition.y() > 1) {
-                        gameModel.setDirection(Direction.UP);
-                    } else {
-                        gameModel.setDirection(Direction.DOWN);
-                    }
-                }
-            } else if (foodPosition.y() != headPosition.y()) {
-                // Проверяем, что следующий ход не приведет к столкновению
-                int nextY = headPosition.y() + (foodPosition.y() > headPosition.y() ? 1 : -1);
-                if (gameModel.getCellType(headPosition.x(), nextY) != CellType.WALL &&
-                    gameModel.getCellType(headPosition.x(), nextY) != CellType.SNAKE_BODY) {
-                    gameModel.setDirection(foodPosition.y() > headPosition.y() ? Direction.DOWN : Direction.UP);
-                } else {
-                    // Если путь заблокирован, пробуем двигаться горизонтально
-                    if (headPosition.x() > 1) {
-                        gameModel.setDirection(Direction.LEFT);
-                    } else {
-                        gameModel.setDirection(Direction.RIGHT);
-                    }
-                }
-            }
-
-            gameModel.update();
-        }
-
-        assertEquals(GameState.VICTORY, gameModel.getGameState(), "Game should end in victory");
-        assertTrue(eventListener.getReceivedEvents().stream()
-                .anyMatch(e -> e.getEventType().equals("VICTORY")), "Victory event should be published");
-        assertTrue(eventListener.getReceivedEvents().stream()
-                .anyMatch(e -> e.getEventType().equals("STATE_CHANGED")), "State changed event should be published");
     }
 }

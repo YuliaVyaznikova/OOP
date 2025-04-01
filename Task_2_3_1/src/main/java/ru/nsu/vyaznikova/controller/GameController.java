@@ -1,55 +1,68 @@
 package ru.nsu.vyaznikova.controller;
 
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import ru.nsu.vyaznikova.controller.input.InputEvent;
 import ru.nsu.vyaznikova.model.game.GameModel;
 import ru.nsu.vyaznikova.model.snake.Direction;
-import ru.nsu.vyaznikova.model.game.GameState;
-import ru.nsu.vyaznikova.controller.input.*;
 
 /**
- * Контроллер игры, отвечающий за:
- * - Обработку пользовательского ввода
- * - Преобразование ввода в команды игры
- * - Передачу команд в модель игры
- * - Предотвращение недопустимых действий
+ * Контроллер игры, обрабатывающий пользовательский ввод.
  */
-public class GameController implements InputHandler {
+public class GameController {
     private final GameModel model;
-    private boolean isPaused = false;
 
+    /**
+     * Создает новый контроллер игры.
+     *
+     * @param model модель игры
+     */
     public GameController(GameModel model) {
         this.model = model;
     }
 
-    @Override
-    public void handleInput(InputEvent event) {
-        if (event.getType() != InputEventType.KEY_PRESSED) {
-            return;
-        }
-
-        if (model.getGameState() != GameState.RUNNING && event.getKey() != Key.SPACE) {
-            return;
-        }
-
-        switch (event.getKey()) {
-            case UP -> model.setDirection(Direction.UP);
-            case DOWN -> model.setDirection(Direction.DOWN);
-            case LEFT -> model.setDirection(Direction.LEFT);
-            case RIGHT -> model.setDirection(Direction.RIGHT);
-            case SPACE -> togglePause();
-            default -> {}
-        }
-    }
-
-    private void togglePause() {
-        isPaused = !isPaused;
-        // TODO: Implement pause functionality in GameModel
+    /**
+     * Обрабатывает нажатие клавиши.
+     *
+     * @param event событие нажатия клавиши
+     */
+    public void handleKeyPress(KeyEvent event) {
+        handleInput(new InputEvent(event.getCode()));
     }
 
     /**
-     * Проверяет, находится ли игра в состоянии паузы
-     * @return true если игра на паузе, false в противном случае
+     * Обрабатывает пользовательский ввод.
+     *
+     * @param event событие ввода
      */
-    public boolean isPaused() {
-        return isPaused;
+    public void handleInput(InputEvent event) {
+        KeyCode keyCode = event.keyCode();
+        Direction currentDirection = model.getSnakeDirection();
+        
+        switch (keyCode) {
+            case UP, W -> {
+                if (currentDirection == null || currentDirection != Direction.DOWN) {
+                    model.setDirection(Direction.UP);
+                }
+            }
+            case DOWN, S -> {
+                if (currentDirection == null || currentDirection != Direction.UP) {
+                    model.setDirection(Direction.DOWN);
+                }
+            }
+            case LEFT, A -> {
+                if (currentDirection == null || currentDirection != Direction.RIGHT) {
+                    model.setDirection(Direction.LEFT);
+                }
+            }
+            case RIGHT, D -> {
+                if (currentDirection == null || currentDirection != Direction.LEFT) {
+                    model.setDirection(Direction.RIGHT);
+                }
+            }
+            case SPACE -> model.togglePause();
+            case R -> model.reset();
+            default -> {} // Do nothing for other keys
+        }
     }
 }

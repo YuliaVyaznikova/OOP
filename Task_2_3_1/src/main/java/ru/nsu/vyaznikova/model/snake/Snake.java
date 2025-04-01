@@ -16,11 +16,18 @@ import java.util.List;
 public class Snake {
     private final List<Position> body;
     private int length;
+    private final int id;
+    private Direction direction;
 
-    public Snake(Position startPosition) {
+    public Snake(Position startPosition, int id) {
         this.body = new ArrayList<>();
         this.body.add(startPosition);
         this.length = 1;
+        this.id = id;
+    }
+
+    public Snake(Position startPosition) {
+        this(startPosition, 0);
     }
 
     public void grow(Position newHeadPosition) {
@@ -45,11 +52,29 @@ public class Snake {
         return length;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public boolean containsPosition(Position position) {
         return body.contains(position);
     }
 
     public List<Position> getBody() {
         return new ArrayList<>(body);
+    }
+
+    public void reset(Position startPosition) {
+        this.body.clear();
+        this.body.add(startPosition);
+        this.length = 1;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public Position getHead() {
+        return body.get(0);
     }
 }
