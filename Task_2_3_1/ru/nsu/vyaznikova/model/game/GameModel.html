@@ -106,6 +106,11 @@ loadScripts(document, 'script');</script>
  int&nbsp;height,
  int&nbsp;targetLength)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,int,int,int)" class="member-name-link">GameModel</a><wbr>(int&nbsp;width,
+ int&nbsp;height,
+ int&nbsp;targetLength,
+ int&nbsp;foodCount)</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -120,6 +125,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addAISnake(ru.nsu.vyaznikova.model.grid.Position,ru.nsu.vyaznikova.model.snake.ai.SnakeStrategy)" class="member-name-link">addAISnake</a><wbr>(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;startPosition,
+ <a href="../snake/ai/SnakeStrategy.html" title="interface in ru.nsu.vyaznikova.model.snake.ai">SnakeStrategy</a>&nbsp;strategy)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkCollision(ru.nsu.vyaznikova.model.grid.Position,int)" class="member-name-link">checkCollision</a><wbr>(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;pos,
+ int&nbsp;snakeId)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../grid/CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCellType(int,int)" class="member-name-link">getCellType</a><wbr>(int&nbsp;x,
  int&nbsp;y)</code></div>
@@ -127,23 +140,52 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="GameState.html" title="enum class in ru.nsu.vyaznikova.model.game">GameState</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGameState()" class="member-name-link">getGameState</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../grid/CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a>[][]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGrid()" class="member-name-link">getGrid</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLength()" class="member-name-link">getLength</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLength()" class="member-name-link">getLength</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../snake/Direction.html" title="enum class in ru.nsu.vyaznikova.model.snake">Direction</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSnakeDirection()" class="member-name-link">getSnakeDirection</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSnakeHeadX()" class="member-name-link">getSnakeHeadX</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSnakeHeadY()" class="member-name-link">getSnakeHeadY</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDirection(ru.nsu.vyaznikova.model.snake.Direction)" class="member-name-link">setDirection</a><wbr>(<a href="../snake/Direction.html" title="enum class in ru.nsu.vyaznikova.model.snake">Direction</a>&nbsp;newDirection)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFoodPosition(ru.nsu.vyaznikova.model.grid.Position)" class="member-name-link">isFoodPosition</a><wbr>(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;pos)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isOutOfBounds(ru.nsu.vyaznikova.model.grid.Position)" class="member-name-link">isOutOfBounds</a><wbr>(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;pos)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isPaused()" class="member-name-link">isPaused</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGameState(ru.nsu.vyaznikova.model.game.GameState)" class="member-name-link">setGameState</a><wbr>(<a href="GameState.html" title="enum class in ru.nsu.vyaznikova.model.game">GameState</a>&nbsp;newState)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Устанавливает новое состояние игры</div>
-</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#onFoodEaten(ru.nsu.vyaznikova.model.grid.Position,int)" class="member-name-link">onFoodEaten</a><wbr>(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;pos,
+ int&nbsp;snakeId)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#reset()" class="member-name-link">reset</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDirection(ru.nsu.vyaznikova.model.snake.Direction)" class="member-name-link">setDirection</a><wbr>(<a href="../snake/Direction.html" title="enum class in ru.nsu.vyaznikova.model.snake">Direction</a>&nbsp;newDirection)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setGameState(ru.nsu.vyaznikova.model.game.GameState)" class="member-name-link">setGameState</a><wbr>(<a href="GameState.html" title="enum class in ru.nsu.vyaznikova.model.game">GameState</a>&nbsp;newState)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#togglePause()" class="member-name-link">togglePause</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -165,6 +207,15 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="&lt;init&gt;(int,int,int,int)">
+<h3>GameModel</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GameModel</span><wbr><span class="parameters">(int&nbsp;width,
+ int&nbsp;height,
+ int&nbsp;targetLength,
+ int&nbsp;foodCount)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="&lt;init&gt;(int,int,int)">
 <h3>GameModel</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">GameModel</span><wbr><span class="parameters">(int&nbsp;width,
@@ -181,9 +232,42 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="addAISnake(ru.nsu.vyaznikova.model.grid.Position,ru.nsu.vyaznikova.model.snake.ai.SnakeStrategy)">
+<h3>addAISnake</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addAISnake</span><wbr><span class="parameters">(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;startPosition,
+ <a href="../snake/ai/SnakeStrategy.html" title="interface in ru.nsu.vyaznikova.model.snake.ai">SnakeStrategy</a>&nbsp;strategy)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="update()">
 <h3>update</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="checkCollision(ru.nsu.vyaznikova.model.grid.Position,int)">
+<h3>checkCollision</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">checkCollision</span><wbr><span class="parameters">(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;pos,
+ int&nbsp;snakeId)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="isOutOfBounds(ru.nsu.vyaznikova.model.grid.Position)">
+<h3>isOutOfBounds</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isOutOfBounds</span><wbr><span class="parameters">(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;pos)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="isFoodPosition(ru.nsu.vyaznikova.model.grid.Position)">
+<h3>isFoodPosition</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isFoodPosition</span><wbr><span class="parameters">(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;pos)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="onFoodEaten(ru.nsu.vyaznikova.model.grid.Position,int)">
+<h3>onFoodEaten</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">onFoodEaten</span><wbr><span class="parameters">(<a href="../grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;pos,
+ int&nbsp;snakeId)</span></div>
 </section>
 </li>
 <li>
@@ -227,11 +311,48 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setGameState(ru.nsu.vyaznikova.model.game.GameState)">
 <h3>setGameState</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setGameState</span><wbr><span class="parameters">(<a href="GameState.html" title="enum class in ru.nsu.vyaznikova.model.game">GameState</a>&nbsp;newState)</span></div>
-<div class="block">Устанавливает новое состояние игры</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>newState</code> - новое состояние</dd>
-</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="isPaused()">
+<h3>isPaused</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isPaused</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="togglePause()">
+<h3>togglePause</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">togglePause</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="reset()">
+<h3>reset</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">reset</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getSnakeDirection()">
+<h3>getSnakeDirection</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../snake/Direction.html" title="enum class in ru.nsu.vyaznikova.model.snake">Direction</a></span>&nbsp;<span class="element-name">getSnakeDirection</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getSnakeHeadX()">
+<h3>getSnakeHeadX</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getSnakeHeadX</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getSnakeHeadY()">
+<h3>getSnakeHeadY</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getSnakeHeadY</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getGrid()">
+<h3>getGrid</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../grid/CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a>[][]</span>&nbsp;<span class="element-name">getGrid</span>()</div>
 </section>
 </li>
 </ul>

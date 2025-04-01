@@ -97,10 +97,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public enum </span><span class="element-name type-name-label">CellType</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;<a href="CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a>&gt;</span></div>
-<div class="block">Перечисление типов клеток на игровом поле, отвечающее за:
- - Определение всех возможных состояний клетки (пустая, стена, еда, части змейки)
- - Обеспечение типобезопасности при работе с клетками
- - Различение головы и тела змейки для визуализации</div>
+<div class="block">Типы ячеек на игровом поле.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -121,16 +118,18 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Enum Constant</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code><a href="#EMPTY" class="member-name-link">EMPTY</a></code></div>
+<div class="col-first even-row-color"><code><a href="#AI_SNAKE" class="member-name-link">AI_SNAKE</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="#FOOD" class="member-name-link">FOOD</a></code></div>
+<div class="col-first odd-row-color"><code><a href="#EMPTY" class="member-name-link">EMPTY</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code><a href="#SNAKE_BODY" class="member-name-link">SNAKE_BODY</a></code></div>
+<div class="col-first even-row-color"><code><a href="#FOOD" class="member-name-link">FOOD</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="#SNAKE_HEAD" class="member-name-link">SNAKE_HEAD</a></code></div>
+<div class="col-first odd-row-color"><code><a href="#SNAKE_BODY" class="member-name-link">SNAKE_BODY</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
-<div class="col-first even-row-color"><code><a href="#WALL" class="member-name-link">WALL</a></code></div>
+<div class="col-first even-row-color"><code><a href="#SNAKE_HEAD" class="member-name-link">SNAKE_HEAD</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code><a href="#WALL" class="member-name-link">WALL</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -189,6 +188,12 @@ the order they are declared.</div>
 </section>
 </li>
 <li>
+<section class="detail" id="FOOD">
+<h3>FOOD</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a></span>&nbsp;<span class="element-name">FOOD</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="SNAKE_HEAD">
 <h3>SNAKE_HEAD</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a></span>&nbsp;<span class="element-name">SNAKE_HEAD</span></div>
@@ -201,9 +206,9 @@ the order they are declared.</div>
 </section>
 </li>
 <li>
-<section class="detail" id="FOOD">
-<h3>FOOD</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a></span>&nbsp;<span class="element-name">FOOD</span></div>
+<section class="detail" id="AI_SNAKE">
+<h3>AI_SNAKE</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a></span>&nbsp;<span class="element-name">AI_SNAKE</span></div>
 </section>
 </li>
 </ul>

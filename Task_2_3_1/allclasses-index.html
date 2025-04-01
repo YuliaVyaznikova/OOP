@@ -55,89 +55,84 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Class</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="ru/nsu/vyaznikova/model/grid/CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab3">
-<div class="block">Перечисление типов клеток на игровом поле, отвечающее за:
- - Определение всех возможных состояний клетки (пустая, стена, еда, части змейки)
- - Обеспечение типобезопасности при работе с клетками
- - Различение головы и тела змейки для визуализации</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/snake/AISnake.html" title="class in ru.nsu.vyaznikova.model.snake">AISnake</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Змейка, управляемая искусственным интеллектом.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="ru/nsu/vyaznikova/model/snake/Direction.html" title="enum class in ru.nsu.vyaznikova.model.snake">Direction</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="ru/nsu/vyaznikova/model/grid/CellType.html" title="enum class in ru.nsu.vyaznikova.model.grid">CellType</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab3">
+<div class="block">Типы ячеек на игровом поле.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="ru/nsu/vyaznikova/model/snake/Direction.html" title="enum class in ru.nsu.vyaznikova.model.snake">Direction</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab3">
 <div class="block">Перечисление направлений движения змейки, отвечающее за:
  - Определение возможных направлений движения (UP, DOWN, LEFT, RIGHT)
  - Хранение смещений по осям для каждого направления
  - Проверку противоположных направлений для предотвращения разворота на 180 градусов</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="ru/nsu/vyaznikova/engine/events/Event.html" title="interface in ru.nsu.vyaznikova.engine.events">Event</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="ru/nsu/vyaznikova/engine/events/Event.html" title="interface in ru.nsu.vyaznikova.engine.events">Event</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Базовый интерфейс для всех событий в игре.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/engine/events/EventBus.html" title="class in ru.nsu.vyaznikova.engine.events">EventBus</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/engine/events/EventBus.html" title="class in ru.nsu.vyaznikova.engine.events">EventBus</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Шина событий игры, отвечающая за:
  - Реализацию паттерна Observer для событийной системы
  - Регистрацию слушателей событий
  - Рассылку событий всем заинтересованным слушателям
  - Обеспечение слабой связанности между компонентами игры</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="ru/nsu/vyaznikova/engine/events/EventListener.html" title="interface in ru.nsu.vyaznikova.engine.events">EventListener</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="ru/nsu/vyaznikova/engine/events/EventListener.html" title="interface in ru.nsu.vyaznikova.engine.events">EventListener</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Интерфейс слушателя событий.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/engine/events/FoodEatenEvent.html" title="class in ru.nsu.vyaznikova.engine.events">FoodEatenEvent</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/engine/events/FoodEatenEvent.html" title="class in ru.nsu.vyaznikova.engine.events">FoodEatenEvent</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Событие поедания еды змейкой.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/controller/GameController.html" title="class in ru.nsu.vyaznikova.controller">GameController</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
-<div class="block">Контроллер игры, отвечающий за:
- - Обработку пользовательского ввода
- - Преобразование ввода в команды игры
- - Передачу команд в модель игры
- - Предотвращение недопустимых действий</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/controller/GameController.html" title="class in ru.nsu.vyaznikova.controller">GameController</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Контроллер игры, обрабатывающий пользовательский ввод.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="ru/nsu/vyaznikova/engine/GameLoop.html" title="interface in ru.nsu.vyaznikova.engine">GameLoop</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="ru/nsu/vyaznikova/engine/GameLoop.html" title="interface in ru.nsu.vyaznikova.engine">GameLoop</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Интерфейс игрового цикла, отвечающий за:
  - Определение базового поведения игрового цикла
  - Предоставление методов для запуска и остановки цикла
  - Обеспечение возможности создания разных реализаций игрового цикла</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/game/GameModel.html" title="class in ru.nsu.vyaznikova.model.game">GameModel</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/engine/events/GameOverEvent.html" title="class in ru.nsu.vyaznikova.engine.events">GameOverEvent</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/game/GameModel.html" title="class in ru.nsu.vyaznikova.model.game">GameModel</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/engine/events/GameOverEvent.html" title="class in ru.nsu.vyaznikova.engine.events">GameOverEvent</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Событие окончания игры.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="ru/nsu/vyaznikova/model/game/GameState.html" title="enum class in ru.nsu.vyaznikova.model.game">GameState</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab3">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab3"><a href="ru/nsu/vyaznikova/model/game/GameState.html" title="enum class in ru.nsu.vyaznikova.model.game">GameState</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab3">
 <div class="block">Перечисление состояний игры, отвечающее за:
  - Определение возможных состояний игры (RUNNING, GAME_OVER, VICTORY)
  - Обеспечение типобезопасности при работе с состояниями
  - Контроль жизненного цикла игры</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/view/GameView.html" title="class in ru.nsu.vyaznikova.view">GameView</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
-<div class="block">Представление игры, отвечающее за:
- - Создание и управление Canvas для отрисовки
- - Подписку на игровые события через EventBus
- - Отрисовку всех элементов игры (стены, еда, змейка)
- - Реализацию градиента цвета змейки (темная голова, светлое тело)
- - Обновление счета и отображение игровых сообщений
- - Перерисовку поля при изменении состояния игры</div>
-</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/grid/Grid.html" title="class in ru.nsu.vyaznikova.model.grid">Grid</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/view/GameView.html" title="class in ru.nsu.vyaznikova.view">GameView</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Отвечает за отрисовку игры.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/grid/Grid.html" title="class in ru.nsu.vyaznikova.model.grid">Grid</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Класс игрового поля, отвечающий за:
  - Хранение двумерного массива клеток игрового поля
  - Предоставление методов для доступа и изменения состояния клеток
  - Проверку границ поля
  - Поиск случайных пустых клеток для размещения еды</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/controller/input/InputEvent.html" title="class in ru.nsu.vyaznikova.controller.input">InputEvent</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
-<div class="block">Класс, представляющий событие ввода в игре.</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/snake/ai/HunterStrategy.html" title="class in ru.nsu.vyaznikova.model.snake.ai">HunterStrategy</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Стратегия "охотника" - змейка преследует голову игрока.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="ru/nsu/vyaznikova/controller/input/InputEvent.html" title="class in ru.nsu.vyaznikova.controller.input">InputEvent</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
+<div class="block">Класс, представляющий событие ввода.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab3"><a href="ru/nsu/vyaznikova/controller/input/InputEventType.html" title="enum class in ru.nsu.vyaznikova.controller.input">InputEventType</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab3">
@@ -159,11 +154,7 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/MainApp.html" title="class in ru.nsu.vyaznikova">MainApp</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
-<div class="block">Главный класс приложения, отвечающий за:
- - Определение констант игры (размер поля, целевая длина змейки)
- - Создание всех основных компонентов (модель, представление, контроллер)
- - Настройку UI (создание окна, сцены, обработчиков событий)
- - Запуск игрового цикла</div>
+<div class="block">Главный класс приложения.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="ru/nsu/vyaznikova/model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab4">
@@ -173,8 +164,12 @@ loadScripts(document, 'script');</script>
  - Создание новых позиций при перемещении
  - Корректное сравнение позиций</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/snake/Snake.html" title="class in ru.nsu.vyaznikova.model.snake">Snake</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/snake/ai/RandomStrategy.html" title="class in ru.nsu.vyaznikova.model.snake.ai">RandomStrategy</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Стратегия случайного движения змейки.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/snake/Snake.html" title="class in ru.nsu.vyaznikova.model.snake">Snake</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Класс змейки, отвечающий за:
  - Хранение списка позиций тела змейки
  - Управление движением (добавление головы, удаление хвоста)
@@ -183,13 +178,17 @@ loadScripts(document, 'script');</script>
  - Отслеживание текущей длины змейки
  - Проверку столкновений с телом змейки</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/engine/events/SnakeMovedEvent.html" title="class in ru.nsu.vyaznikova.engine.events">SnakeMovedEvent</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/engine/events/SnakeMovedEvent.html" title="class in ru.nsu.vyaznikova.engine.events">SnakeMovedEvent</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Событие перемещения змейки.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/snake/SnakeSegment.html" title="class in ru.nsu.vyaznikova.model.snake">SnakeSegment</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/model/snake/SnakeSegment.html" title="class in ru.nsu.vyaznikova.model.snake">SnakeSegment</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Класс, представляющий сегмент змейки.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="ru/nsu/vyaznikova/model/snake/ai/SnakeStrategy.html" title="interface in ru.nsu.vyaznikova.model.snake.ai">SnakeStrategy</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="block">Интерфейс для стратегий поведения змеек-роботов.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="ru/nsu/vyaznikova/engine/events/StateChangedEvent.html" title="class in ru.nsu.vyaznikova.engine.events">StateChangedEvent</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">

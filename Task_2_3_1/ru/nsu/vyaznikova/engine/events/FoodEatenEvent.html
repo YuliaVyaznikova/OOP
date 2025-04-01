@@ -96,8 +96,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">FoodEatenEvent</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="Event.html" title="interface in ru.nsu.vyaznikova.engine.events">Event</a></span></div>
-<div class="block">Событие поедания еды змейкой.
- Содержит информацию о позиции съеденной еды и новой длине змейки.</div>
+<div class="block">Событие поедания еды змейкой.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -109,9 +108,11 @@ implements <a href="Event.html" title="interface in ru.nsu.vyaznikova.engine.eve
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(ru.nsu.vyaznikova.model.grid.Position,ru.nsu.vyaznikova.model.grid.Position)" class="member-name-link">FoodEatenEvent</a><wbr>(<a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;eatenFoodPosition,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(ru.nsu.vyaznikova.model.grid.Position,ru.nsu.vyaznikova.model.grid.Position)" class="member-name-link">FoodEatenEvent</a><wbr>(<a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;oldFoodPosition,
  <a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;newFoodPosition)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Создает новое событие поедания еды.</div>
+</div>
 </div>
 </section>
 </li>
@@ -127,18 +128,18 @@ implements <a href="Event.html" title="interface in ru.nsu.vyaznikova.engine.eve
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEatenFoodPosition()" class="member-name-link">getEatenFoodPosition</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEventType()" class="member-name-link">getEventType</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEventType()" class="member-name-link">getEventType</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Получить тип события.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNewFoodPosition()" class="member-name-link">getNewFoodPosition</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNewFoodPosition()" class="member-name-link">getNewFoodPosition</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOldFoodPosition()" class="member-name-link">getOldFoodPosition</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
@@ -166,8 +167,14 @@ implements <a href="Event.html" title="interface in ru.nsu.vyaznikova.engine.eve
 <li>
 <section class="detail" id="&lt;init&gt;(ru.nsu.vyaznikova.model.grid.Position,ru.nsu.vyaznikova.model.grid.Position)">
 <h3>FoodEatenEvent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">FoodEatenEvent</span><wbr><span class="parameters">(<a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;eatenFoodPosition,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">FoodEatenEvent</span><wbr><span class="parameters">(<a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;oldFoodPosition,
  <a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a>&nbsp;newFoodPosition)</span></div>
+<div class="block">Создает новое событие поедания еды.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>oldFoodPosition</code> - позиция съеденной еды</dd>
+<dd><code>newFoodPosition</code> - позиция новой еды</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -178,6 +185,26 @@ implements <a href="Event.html" title="interface in ru.nsu.vyaznikova.engine.eve
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="getOldFoodPosition()">
+<h3>getOldFoodPosition</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a></span>&nbsp;<span class="element-name">getOldFoodPosition</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>позиция съеденной еды</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getNewFoodPosition()">
+<h3>getNewFoodPosition</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a></span>&nbsp;<span class="element-name">getNewFoodPosition</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>позиция новой еды</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="getEventType()">
 <h3>getEventType</h3>
@@ -193,31 +220,9 @@ implements <a href="Event.html" title="interface in ru.nsu.vyaznikova.engine.eve
 </section>
 </li>
 <li>
-<section class="detail" id="getEatenFoodPosition()">
-<h3>getEatenFoodPosition</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a></span>&nbsp;<span class="element-name">getEatenFoodPosition</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="getNewFoodPosition()">
-<h3>getNewFoodPosition</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../model/grid/Position.html" title="class in ru.nsu.vyaznikova.model.grid">Position</a></span>&nbsp;<span class="element-name">getNewFoodPosition</span>()</div>
-</section>
-</li>
-<li>
-<section class="detail" id="toString()">
-<h3>toString</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
-<dl class="notes">
-<dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</span></div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
@@ -231,6 +236,16 @@ implements <a href="Event.html" title="interface in ru.nsu.vyaznikova.engine.eve
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="toString()">
+<h3>toString</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
 </section>
 </li>

@@ -59,6 +59,7 @@ loadScripts(document, 'script');</script>
 <li><a href="ru/nsu/vyaznikova/model/game/package-tree.html">ru.nsu.vyaznikova.model.game</a>, </li>
 <li><a href="ru/nsu/vyaznikova/model/grid/package-tree.html">ru.nsu.vyaznikova.model.grid</a>, </li>
 <li><a href="ru/nsu/vyaznikova/model/snake/package-tree.html">ru.nsu.vyaznikova.model.snake</a>, </li>
+<li><a href="ru/nsu/vyaznikova/model/snake/ai/package-tree.html">ru.nsu.vyaznikova.model.snake.ai</a>, </li>
 <li><a href="ru/nsu/vyaznikova/view/package-tree.html">ru.nsu.vyaznikova.view</a>, </li>
 <li><a href="ru/nsu/vyaznikova/view/input/package-tree.html">ru.nsu.vyaznikova.view.input</a></li>
 </ul>
@@ -67,6 +68,7 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" class="type-name-link external-link" title="class or interface in java.lang">Object</a>
 <ul>
+<li class="circle">ru.nsu.vyaznikova.model.snake.<a href="ru/nsu/vyaznikova/model/snake/AISnake.html" class="type-name-link" title="class in ru.nsu.vyaznikova.model.snake">AISnake</a></li>
 <li class="circle">javafx.animation.AnimationTimer
 <ul>
 <li class="circle">ru.nsu.vyaznikova.engine.<a href="ru/nsu/vyaznikova/engine/JavaFXGameLoop.html" class="type-name-link" title="class in ru.nsu.vyaznikova.engine">JavaFXGameLoop</a> (implements ru.nsu.vyaznikova.engine.<a href="ru/nsu/vyaznikova/engine/GameLoop.html" title="interface in ru.nsu.vyaznikova.engine">GameLoop</a>)</li>
@@ -74,26 +76,19 @@ loadScripts(document, 'script');</script>
 </li>
 <li class="circle">javafx.application.Application
 <ul>
-<li class="circle">ru.nsu.vyaznikova.<a href="ru/nsu/vyaznikova/MainApp.html" class="type-name-link" title="class in ru.nsu.vyaznikova">MainApp</a></li>
+<li class="circle">ru.nsu.vyaznikova.<a href="ru/nsu/vyaznikova/MainApp.html" class="type-name-link" title="class in ru.nsu.vyaznikova">MainApp</a> (implements ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/EventListener.html" title="interface in ru.nsu.vyaznikova.engine.events">EventListener</a>)</li>
 </ul>
 </li>
 <li class="circle">ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/EventBus.html" class="type-name-link" title="class in ru.nsu.vyaznikova.engine.events">EventBus</a></li>
 <li class="circle">ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/FoodEatenEvent.html" class="type-name-link" title="class in ru.nsu.vyaznikova.engine.events">FoodEatenEvent</a> (implements ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/Event.html" title="interface in ru.nsu.vyaznikova.engine.events">Event</a>)</li>
-<li class="circle">ru.nsu.vyaznikova.controller.<a href="ru/nsu/vyaznikova/controller/GameController.html" class="type-name-link" title="class in ru.nsu.vyaznikova.controller">GameController</a> (implements ru.nsu.vyaznikova.controller.input.<a href="ru/nsu/vyaznikova/controller/input/InputHandler.html" title="interface in ru.nsu.vyaznikova.controller.input">InputHandler</a>)</li>
+<li class="circle">ru.nsu.vyaznikova.controller.<a href="ru/nsu/vyaznikova/controller/GameController.html" class="type-name-link" title="class in ru.nsu.vyaznikova.controller">GameController</a></li>
 <li class="circle">ru.nsu.vyaznikova.model.game.<a href="ru/nsu/vyaznikova/model/game/GameModel.html" class="type-name-link" title="class in ru.nsu.vyaznikova.model.game">GameModel</a></li>
 <li class="circle">ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/GameOverEvent.html" class="type-name-link" title="class in ru.nsu.vyaznikova.engine.events">GameOverEvent</a> (implements ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/Event.html" title="interface in ru.nsu.vyaznikova.engine.events">Event</a>)</li>
+<li class="circle">ru.nsu.vyaznikova.view.<a href="ru/nsu/vyaznikova/view/GameView.html" class="type-name-link" title="class in ru.nsu.vyaznikova.view">GameView</a></li>
 <li class="circle">ru.nsu.vyaznikova.model.grid.<a href="ru/nsu/vyaznikova/model/grid/Grid.html" class="type-name-link" title="class in ru.nsu.vyaznikova.model.grid">Grid</a></li>
-<li class="circle">ru.nsu.vyaznikova.controller.input.<a href="ru/nsu/vyaznikova/controller/input/InputEvent.html" class="type-name-link" title="class in ru.nsu.vyaznikova.controller.input">InputEvent</a></li>
+<li class="circle">ru.nsu.vyaznikova.model.snake.ai.<a href="ru/nsu/vyaznikova/model/snake/ai/HunterStrategy.html" class="type-name-link" title="class in ru.nsu.vyaznikova.model.snake.ai">HunterStrategy</a> (implements ru.nsu.vyaznikova.model.snake.ai.<a href="ru/nsu/vyaznikova/model/snake/ai/SnakeStrategy.html" title="interface in ru.nsu.vyaznikova.model.snake.ai">SnakeStrategy</a>)</li>
 <li class="circle">ru.nsu.vyaznikova.view.input.<a href="ru/nsu/vyaznikova/view/input/JavaFXInputAdapter.html" class="type-name-link" title="class in ru.nsu.vyaznikova.view.input">JavaFXInputAdapter</a></li>
-<li class="circle">javafx.scene.Node (implements javafx.event.EventTarget, javafx.css.Styleable)
-<ul>
-<li class="circle">javafx.scene.canvas.Canvas
-<ul>
-<li class="circle">ru.nsu.vyaznikova.view.<a href="ru/nsu/vyaznikova/view/GameView.html" class="type-name-link" title="class in ru.nsu.vyaznikova.view">GameView</a> (implements ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/EventListener.html" title="interface in ru.nsu.vyaznikova.engine.events">EventListener</a>)</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="circle">ru.nsu.vyaznikova.model.snake.ai.<a href="ru/nsu/vyaznikova/model/snake/ai/RandomStrategy.html" class="type-name-link" title="class in ru.nsu.vyaznikova.model.snake.ai">RandomStrategy</a> (implements ru.nsu.vyaznikova.model.snake.ai.<a href="ru/nsu/vyaznikova/model/snake/ai/SnakeStrategy.html" title="interface in ru.nsu.vyaznikova.model.snake.ai">SnakeStrategy</a>)</li>
 <li class="circle">ru.nsu.vyaznikova.model.snake.<a href="ru/nsu/vyaznikova/model/snake/Snake.html" class="type-name-link" title="class in ru.nsu.vyaznikova.model.snake">Snake</a></li>
 <li class="circle">ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/SnakeMovedEvent.html" class="type-name-link" title="class in ru.nsu.vyaznikova.engine.events">SnakeMovedEvent</a> (implements ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/Event.html" title="interface in ru.nsu.vyaznikova.engine.events">Event</a>)</li>
 <li class="circle">ru.nsu.vyaznikova.model.snake.<a href="ru/nsu/vyaznikova/model/snake/SnakeSegment.html" class="type-name-link" title="class in ru.nsu.vyaznikova.model.snake">SnakeSegment</a></li>
@@ -110,6 +105,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">ru.nsu.vyaznikova.engine.events.<a href="ru/nsu/vyaznikova/engine/events/EventListener.html" class="type-name-link" title="interface in ru.nsu.vyaznikova.engine.events">EventListener</a></li>
 <li class="circle">ru.nsu.vyaznikova.engine.<a href="ru/nsu/vyaznikova/engine/GameLoop.html" class="type-name-link" title="interface in ru.nsu.vyaznikova.engine">GameLoop</a></li>
 <li class="circle">ru.nsu.vyaznikova.controller.input.<a href="ru/nsu/vyaznikova/controller/input/InputHandler.html" class="type-name-link" title="interface in ru.nsu.vyaznikova.controller.input">InputHandler</a></li>
+<li class="circle">ru.nsu.vyaznikova.model.snake.ai.<a href="ru/nsu/vyaznikova/model/snake/ai/SnakeStrategy.html" class="type-name-link" title="interface in ru.nsu.vyaznikova.model.snake.ai">SnakeStrategy</a></li>
 </ul>
 </section>
 <section class="hierarchy">
@@ -137,6 +133,7 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Record.html" class="type-name-link external-link" title="class or interface in java.lang">Record</a>
 <ul>
+<li class="circle">ru.nsu.vyaznikova.controller.input.<a href="ru/nsu/vyaznikova/controller/input/InputEvent.html" class="type-name-link" title="class in ru.nsu.vyaznikova.controller.input">InputEvent</a></li>
 <li class="circle">ru.nsu.vyaznikova.model.grid.<a href="ru/nsu/vyaznikova/model/grid/Position.html" class="type-name-link" title="class in ru.nsu.vyaznikova.model.grid">Position</a></li>
 </ul>
 </li>
