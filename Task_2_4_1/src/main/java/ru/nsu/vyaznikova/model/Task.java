@@ -1,4 +1,4 @@
-package ru.nsu.fit.model;
+package ru.nsu.vyaznikova.model;
 
 import java.time.LocalDateTime;
 

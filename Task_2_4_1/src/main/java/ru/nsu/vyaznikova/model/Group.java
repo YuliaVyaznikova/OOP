@@ -1,4 +1,4 @@
-package ru.nsu.fit.model;
+package ru.nsu.vyaznikova.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,11 +24,6 @@ public class Group {
         return Collections.unmodifiableList(students);
     }
 
-    /**
-     * Adds a student to the group and sets up bidirectional relationship.
-     *
-     * @param student Student to add to the group
-     */
     public void addStudent(Student student) {
         if (student != null && !students.contains(student)) {
             students.add(student);
@@ -36,11 +31,6 @@ public class Group {
         }
     }
 
-    /**
-     * Removes a student from the group.
-     *
-     * @param student Student to remove from the group
-     */
     public void removeStudent(Student student) {
         if (student != null && students.contains(student)) {
             students.remove(student);

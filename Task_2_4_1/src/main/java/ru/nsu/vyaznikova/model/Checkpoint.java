@@ -1,4 +1,4 @@
-package ru.nsu.fit.model;
+package ru.nsu.vyaznikova.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,22 +31,12 @@ public class Checkpoint {
         return Collections.unmodifiableList(includedTasks);
     }
 
-    /**
-     * Adds a task to be included in this checkpoint.
-     *
-     * @param task Task to be included
-     */
     public void addTask(Task task) {
         if (task != null && !includedTasks.contains(task)) {
             includedTasks.add(task);
         }
     }
 
-    /**
-     * Removes a task from this checkpoint.
-     *
-     * @param task Task to be removed
-     */
     public void removeTask(Task task) {
         includedTasks.remove(task);
     }

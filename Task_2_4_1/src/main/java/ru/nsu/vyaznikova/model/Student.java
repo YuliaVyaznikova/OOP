@@ -1,4 +1,4 @@
-package ru.nsu.fit.model;
+package ru.nsu.vyaznikova.model;
 
 /**
  * Represents a student in the OOP course.
@@ -15,7 +15,6 @@ public class Student {
         this.repositoryUrl = repositoryUrl;
     }
 
-    // Getters
     public String getGithubUsername() {
         return githubUsername;
     }
@@ -32,7 +31,6 @@ public class Student {
         return group;
     }
 
-    // Setter for group (needed for bidirectional relationship)
     void setGroup(Group group) {
         this.group = group;
     }

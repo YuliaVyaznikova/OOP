@@ -1,4 +1,4 @@
-package ru.nsu.fit.model;
+package ru.nsu.vyaznikova.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,12 +19,6 @@ public class Settings {
         this.gradeThresholds = new HashMap<>();
     }
 
-    /**
-     * Sets the minimum score threshold for a specific grade.
-     *
-     * @param grade The grade (e.g., "A", "B", "C")
-     * @param minScore The minimum score required for this grade
-     */
     public void setGradeThreshold(String grade, int minScore) {
         gradeThresholds.put(grade, minScore);
     }
@@ -45,13 +39,6 @@ public class Settings {
         return activityWeight;
     }
 
-    /**
-     * Calculates the final grade based on score and activity (if enabled).
-     *
-     * @param score Raw score
-     * @param activityPercentage Activity percentage (0-100)
-     * @return The calculated grade
-     */
     public String calculateGrade(double score, double activityPercentage) {
         double finalScore = score;
         if (considerActivityInGrade) {
