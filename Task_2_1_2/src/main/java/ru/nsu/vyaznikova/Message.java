@@ -41,9 +41,9 @@ public class Message implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
+        if (!(o instanceof Message message)) {
+            return false;
+        }
         return timestamp == message.timestamp &&
                type == message.type &&
                Objects.equals(content, message.content);

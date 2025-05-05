@@ -42,13 +42,13 @@ public class Task implements Serializable {
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return startIndex == task.startIndex &&
+        if (!(o instanceof Task task)) {
+            return false;
+        }
+        return Objects.equals(taskId, task.taskId) &&
+               startIndex == task.startIndex &&
                endIndex == task.endIndex &&
-               Arrays.equals(numbers, task.numbers) &&
-               Objects.equals(taskId, task.taskId);
+               Arrays.equals(numbers, task.numbers);
     }
     
     @Override
