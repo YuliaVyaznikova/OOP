@@ -1,95 +1,82 @@
 package ru.nsu.vyaznikova;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class WorkerNode {
     private final String masterHost;
     private final int masterPort;
     private final String workerId;
     private Socket socket;
-    private boolean isRunning;
+    private Thread messageThread;
+    private final AtomicBoolean isRunning;
 
     public WorkerNode(String masterHost, int masterPort, String workerId) {
         this.masterHost = masterHost;
         this.masterPort = masterPort;
         this.workerId = workerId;
-        this.isRunning = false;
+        this.isRunning = new AtomicBoolean(false);
     }
 
-    public void start() {
-        isRunning = true;
-        while (isRunning) {
-            try {
-                connectToMaster();
-                processMessages();
-            } catch (IOException | ClassNotFoundException e) {
-                System.err.println("Error in worker " + workerId + ": " + e.getMessage());
-                NetworkUtils.closeQuietly(socket);
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
-            }
+    public void start() throws IOException {
+        if (!isRunning.compareAndSet(false, true)) {
+            return;
         }
-    }
-
-    private void connectToMaster() throws IOException {
+        System.out.println("Worker " + workerId + " connecting to " + masterHost + ":" + masterPort);
         socket = NetworkUtils.createClientSocket(masterHost, masterPort);
+        System.out.println("Worker " + workerId + " connected successfully");
+        messageThread = new Thread(this::processMessages);
+        messageThread.start();
+        System.out.println("Worker " + workerId + " started message processing thread");
     }
 
-    private void processMessages() throws IOException, ClassNotFoundException {
-        while (isRunning && socket != null && !socket.isClosed()) {
-            Message message = NetworkUtils.receiveMessage(socket);
-            
-            switch (message.getType()) {
-                case TASK:
-                    processTask(message);
-                    break;
-                case HEARTBEAT:
-                    NetworkUtils.sendMessage(socket, new Message(
-                        Message.MessageType.HEARTBEAT,
-                        "Worker " + workerId + " is alive"
-                    ));
-                    break;
-                case ERROR:
-                    System.err.println("Error from master: " + message.getContent());
-                    break;
-                default:
-                    System.err.println("Unknown message type: " + message.getType());
+    private void processMessages() {
+        try {
+            while (isRunning.get() && !socket.isClosed()) {
+                System.out.println("Worker " + workerId + " waiting for message");
+                Message message = NetworkUtils.receiveMessage(socket);
+                System.out.println("Worker " + workerId + " received message: " + message.getType());
+                processMessage(message);
             }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error processing messages for worker " + workerId + ": " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            System.out.println("Worker " + workerId + " stopping");
+            stop();
         }
     }
 
-    private void processTask(Message message) throws IOException {
+    private void processMessage(Message message) throws IOException {
         try {
-            String[] parts = message.getContent().split(",");
-            int[] numbers = new int[parts.length];
-            for (int i = 0; i < parts.length; i++) {
-                numbers[i] = Integer.parseInt(parts[i].trim());
+            if (message.getType() == Message.MessageType.TASK) {
+                Task task = (Task) message.getContent();
+                int[] numbers = task.getNumbers();
+                boolean hasNonPrime = false;
+                
+                for (int number : numbers) {
+                    if (!PrimeChecker.isPrime(number)) {
+                        hasNonPrime = true;
+                        break;
+                    }
+                }
+                
+                Message resultMessage = new Message(Message.MessageType.RESULT, String.valueOf(hasNonPrime));
+                NetworkUtils.sendMessage(socket, resultMessage);
+                System.out.println("Worker " + workerId + " processed task and sent result: " + hasNonPrime);
             }
-            
-            boolean hasNonPrime = PrimeChecker.hasNonPrime(numbers);
-            
-            Message response = new Message(
-                Message.MessageType.RESULT,
-                String.valueOf(hasNonPrime)
-            );
-            NetworkUtils.sendMessage(socket, response);
-            
         } catch (Exception e) {
-            Message errorMessage = new Message(
-                Message.MessageType.ERROR,
-                "Error processing task: " + e.getMessage()
-            );
-            NetworkUtils.sendMessage(socket, errorMessage);
+            System.err.println("Error processing message: " + e.getMessage());
+            throw new IOException("Failed to process message", e);
         }
     }
 
     public void stop() {
-        isRunning = false;
+        isRunning.set(false);
         NetworkUtils.closeQuietly(socket);
+        if (messageThread != null) {
+            messageThread.interrupt();
+        }
     }
 }

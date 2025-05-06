@@ -14,10 +14,10 @@ public class Message implements Serializable {
     }
     
     private final MessageType type;
-    private final String content;
+    private final Object content;
     private final long timestamp;
     
-    public Message(MessageType type, String content) {
+    public Message(MessageType type, Object content) {
         this.type = Objects.requireNonNull(type, "Message type cannot be null");
         this.content = Objects.requireNonNull(content, "Message content cannot be null");
         this.timestamp = System.currentTimeMillis();
@@ -27,7 +27,7 @@ public class Message implements Serializable {
         return type;
     }
     
-    public String getContent() {
+    public Object getContent() {
         return content;
     }
     

@@ -13,7 +13,7 @@ public class Task implements Serializable {
     private final String taskId;
     
     public Task(int[] numbers, int startIndex, int endIndex, String taskId) {
-        this.numbers = Objects.requireNonNull(numbers, "Numbers array cannot be null");
+        this.numbers = Objects.requireNonNull(numbers, "Numbers array cannot be null").clone();
         this.taskId = Objects.requireNonNull(taskId, "Task ID cannot be null");
         
         if (startIndex < 0 || endIndex > numbers.length || startIndex > endIndex) {
