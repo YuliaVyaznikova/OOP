@@ -19,6 +19,21 @@ public class WorkerNode {
 
     public void start() {
         isRunning = true;
+        while (isRunning) {
+            try {
+                connectToMaster();
+                processMessages();
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Error in worker " + workerId + ": " + e.getMessage());
+                NetworkUtils.closeQuietly(socket);
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
     }
 
     private void connectToMaster() throws IOException {
