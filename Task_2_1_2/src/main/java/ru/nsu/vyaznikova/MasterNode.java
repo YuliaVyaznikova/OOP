@@ -122,6 +122,9 @@ public class MasterNode {
     }
 
     private void removeWorker(String workerId) {
+        Socket socket = workers.remove(workerId);
+        NetworkUtils.closeQuietly(socket);
+        activeWorkers.remove(workerId);
     }
 
     public void stop() {
@@ -131,28 +134,5 @@ public class MasterNode {
         workers.clear();
         taskResults.clear();
         hasNonPrimes = false;
-    }
-
-    public void distributeTask(int[] numbers) {
-        if (workers.isEmpty()) {
-            throw new IllegalStateException("No workers available");
-        }
-
-        String taskId = UUID.randomUUID().toString();
-        Task task = new Task(numbers, 0, numbers.length, taskId);
-        Message message = new Message(Message.MessageType.TASK, task);
-
-        for (Map.Entry<String, Socket> worker : workers.entrySet()) {
-            try {
-                NetworkUtils.sendMessage(worker.getValue(), message);
-            } catch (IOException e) {
-                System.err.println("Error sending task to worker " + worker.getKey() + ": " + e.getMessage());
-                removeWorker(worker.getKey());
-            }
-        }
-    }
-
-    public boolean getResult() {
-        return hasNonPrimes;
     }
 }

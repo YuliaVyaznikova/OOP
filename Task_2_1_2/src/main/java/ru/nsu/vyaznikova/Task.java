@@ -3,6 +3,7 @@ package ru.nsu.vyaznikova;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Task implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -22,6 +23,10 @@ public class Task implements Serializable {
         
         this.startIndex = startIndex;
         this.endIndex = endIndex;
+    }
+
+    public Task(int[] numbers) {
+        this(numbers, 0, numbers.length, UUID.randomUUID().toString());
     }
     
     public int[] getNumbers() {
