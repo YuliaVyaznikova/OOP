@@ -26,6 +26,26 @@ public class WorkerNode {
     }
 
     private void processMessages() throws IOException, ClassNotFoundException {
+        while (isRunning && socket != null && !socket.isClosed()) {
+            Message message = NetworkUtils.receiveMessage(socket);
+            
+            switch (message.getType()) {
+                case TASK:
+                    processTask(message);
+                    break;
+                case HEARTBEAT:
+                    NetworkUtils.sendMessage(socket, new Message(
+                        Message.MessageType.HEARTBEAT,
+                        "Worker " + workerId + " is alive"
+                    ));
+                    break;
+                case ERROR:
+                    System.err.println("Error from master: " + message.getContent());
+                    break;
+                default:
+                    System.err.println("Unknown message type: " + message.getType());
+            }
+        }
     }
 
     private void processTask(Message message) throws IOException {
