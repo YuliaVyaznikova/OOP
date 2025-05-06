@@ -64,6 +64,28 @@ public class WorkerNode {
     }
 
     private void processTask(Message message) throws IOException {
+        try {
+            String[] parts = message.getContent().split(",");
+            int[] numbers = new int[parts.length];
+            for (int i = 0; i < parts.length; i++) {
+                numbers[i] = Integer.parseInt(parts[i].trim());
+            }
+            
+            boolean hasNonPrime = PrimeChecker.hasNonPrime(numbers);
+            
+            Message response = new Message(
+                Message.MessageType.RESULT,
+                String.valueOf(hasNonPrime)
+            );
+            NetworkUtils.sendMessage(socket, response);
+            
+        } catch (Exception e) {
+            Message errorMessage = new Message(
+                Message.MessageType.ERROR,
+                "Error processing task: " + e.getMessage()
+            );
+            NetworkUtils.sendMessage(socket, errorMessage);
+        }
     }
 
     public void stop() {
