@@ -7,10 +7,12 @@ public class Message implements Serializable {
     private static final long serialVersionUID = 1L;
     
     public enum MessageType {
-        TASK,
-        RESULT,
-        HEARTBEAT,
-        ERROR
+        TASK_REQUEST,   // Worker requests a task
+        TASK,           // Server sends a task
+        RESULT,         // Worker sends result
+        NO_TASKS,       // Server has no tasks available
+        HEARTBEAT,      // Heartbeat message
+        ERROR           // Error message
     }
     
     private final MessageType type;

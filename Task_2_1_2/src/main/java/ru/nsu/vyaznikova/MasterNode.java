@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,15 +16,15 @@ public class MasterNode {
     private volatile boolean isStarted = false;
     private ServerSocket serverSocket;
     private final Map<String, Socket> workers;
-    private final Map<String, Boolean> taskResults;
-    private volatile boolean hasNonPrimes = false;
     private final Set<String> activeWorkers;
+    private final TaskPool taskPool;
+    private static final int MAX_ASSIGNMENTS_PER_TASK = 2; // Each task can be assigned to at most 2 workers
 
     public MasterNode(int port) {
         this.port = port;
         this.workers = new ConcurrentHashMap<>();
-        this.taskResults = new ConcurrentHashMap<>();
         this.activeWorkers = ConcurrentHashMap.newKeySet();
+        this.taskPool = new TaskPool(MAX_ASSIGNMENTS_PER_TASK);
     }
 
     public void start() throws IOException {
@@ -86,39 +87,49 @@ public class MasterNode {
         }
     }
 
-    private void processWorkerMessage(String workerId, Message message) {
-        if (message.getType() == Message.MessageType.RESULT) {
-            boolean result = Boolean.parseBoolean((String)message.getContent());
-            if (result) {
-                hasNonPrimes = true;
-                System.out.println("Worker " + workerId + " found non-prime numbers");
-            } else {
-                System.out.println("Worker " + workerId + " found only prime numbers");
-            }
-            taskResults.put(workerId, result);
+    private void processWorkerMessage(String workerId, Message message) throws IOException {
+        switch (message.getType()) {
+            case TASK_REQUEST:
+                handleTaskRequest(workerId);
+                break;
+            case RESULT:
+                handleTaskResult(workerId, (TaskResult)message.getContent());
+                break;
+            default:
+                System.out.println("Unexpected message type from worker " + workerId + ": " + message.getType());
         }
+    }
+
+    private void handleTaskRequest(String workerId) throws IOException {
+        Optional<Task> task = taskPool.getNextTask(workerId);
+        if (task.isPresent()) {
+            Message taskMessage = new Message(Message.MessageType.TASK, task.get());
+            NetworkUtils.sendMessage(workers.get(workerId), taskMessage);
+            System.out.println("Sent task to worker " + workerId);
+        } else {
+            Message noTaskMessage = new Message(Message.MessageType.NO_TASKS, "No tasks available");
+            NetworkUtils.sendMessage(workers.get(workerId), noTaskMessage);
+            System.out.println("No tasks available for worker " + workerId);
+        }
+    }
+
+    private void handleTaskResult(String workerId, TaskResult result) {
+        taskPool.processResult(result.getTaskId(), workerId, result.hasNonPrime());
+        System.out.println("Processed result from worker " + workerId + ": " + result);
     }
 
     public void distributeTask(int[] numbers) throws IOException {
         if (workers.isEmpty()) {
             throw new IllegalStateException("No workers connected");
         }
-        Task task = new Task(numbers);
-        Message taskMessage = new Message(Message.MessageType.TASK, task);
-        
-        for (Map.Entry<String, Socket> worker : workers.entrySet()) {
-            try {
-                NetworkUtils.sendMessage(worker.getValue(), taskMessage);
-                System.out.println("Task sent to worker: " + worker.getKey());
-            } catch (IOException e) {
-                System.err.println("Failed to send task to worker " + worker.getKey() + ": " + e.getMessage());
-                removeWorker(worker.getKey());
-            }
-        }
+        String taskId = UUID.randomUUID().toString();
+        Task task = new Task(numbers, 0, numbers.length, taskId);
+        taskPool.addTask(taskId, task);
+        System.out.println("Added task " + taskId + " to pool");
     }
 
     public boolean getResult() {
-        return hasNonPrimes;
+        return taskPool.hasNonPrimeResult();
     }
 
     private void removeWorker(String workerId) {
@@ -129,10 +140,10 @@ public class MasterNode {
 
     public void stop() {
         isRunning.set(false);
+        isStarted = false;
         NetworkUtils.closeQuietly(serverSocket);
         workers.values().forEach(NetworkUtils::closeQuietly);
         workers.clear();
-        taskResults.clear();
-        hasNonPrimes = false;
+        activeWorkers.clear();
     }
 }

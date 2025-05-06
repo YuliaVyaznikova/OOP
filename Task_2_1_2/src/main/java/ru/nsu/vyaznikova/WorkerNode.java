@@ -34,12 +34,25 @@ public class WorkerNode {
     private void processMessages() {
         try {
             while (isRunning.get() && !socket.isClosed()) {
-                System.out.println("Worker " + workerId + " waiting for message");
+                // Request a task
+                requestTask();
+                
+                // Wait for response
                 Message message = NetworkUtils.receiveMessage(socket);
                 System.out.println("Worker " + workerId + " received message: " + message.getType());
-                processMessage(message);
+                
+                switch (message.getType()) {
+                    case TASK:
+                        processTask(message);
+                        break;
+                    case NO_TASKS:
+                        Thread.sleep(1000); // Wait before requesting again
+                        break;
+                    default:
+                        System.out.println("Worker " + workerId + " received unexpected message type: " + message.getType());
+                }
             }
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | InterruptedException e) {
             System.err.println("Error processing messages for worker " + workerId + ": " + e.getMessage());
             e.printStackTrace();
         } finally {
@@ -48,28 +61,29 @@ public class WorkerNode {
         }
     }
 
-    private void processMessage(Message message) throws IOException {
-        try {
-            if (message.getType() == Message.MessageType.TASK) {
-                Task task = (Task) message.getContent();
-                int[] numbers = task.getNumbers();
-                boolean hasNonPrime = false;
-                
-                for (int number : numbers) {
-                    if (!PrimeChecker.isPrime(number)) {
-                        hasNonPrime = true;
-                        break;
-                    }
-                }
-                
-                Message resultMessage = new Message(Message.MessageType.RESULT, String.valueOf(hasNonPrime));
-                NetworkUtils.sendMessage(socket, resultMessage);
-                System.out.println("Worker " + workerId + " processed task and sent result: " + hasNonPrime);
+    private void requestTask() throws IOException {
+        Message requestMessage = new Message(Message.MessageType.TASK_REQUEST, workerId);
+        NetworkUtils.sendMessage(socket, requestMessage);
+        System.out.println("Worker " + workerId + " requested a task");
+    }
+
+    private void processTask(Message message) throws IOException {
+        Task task = (Task) message.getContent();
+        int[] numbers = task.getNumbers();
+        boolean hasNonPrime = false;
+        
+        for (int number : numbers) {
+            if (!PrimeChecker.isPrime(number)) {
+                hasNonPrime = true;
+                break;
             }
-        } catch (Exception e) {
-            System.err.println("Error processing message: " + e.getMessage());
-            throw new IOException("Failed to process message", e);
         }
+        
+        Message resultMessage = new Message(Message.MessageType.RESULT, 
+            new TaskResult(task.getTaskId(), hasNonPrime));
+        NetworkUtils.sendMessage(socket, resultMessage);
+        System.out.println("Worker " + workerId + " processed task " + task.getTaskId() + 
+                         " and sent result: " + hasNonPrime);
     }
 
     public void stop() {

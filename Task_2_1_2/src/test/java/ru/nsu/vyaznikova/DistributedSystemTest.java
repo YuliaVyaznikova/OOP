@@ -5,147 +5,101 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DistributedSystemTest {
     private MasterNode master;
-    private WorkerNode worker1;
-    private WorkerNode worker2;
+    private List<WorkerNode> workers;
     private static final int MASTER_PORT = 8000;
 
     @BeforeEach
     void setUp() {
         master = new MasterNode(MASTER_PORT);
+        workers = new ArrayList<>();
     }
 
     @AfterEach
     void tearDown() {
-        if (worker1 != null) worker1.stop();
-        if (worker2 != null) worker2.stop();
+        for (WorkerNode worker : workers) {
+            if (worker != null) worker.stop();
+        }
         if (master != null) master.stop();
     }
 
+    private void startWorker(String id) throws Exception {
+        WorkerNode worker = new WorkerNode("localhost", MASTER_PORT, id);
+        worker.start();
+        workers.add(worker);
+        Thread.sleep(500); // Give worker time to connect
+    }
+
     @Test
-    void testBasicConnection() throws Exception {
-        CountDownLatch connectionLatch = new CountDownLatch(1);
-        
-        Thread masterThread = new Thread(() -> {
-            try {
-                master.start();
-                connectionLatch.countDown();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        masterThread.start();
-        
-        // Ждем запуска мастера
-        long startTime = System.currentTimeMillis();
-        while (!master.isStarted() && System.currentTimeMillis() - startTime < 5000) {
-            Thread.sleep(100);
-        }
+    void testMultipleWorkers() throws Exception {
+        master.start();
+        Thread.sleep(500);
         assertTrue(master.isStarted(), "Master node failed to start");
-        
-        worker1 = new WorkerNode("localhost", MASTER_PORT, "worker1");
-        worker1.start();
-        
-        Thread.sleep(2000);
-        
-        // проверяем, что воркер подключился
+
+        // Start multiple workers
+        startWorker("worker1");
+        startWorker("worker2");
+        startWorker("worker3");
+
+        // Test with non-prime numbers
+        int[] numbers = {4, 6, 8, 9};
+        master.distributeTask(numbers);
+        Thread.sleep(2000); // Give workers time to process
+        assertTrue(master.getResult(), "Should find non-prime numbers");
     }
 
     @Test
-    void testArrayWithNonPrimes() throws Exception {
+    void testExample1WithRedundancy() throws Exception {
+        master.start();
+        Thread.sleep(500);
+
+        // Start workers with redundancy
+        startWorker("worker1");
+        startWorker("worker2");
+
         int[] numbers = {6, 8, 7, 13, 5, 9, 4};
-        
-        CountDownLatch masterLatch = new CountDownLatch(1);
-        Thread masterThread = new Thread(() -> {
-            try {
-                master.start();
-                masterLatch.countDown();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        masterThread.start();
-        
-        assertTrue(masterLatch.await(5, TimeUnit.SECONDS), "Master node failed to start");
-        
-        worker1 = new WorkerNode("localhost", MASTER_PORT, "worker1");
-        worker2 = new WorkerNode("localhost", MASTER_PORT, "worker2");
-        
-        worker1.start();
-        worker2.start();
-        
+        master.distributeTask(numbers);
         Thread.sleep(2000);
-        
-        // после реализации методов распределения задач и получения результатов:
-        // master.distributeTask(numbers);
-        // assertTrue(master.getResult(), "Should find non-prime numbers");
+        assertTrue(master.getResult(), "Should find non-prime numbers in example 1");
     }
 
     @Test
-    void testArrayWithOnlyPrimes() throws Exception {
-        int[] numbers = {2, 3, 5, 7, 11, 13, 17};
-        
-        CountDownLatch masterLatch = new CountDownLatch(1);
-        Thread masterThread = new Thread(() -> {
-            try {
-                master.start();
-                masterLatch.countDown();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        masterThread.start();
-        
-        assertTrue(masterLatch.await(5, TimeUnit.SECONDS), "Master node failed to start");
-        
-        worker1 = new WorkerNode("localhost", MASTER_PORT, "worker1");
-        worker1.start();
-        
+    void testExample2WithRedundancy() throws Exception {
+        master.start();
+        Thread.sleep(500);
+
+        // Start workers with redundancy
+        startWorker("worker1");
+        startWorker("worker2");
+
+        int[] numbers = {20319251, 6997901, 6997927, 6997937, 17858849, 6997967,
+                        6998009, 6998029, 6998039, 20165149, 6998051, 6998053};
+        master.distributeTask(numbers);
         Thread.sleep(2000);
-        
-        // после реализации методов распределения задач и получения результатов:
-        // master.distributeTask(numbers);
-        // assertFalse(master.getResult(), "Should not find any non-prime numbers");
+        assertFalse(master.getResult(), "Should not find any non-prime numbers in example 2");
     }
 
     @Test
     void testWorkerFailure() throws Exception {
-        int[] numbers = {6, 8, 7, 13, 5, 9, 4};
-        
-        CountDownLatch masterLatch = new CountDownLatch(1);
-        Thread masterThread = new Thread(() -> {
-            try {
-                master.start();
-                masterLatch.countDown();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        masterThread.start();
-        
-        assertTrue(masterLatch.await(5, TimeUnit.SECONDS), "Master node failed to start");
-        
-        worker1 = new WorkerNode("localhost", MASTER_PORT, "worker1");
-        worker2 = new WorkerNode("localhost", MASTER_PORT, "worker2");
-        
-        worker1.start();
-        worker2.start();
-        
-        Thread.sleep(2000);
-        
-        worker1.stop();
-        
-        // после реализации методов распределения задач и получения результатов:
-        // master.distributeTask(numbers);
-        // assertTrue(master.getResult(), "Should still find non-prime numbers even with one worker down");
+        master.start();
+        Thread.sleep(500);
+
+        // Start two workers
+        startWorker("worker1");
+        startWorker("worker2");
+
+        int[] numbers = {4, 6, 8, 9};
+        master.distributeTask(numbers);
+        Thread.sleep(500);
+
+        // Stop one worker to simulate failure
+        workers.get(0).stop();
+
+        Thread.sleep(2000); // Wait for task reassignment and processing
+        assertTrue(master.getResult(), "Should find non-prime numbers despite worker failure");
     }
 }
