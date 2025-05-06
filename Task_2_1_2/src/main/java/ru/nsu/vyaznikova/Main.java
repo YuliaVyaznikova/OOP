@@ -1,5 +1,8 @@
 package ru.nsu.vyaznikova;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Main {
     private static final int MASTER_PORT = 8000;
     private static final String MASTER_HOST = "localhost";
@@ -46,12 +49,27 @@ public class Main {
         MasterNode master = new MasterNode(MASTER_PORT);
         master.start();
 
-        // здесь будет распределение задачи и получение результата
-        // master.distributeTask(numbers);
-        // boolean result = master.getResult();
-        // System.out.println("Result: " + result);
+        List<WorkerNode> workers = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            WorkerNode worker = new WorkerNode("localhost", MASTER_PORT, "worker" + (i + 1));
+            worker.start();
+            workers.add(worker);
+            Thread.sleep(500);
+        }
 
-        // пока просто держим мастер запущенным
+        master.distributeTask(numbers);
+
+        Thread.sleep(2000);
+
+        boolean result = master.getResult();
+        System.out.println("\nResult: " + (result ? 
+            "Found non-prime numbers in the array" : 
+            "All numbers in the array are prime"));
+        System.out.println("Input array: " + arrayToString(numbers));
+
+        for (WorkerNode worker : workers) {
+            worker.stop();
+        }
         System.out.println("Master node is running. Press Ctrl+C to stop.");
         Thread.sleep(Long.MAX_VALUE);
     }
@@ -68,7 +86,6 @@ public class Main {
         WorkerNode worker = new WorkerNode(MASTER_HOST, MASTER_PORT, workerId);
         worker.start();
 
-        // воркер будет работать, пока его не остановят
         System.out.println("Worker node is running. Press Ctrl+C to stop.");
         Thread.sleep(Long.MAX_VALUE);
     }
