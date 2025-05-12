@@ -3,12 +3,10 @@ package ru.nsu.vyaznikova;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MasterNode {
     private final int port;
@@ -16,15 +14,23 @@ public class MasterNode {
     private volatile boolean isStarted = false;
     private ServerSocket serverSocket;
     private final Map<String, Socket> workers;
+    private final Map<String, Long> workerLastHeartbeat;
     private final Set<String> activeWorkers;
     private final TaskPool taskPool;
+    private final ScheduledExecutorService healthChecker;
     private static final int MAX_ASSIGNMENTS_PER_TASK = 2; // Each task can be assigned to at most 2 workers
+    private static final int OPTIMAL_CHUNK_SIZE = 1000; // Optimal size for task chunks
+    private static final long WORKER_TIMEOUT = 30000; // 30 seconds timeout for workers
+    private final AtomicInteger totalTasks = new AtomicInteger(0);
+    private final AtomicInteger completedTasks = new AtomicInteger(0);
 
     public MasterNode(int port) {
         this.port = port;
         this.workers = new ConcurrentHashMap<>();
+        this.workerLastHeartbeat = new ConcurrentHashMap<>();
         this.activeWorkers = ConcurrentHashMap.newKeySet();
         this.taskPool = new TaskPool(MAX_ASSIGNMENTS_PER_TASK);
+        this.healthChecker = Executors.newSingleThreadScheduledExecutor();
     }
 
     public void start() throws IOException {
@@ -34,6 +40,10 @@ public class MasterNode {
         serverSocket = NetworkUtils.createServerSocket(port);
         Thread acceptThread = new Thread(this::acceptWorkers);
         acceptThread.start();
+        
+        // Start health checker
+        healthChecker.scheduleAtFixedRate(this::checkWorkerHealth, 5, 5, TimeUnit.SECONDS);
+        
         isStarted = true;
         System.out.println("Master node started successfully");
     }
@@ -88,12 +98,17 @@ public class MasterNode {
     }
 
     private void processWorkerMessage(String workerId, Message message) throws IOException {
+        workerLastHeartbeat.put(workerId, System.currentTimeMillis());
+        
         switch (message.getType()) {
             case TASK_REQUEST:
                 handleTaskRequest(workerId);
                 break;
             case RESULT:
                 handleTaskResult(workerId, (TaskResult)message.getContent());
+                break;
+            case HEARTBEAT:
+                // Just update the heartbeat timestamp, which was done above
                 break;
             default:
                 System.out.println("Unexpected message type from worker " + workerId + ": " + message.getType());
@@ -115,17 +130,33 @@ public class MasterNode {
 
     private void handleTaskResult(String workerId, TaskResult result) {
         taskPool.processResult(result.getTaskId(), workerId, result.hasNonPrime());
-        System.out.println("Processed result from worker " + workerId + ": " + result);
+        completedTasks.incrementAndGet();
+        System.out.println("Processed result from worker " + workerId + ": " + result + 
+                         " (Completed: " + completedTasks.get() + "/" + totalTasks.get() + ")");
     }
 
     public void distributeTask(int[] numbers) throws IOException {
         if (workers.isEmpty()) {
             throw new IllegalStateException("No workers connected");
         }
-        String taskId = UUID.randomUUID().toString();
-        Task task = new Task(numbers, 0, numbers.length, taskId);
-        taskPool.addTask(taskId, task);
-        System.out.println("Added task " + taskId + " to pool");
+        
+        // Split the array into chunks
+        int totalLength = numbers.length;
+        int numChunks = Math.max(1, Math.min(totalLength / OPTIMAL_CHUNK_SIZE, workers.size() * 2));
+        int baseChunkSize = totalLength / numChunks;
+        int remainder = totalLength % numChunks;
+        
+        int start = 0;
+        for (int i = 0; i < numChunks; i++) {
+            int chunkSize = baseChunkSize + (i < remainder ? 1 : 0);
+            String taskId = UUID.randomUUID().toString();
+            Task task = new Task(numbers, start, start + chunkSize, taskId);
+            taskPool.addTask(taskId, task);
+            start += chunkSize;
+            totalTasks.incrementAndGet();
+        }
+        
+        System.out.println("Distributed array into " + numChunks + " tasks");
     }
 
     public boolean getResult() {
@@ -138,12 +169,30 @@ public class MasterNode {
         activeWorkers.remove(workerId);
     }
 
+    private void checkWorkerHealth() {
+        long currentTime = System.currentTimeMillis();
+        Set<String> deadWorkers = new HashSet<>();
+        
+        workerLastHeartbeat.forEach((workerId, lastHeartbeat) -> {
+            if (currentTime - lastHeartbeat > WORKER_TIMEOUT) {
+                System.out.println("Worker " + workerId + " appears to be dead, removing...");
+                deadWorkers.add(workerId);
+            }
+        });
+        
+        deadWorkers.forEach(this::removeWorker);
+    }
+    
     public void stop() {
         isRunning.set(false);
         isStarted = false;
+        healthChecker.shutdownNow();
         NetworkUtils.closeQuietly(serverSocket);
         workers.values().forEach(NetworkUtils::closeQuietly);
         workers.clear();
         activeWorkers.clear();
+        workerLastHeartbeat.clear();
+        totalTasks.set(0);
+        completedTasks.set(0);
     }
 }
