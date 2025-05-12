@@ -90,7 +90,10 @@ public class Main {
         Thread.sleep(Long.MAX_VALUE);
     }
 
-    private static int[] parseNumbers(String[] args) {
+    static int[] parseNumbers(String[] args) {
+        if (args.length <= 1) {
+            throw new IllegalArgumentException("No numbers provided");
+        }
         int[] numbers = new int[args.length - 1];
         for (int i = 1; i < args.length; i++) {
             numbers[i - 1] = Integer.parseInt(args[i]);
