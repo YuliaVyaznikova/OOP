@@ -1,8 +1,12 @@
 package ru.nsu.vyaznikova;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Main entry point for the distributed prime number checking system.
+ * Supports running either a master node or worker nodes from command line.
+ */
 public class Main {
     private static final int MASTER_PORT = 8000;
     private static final String MASTER_HOST = "localhost";
@@ -13,6 +17,14 @@ public class Main {
         testMode = mode;
     }
 
+    /**
+     * Main method to start either a master or worker node.
+     * Usage:
+     *   java Main master [array_of_numbers] - to start master node
+     *   java Main worker [worker_id]        - to start worker node
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("Usage:");
@@ -80,9 +92,9 @@ public class Main {
         Thread.sleep(2000);
 
         boolean result = master.getResult();
-        System.out.println("\nResult: " + (result ? 
-            "Found non-prime numbers in the array" : 
-            "All numbers in the array are prime"));
+        System.out.println("\nResult: " + (result 
+            ? "Found non-prime numbers in the array" 
+            : "All numbers in the array are prime"));
         System.out.println("Input array: " + arrayToString(numbers));
 
         for (WorkerNode worker : workers) {
@@ -116,6 +128,14 @@ public class Main {
         }
     }
 
+    /**
+     * Parses command line arguments into an array of integers.
+     *
+     * @param args command line arguments
+     * @return array of parsed integers
+     * @throws IllegalArgumentException if no numbers are provided
+     * @throws NumberFormatException if any argument is not a valid integer
+     */
     static int[] parseNumbers(String[] args) {
         if (args.length <= 1) {
             throw new IllegalArgumentException("No numbers provided");
