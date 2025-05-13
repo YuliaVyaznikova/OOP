@@ -115,11 +115,13 @@ public class WorkerNode {
                             Thread.sleep(1000); // Wait before requesting again
                             break;
                         case ERROR:
-                            System.err.println("Error from master: " + message.getContent());
+                            System.err.println("Error from master: " 
+                                    + message.getContent());
                             break;
                         default:
-                            System.out.println("Worker " + workerId + " received unexpected message type: " 
-                            + message.getType());
+                            System.out.println("Worker " + workerId 
+                                    + " received unexpected message type: " 
+                                    + message.getType());
                     }
                 } catch (IOException e) {
                     System.err.println("Connection error: " + e.getMessage());
