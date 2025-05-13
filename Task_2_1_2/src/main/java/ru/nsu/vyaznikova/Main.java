@@ -147,6 +147,13 @@ public class Main {
         return numbers;
     }
 
+    /**
+     * Converts an array of integers to a string representation.
+     * The format is [n1, n2, ..., nN] where n1...nN are array elements.
+     *
+     * @param array array of integers to convert
+     * @return string representation of the array
+     */
     public static String arrayToString(int[] array) {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < array.length; i++) {
