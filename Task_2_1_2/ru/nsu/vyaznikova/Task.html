@@ -81,6 +81,9 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Task</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
+<div class="block">Represents a task for prime number checking in the distributed system.
+ Each task contains a range of numbers to check and a unique identifier.
+ Tasks are serializable to support network transmission between nodes.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -106,7 +109,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
  int&nbsp;startIndex,
  int&nbsp;endIndex,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;taskId)</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-last odd-row-color">
+<div class="block">Creates a new task with a specified range of numbers to check.</div>
+</div>
 </div>
 </section>
 </li>
@@ -166,6 +171,17 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
  int&nbsp;startIndex,
  int&nbsp;endIndex,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;taskId)</span></div>
+<div class="block">Creates a new task with a specified range of numbers to check.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>numbers</code> - array of numbers to check for primality</dd>
+<dd><code>startIndex</code> - starting index in the array (inclusive)</dd>
+<dd><code>endIndex</code> - ending index in the array (exclusive)</dd>
+<dd><code>taskId</code> - unique identifier for this task</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if numbers array or taskId is null</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if index range is invalid</dd>
+</dl>
 </section>
 </li>
 <li>
