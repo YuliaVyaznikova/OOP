@@ -1,17 +1,30 @@
 package ru.nsu.vyaznikova;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Manages a pool of tasks for distributed prime number checking.
+ * Handles task assignment, result processing, and timeout management for multiple workers.
+ * Provides fault tolerance through task reassignment and parallel processing.
+ */
 public class TaskPool {
     private final Map<String, Task> availableTasks;
     private final Map<String, TaskAssignment> assignedTasks;
 
     private static final long TASK_TIMEOUT = 30000; // 30 seconds
-    private static final int MAX_PARALLEL_WORKERS = 3; // Maximum number of workers that can process a task in parallel
+    private static final int MAX_PARALLEL_WORKERS = 3; // Max workers per task
     private final ScheduledExecutorService timeoutChecker;
-    private final ConcurrentMap<String, Set<String>> workerTasks; // Maps worker to their assigned tasks
+    // Maps worker to their assigned tasks
+    private final ConcurrentMap<String, Set<String>> workerTasks;
 
     private static class TaskAssignment {
         final Set<String> workerIds;
@@ -48,10 +61,23 @@ public class TaskPool {
         this.timeoutChecker.scheduleAtFixedRate(this::checkTimeouts, 5, 5, TimeUnit.SECONDS);
     }
 
+    /**
+     * Adds a new task to the pool.
+     *
+     * @param taskId unique identifier for the task
+     * @param task the task to be added
+     */
     public void addTask(String taskId, Task task) {
         availableTasks.put(taskId, task);
     }
 
+    /**
+     * Gets the next available task for a worker.
+     * First tries to find a task that needs verification, then looks for new tasks.
+     *
+     * @param workerId unique identifier of the requesting worker
+     * @return Optional containing the next task, or empty if no task is available
+     */
     public synchronized Optional<Task> getNextTask(String workerId) {
         // Initialize worker's task set if not exists
         workerTasks.putIfAbsent(workerId, ConcurrentHashMap.newKeySet());
@@ -76,9 +102,9 @@ public class TaskPool {
 
             TaskAssignment assignment = assignedTasks.computeIfAbsent(taskId, k -> new TaskAssignment(task));
 
-            if (!assignment.isCompleted && 
-                !assignment.workerIds.contains(workerId) && 
-                assignment.canBeAssigned()) {
+            if (!assignment.isCompleted 
+                && !assignment.workerIds.contains(workerId) 
+                && assignment.canBeAssigned()) {
                 
                 assignment.workerIds.add(workerId);
                 assignment.assignmentTimes.put(workerId, System.currentTimeMillis());
@@ -91,6 +117,13 @@ public class TaskPool {
         return Optional.empty();
     }
 
+    /**
+     * Processes a task result from a worker.
+     *
+     * @param taskId unique identifier of the completed task
+     * @param workerId identifier of the worker that completed the task
+     * @param hasNonPrime true if a non-prime number was found in the task range
+     */
     public synchronized void processResult(String taskId, String workerId, boolean hasNonPrime) {
         TaskAssignment assignment = assignedTasks.get(taskId);
         if (assignment != null && assignment.workerIds.contains(workerId)) {
@@ -115,6 +148,10 @@ public class TaskPool {
         }
     }
 
+    /**
+     * Checks for and handles timed out task assignments.
+     * Removes timed out assignments and makes tasks available for reassignment.
+     */
     public void checkTimeouts() {
         long currentTime = System.currentTimeMillis();
         for (Map.Entry<String, TaskAssignment> entry : assignedTasks.entrySet()) {
