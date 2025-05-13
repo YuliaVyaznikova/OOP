@@ -1,7 +1,12 @@
 package ru.nsu.vyaznikova;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class TaskResultTest {
     @Test
@@ -10,17 +15,17 @@ class TaskResultTest {
         assertEquals("task1", result.getTaskId());
         assertTrue(result.hasNonPrime());
 
-        TaskResult result2 = new TaskResult("task2", false);
+        final TaskResult result2 = new TaskResult("task2", false);
         assertEquals("task2", result2.getTaskId());
         assertFalse(result2.hasNonPrime());
     }
 
     @Test
     void testTaskResultEquality() {
-        TaskResult result1 = new TaskResult("task1", true);
-        TaskResult result2 = new TaskResult("task1", true);
-        TaskResult result3 = new TaskResult("task1", false);
-        TaskResult result4 = new TaskResult("task2", true);
+        final TaskResult result1 = new TaskResult("task1", true);
+        final TaskResult result2 = new TaskResult("task1", true);
+        final TaskResult result3 = new TaskResult("task1", false);
+        final TaskResult result4 = new TaskResult("task2", true);
 
         assertEquals(result1, result2);
         assertEquals(result1.hashCode(), result2.hashCode());
