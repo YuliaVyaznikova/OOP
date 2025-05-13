@@ -1,22 +1,29 @@
 package ru.nsu.vyaznikova;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MessageTest {
     @Test
     void testMessageCreation() {
-        Message message = new Message(Message.MessageType.TASK_REQUEST, "test content");
+        Message message = new Message(
+            Message.MessageType.TASK_REQUEST,
+            "test content"
+        );
         assertEquals(Message.MessageType.TASK_REQUEST, message.getType());
         assertEquals("test content", message.getContent());
     }
 
     @Test
     void testMessageEquality() {
-        Message message1 = new Message(Message.MessageType.TASK_REQUEST, "test");
-        Message message2 = new Message(Message.MessageType.TASK_REQUEST, "test");
-        Message message3 = new Message(Message.MessageType.RESULT, "test");
-        Message message4 = new Message(Message.MessageType.TASK_REQUEST, "different");
+        final Message message1 = new Message(Message.MessageType.TASK_REQUEST, "test");
+        final Message message2 = new Message(Message.MessageType.TASK_REQUEST, "test");
+        final Message message3 = new Message(Message.MessageType.RESULT, "test");
+        final Message message4 = new Message(Message.MessageType.TASK_REQUEST, "different");
 
         assertEquals(message1, message2);
         assertEquals(message1.hashCode(), message2.hashCode());
