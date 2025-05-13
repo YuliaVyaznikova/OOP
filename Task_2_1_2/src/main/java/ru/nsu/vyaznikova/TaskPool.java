@@ -193,8 +193,12 @@ public class TaskPool {
                         }
 
                         // If both workers have failed or task is not completed
-                        if (assignment.failedAssignments.get() >= REQUIRED_WORKERS || 
-                            (assignment.completedAssignments.get() + assignment.failedAssignments.get() == REQUIRED_WORKERS && !assignment.isCompleted)) {
+                        boolean bothWorkersFailed = assignment.failedAssignments.get() >= REQUIRED_WORKERS;
+                        boolean oneFailedOneCompleted = assignment.completedAssignments.get() 
+                            + assignment.failedAssignments.get() == REQUIRED_WORKERS 
+                            && !assignment.isCompleted;
+                        
+                        if (bothWorkersFailed || oneFailedOneCompleted) {
                             // Reset the assignment and make task available again
                             assignment.workerIds.clear();
                             assignment.assignmentTimes.clear();

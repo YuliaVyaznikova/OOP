@@ -167,7 +167,10 @@ class TaskPoolTest {
         // Second worker confirms prime
         taskPool.processResult(taskId, "worker2", false);
         assertTrue(taskPool.hasCompletedTasks(), "Task should be completed after both responses");
-        assertFalse(taskPool.hasNonPrimeResult(), "Task should not have non-prime result");
+        assertFalse(
+            taskPool.hasNonPrimeResult(), 
+            "Task should not have non-prime result"
+        );
     }
     
 
