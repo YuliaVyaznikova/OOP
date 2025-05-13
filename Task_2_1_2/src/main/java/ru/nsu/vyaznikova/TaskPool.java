@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 /**
  * Manages a pool of tasks for distributed prime number checking.
@@ -18,36 +18,33 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class TaskPool {
     private final Map<String, Task> availableTasks;
-    private final Map<String, TaskAssignment> assignedTasks;
+    final ConcurrentMap<String, TaskAssignment> assignedTasks;
 
-    private static final long TASK_TIMEOUT = 30000; // 30 seconds
+    static final long TASK_TIMEOUT = 30000; // 30 seconds
     private static final int REQUIRED_WORKERS = 2; // Each task must be processed by exactly two workers
     private final ScheduledExecutorService timeoutChecker;
     // Maps worker to their assigned tasks
     private final ConcurrentMap<String, Set<String>> workerTasks;
 
-    private static class TaskAssignment {
-        final Set<String> workerIds;
-        final Map<String, Long> assignmentTimes;
-        final AtomicInteger completedAssignments;
-        final AtomicInteger failedAssignments;
-        volatile boolean isCompleted;
-        volatile boolean hasNonPrime;
-        final Task originalTask;
-        final Set<Boolean> results; // Store results from different workers
+    static class TaskAssignment {
+        final Set<String> workerIds;           // Current workers processing the task
+        final Map<String, Long> assignmentTimes; // Assignment time for each worker
+        volatile boolean isCompleted;           // Task is completed (result received from any worker)
+        volatile boolean hasNonPrime;          // Non-prime number found
+        final Task originalTask;               // Original task
 
         TaskAssignment(Task task) {
             this.workerIds = ConcurrentHashMap.newKeySet();
             this.assignmentTimes = new ConcurrentHashMap<>();
-            this.completedAssignments = new AtomicInteger(0);
-            this.failedAssignments = new AtomicInteger(0);
             this.isCompleted = false;
             this.hasNonPrime = false;
             this.originalTask = task;
-            this.results = ConcurrentHashMap.newKeySet();
         }
 
         synchronized boolean canBeAssigned() {
+            // Task can be assigned only if:
+            // 1. It's not completed yet
+            // 2. It has less than 2 workers
             return !isCompleted && workerIds.size() < REQUIRED_WORKERS;
         }
     }
@@ -132,31 +129,34 @@ public class TaskPool {
     public synchronized void processResult(String taskId, String workerId, boolean hasNonPrime) {
         TaskAssignment assignment = assignedTasks.get(taskId);
         if (assignment != null && assignment.workerIds.contains(workerId)) {
-            assignment.results.add(hasNonPrime);
-            assignment.completedAssignments.incrementAndGet();
-            
-            // Remove task from worker's assigned tasks
-            Set<String> workerTaskSet = workerTasks.get(workerId);
-            if (workerTaskSet != null) {
-                workerTaskSet.remove(taskId);
-            }
-
-            // If both workers have reported their results
-            if (assignment.completedAssignments.get() == REQUIRED_WORKERS) {
-                // If any worker found a non-prime number
-                if (assignment.results.contains(true)) {
-                    assignment.hasNonPrime = true;
+            // Если задача уже выполнена, просто очищаем информацию о воркере
+            if (assignment.isCompleted) {
+                assignment.workerIds.remove(workerId);
+                assignment.assignmentTimes.remove(workerId);
+                Set<String> workerTaskSet = workerTasks.get(workerId);
+                if (workerTaskSet != null) {
+                    workerTaskSet.remove(taskId);
                 }
-                assignment.isCompleted = true;
                 return;
             }
-
-            // If we found a non-prime number and at least one worker has completed
+            
+            // Помечаем задачу как выполненную
+            assignment.isCompleted = true;
+            
+            // Если найдено составное число, отмечаем это
             if (hasNonPrime) {
                 assignment.hasNonPrime = true;
-                // We can mark as complete if at least one worker found a non-prime
-                assignment.isCompleted = true;
             }
+            
+            // Очищаем информацию о воркерах
+            for (String wId : assignment.workerIds) {
+                Set<String> workerTaskSet = workerTasks.get(wId);
+                if (workerTaskSet != null) {
+                    workerTaskSet.remove(taskId);
+                }
+            }
+            assignment.workerIds.clear();
+            assignment.assignmentTimes.clear();
         }
     }
 
@@ -164,6 +164,21 @@ public class TaskPool {
      * Checks for and handles timed out task assignments.
      * Removes timed out assignments and makes tasks available for reassignment.
      */
+    // For testing purposes only
+    TaskAssignment getAssignmentForTest(String taskId) {
+        return assignedTasks.get(taskId);
+    }
+
+    /**
+     * Checks if the task is completed
+     * @param taskId Task ID
+     * @return true if the task is already completed, false otherwise
+     */
+    public boolean isTaskCompleted(String taskId) {
+        TaskAssignment assignment = assignedTasks.get(taskId);
+        return assignment != null && assignment.isCompleted;
+    }
+
     public void checkTimeouts() {
         long currentTime = System.currentTimeMillis();
         for (Map.Entry<String, TaskAssignment> entry : assignedTasks.entrySet()) {
@@ -171,47 +186,34 @@ public class TaskPool {
             TaskAssignment assignment = entry.getValue();
 
             if (!assignment.isCompleted) {
-                // Create a copy of assignmentTimes to avoid ConcurrentModificationException
+                // Проверяем таймауты для всех воркеров
                 Map<String, Long> times = new HashMap<>(assignment.assignmentTimes);
+                boolean allWorkersFailed = true;
+                
                 for (Map.Entry<String, Long> timeEntry : times.entrySet()) {
                     String workerId = timeEntry.getKey();
                     long assignmentTime = timeEntry.getValue();
 
                     if (currentTime - assignmentTime > TASK_TIMEOUT) {
-                        System.out.println("Task " + taskId 
-                                + " timed out for worker " + workerId);
-                        
-                        // Remove the timed out assignment
+                        // Удаляем воркера с таймаутом
                         assignment.workerIds.remove(workerId);
                         assignment.assignmentTimes.remove(workerId);
-                        assignment.failedAssignments.incrementAndGet();
-
-                        // Remove from worker's task set
+                        
+                        // Очищаем задачу из списка задач воркера
                         Set<String> workerTaskSet = workerTasks.get(workerId);
                         if (workerTaskSet != null) {
                             workerTaskSet.remove(taskId);
                         }
-
-                        // If both workers have failed or task is not completed
-                        boolean bothWorkersFailed = assignment.failedAssignments.get() >= REQUIRED_WORKERS;
-                        boolean oneFailedOneCompleted = assignment.completedAssignments.get() 
-                            + assignment.failedAssignments.get() == REQUIRED_WORKERS 
-                            && !assignment.isCompleted;
-                        
-                        if (bothWorkersFailed || oneFailedOneCompleted) {
-                            // Reset the assignment and make task available again
-                            assignment.workerIds.clear();
-                            assignment.assignmentTimes.clear();
-                            assignment.completedAssignments.set(0);
-                            assignment.failedAssignments.set(0);
-                            assignment.results.clear();
-                            
-                            Task originalTask = assignment.originalTask;
-                            if (originalTask != null) {
-                                availableTasks.put(taskId, originalTask);
-                            }
-                        }
+                    } else {
+                        allWorkersFailed = false;
                     }
+                }
+
+                // Если все воркеры умерли, возвращаем задачу в пул
+                if (allWorkersFailed) {
+                    assignment.workerIds.clear();
+                    assignment.assignmentTimes.clear();
+                    availableTasks.put(taskId, assignment.originalTask);
                 }
             }
         }

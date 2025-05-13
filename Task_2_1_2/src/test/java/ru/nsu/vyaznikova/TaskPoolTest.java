@@ -54,27 +54,29 @@ class TaskPoolTest {
         Task task = new Task(new int[]{2, 3, 5});
         taskPool.addTask(taskId, task);
         
-        // First worker confirms all prime
+        // First worker gets the task
         Optional<Task> result1 = taskPool.getNextTask("worker1");
         assertTrue(result1.isPresent());
-        taskPool.processResult(taskId, "worker1", false);
         
-        // Task should not be completed after first response
-        assertFalse(taskPool.hasCompletedTasks());
-        assertFalse(taskPool.hasNonPrimeResult());
-        
-        // Second worker should get the task
+        // Second worker gets the task
         Optional<Task> result2 = taskPool.getNextTask("worker2");
         assertTrue(result2.isPresent());
-        taskPool.processResult(taskId, "worker2", false);
         
-        // Now task should be completed after both workers confirm
+        // First worker confirms all prime
+        taskPool.processResult(taskId, "worker1", false);
+        
+        // Task should be completed after first response
         assertTrue(taskPool.hasCompletedTasks());
         assertFalse(taskPool.hasNonPrimeResult());
         
-        // Third worker shouldn't get the completed task
+        // Third worker shouldn't get the task as it's completed
         Optional<Task> result3 = taskPool.getNextTask("worker3");
         assertFalse(result3.isPresent());
+        
+        // Second worker's response shouldn't change the result
+        taskPool.processResult(taskId, "worker2", false);
+        assertTrue(taskPool.hasCompletedTasks());
+        assertFalse(taskPool.hasNonPrimeResult());
     }
     
 
@@ -85,7 +87,6 @@ class TaskPoolTest {
         Task task = new Task(new int[]{2, 3, 5});
         taskPool.addTask(taskId, task);
         
-        // Only two workers should get the task
         Optional<Task> result1 = taskPool.getNextTask("worker1");
         assertTrue(result1.isPresent());
         
@@ -96,11 +97,15 @@ class TaskPoolTest {
         Optional<Task> result3 = taskPool.getNextTask("worker3");
         assertFalse(result3.isPresent());
         
-        // Workers return different results
-        taskPool.processResult(taskId, "worker1", false);
-        taskPool.processResult(taskId, "worker2", true);
+        // First worker returns non-prime result
+        taskPool.processResult(taskId, "worker1", true);
         
-        // Task should be completed and marked as having non-prime
+        // Task should be completed and marked as having non-prime after first result
+        assertTrue(taskPool.hasCompletedTasks());
+        assertTrue(taskPool.hasNonPrimeResult());
+        
+        // Second worker's result doesn't matter
+        taskPool.processResult(taskId, "worker2", false);
         assertTrue(taskPool.hasCompletedTasks());
         assertTrue(taskPool.hasNonPrimeResult());
     }
@@ -151,26 +156,71 @@ class TaskPoolTest {
     }
     
     @Test
-    void testBothWorkersNeedToConfirm() {
+    void testIsTaskCompleted() {
+        String taskId = UUID.randomUUID().toString();
+        Task task = new Task(new int[]{2, 3, 5});
+        taskPool.addTask(taskId, task);
+        
+        // Initially task is not completed
+        assertFalse(taskPool.isTaskCompleted(taskId));
+        
+        // Assign task to two workers
+        Optional<Task> result1 = taskPool.getNextTask("worker1");
+        Optional<Task> result2 = taskPool.getNextTask("worker2");
+        assertTrue(result1.isPresent());
+        assertTrue(result2.isPresent());
+        
+        // Task is still not completed
+        assertFalse(taskPool.isTaskCompleted(taskId));
+        
+        // First worker returns result
+        taskPool.processResult(taskId, "worker1", true);
+        
+        // Now task is completed
+        assertTrue(taskPool.isTaskCompleted(taskId));
+        
+        // Second worker can check status and stop processing
+        assertTrue(taskPool.isTaskCompleted(taskId));
+    }
+
+    @Test
+    void testBothWorkersTimeout() {
         String taskId = UUID.randomUUID().toString();
         Task task = new Task(new int[]{2, 3, 5});
         taskPool.addTask(taskId, task);
         
         // Assign task to two workers
-        taskPool.getNextTask("worker1");
-        taskPool.getNextTask("worker2");
+        Optional<Task> result1 = taskPool.getNextTask("worker1");
+        Optional<Task> result2 = taskPool.getNextTask("worker2");
+        assertTrue(result1.isPresent());
+        assertTrue(result2.isPresent());
         
-        // First worker confirms prime
-        taskPool.processResult(taskId, "worker1", false);
-        assertFalse(taskPool.hasCompletedTasks(), "Task should not be completed after one response");
+        // Modify assignment times to simulate timeout
+        TaskPool.TaskAssignment assignment = taskPool.getAssignmentForTest(taskId);
+        if (assignment != null) {
+            long timeoutTime = System.currentTimeMillis() - TaskPool.TASK_TIMEOUT - 1000;
+            assignment.assignmentTimes.put("worker1", timeoutTime);
+            assignment.assignmentTimes.put("worker2", timeoutTime);
+        }
         
-        // Second worker confirms prime
-        taskPool.processResult(taskId, "worker2", false);
-        assertTrue(taskPool.hasCompletedTasks(), "Task should be completed after both responses");
-        assertFalse(
-            taskPool.hasNonPrimeResult(), 
-            "Task should not have non-prime result"
-        );
+        // Check timeouts - should return task to pool
+        taskPool.checkTimeouts();
+        
+        // Task should return to pool and be available for new workers
+        Optional<Task> result3 = taskPool.getNextTask("worker3");
+        Optional<Task> result4 = taskPool.getNextTask("worker4");
+        assertTrue(result3.isPresent(), "Task should be reassigned to new worker after timeout");
+        assertTrue(result4.isPresent(), "Task should be reassigned to second new worker");
+        
+        // One of the new workers completes the task
+        taskPool.processResult(taskId, "worker3", false);
+        assertTrue(taskPool.hasCompletedTasks(), "Task should be completed");
+        assertFalse(taskPool.hasNonPrimeResult(), "Task should not have non-prime result");
+        
+        // Second new worker's result doesn't change the outcome
+        taskPool.processResult(taskId, "worker4", false);
+        assertTrue(taskPool.hasCompletedTasks(), "Task should remain completed");
+        assertFalse(taskPool.hasNonPrimeResult(), "Task should still not have non-prime result");
     }
     
 
