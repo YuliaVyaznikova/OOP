@@ -5,6 +5,11 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Represents a task for prime number checking in the distributed system.
+ * Each task contains a range of numbers to check and a unique identifier.
+ * Tasks are serializable to support network transmission between nodes.
+ */
 public class Task implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -13,6 +18,16 @@ public class Task implements Serializable {
     private final int endIndex;
     private final String taskId;
     
+    /**
+     * Creates a new task with a specified range of numbers to check.
+     *
+     * @param numbers array of numbers to check for primality
+     * @param startIndex starting index in the array (inclusive)
+     * @param endIndex ending index in the array (exclusive)
+     * @param taskId unique identifier for this task
+     * @throws NullPointerException if numbers array or taskId is null
+     * @throws IllegalArgumentException if index range is invalid
+     */
     public Task(int[] numbers, int startIndex, int endIndex, String taskId) {
         this.numbers = Objects.requireNonNull(numbers, "Numbers array cannot be null").clone();
         this.taskId = Objects.requireNonNull(taskId, "Task ID cannot be null");
@@ -50,10 +65,10 @@ public class Task implements Serializable {
         if (!(o instanceof Task task)) {
             return false;
         }
-        return Objects.equals(taskId, task.taskId) &&
-               startIndex == task.startIndex &&
-               endIndex == task.endIndex &&
-               Arrays.equals(numbers, task.numbers);
+        return Objects.equals(taskId, task.taskId) 
+               && startIndex == task.startIndex 
+               && endIndex == task.endIndex 
+               && Arrays.equals(numbers, task.numbers);
     }
     
     @Override

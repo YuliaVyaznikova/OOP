@@ -104,7 +104,8 @@ public class TaskPool {
             String taskId = entry.getKey();
             Task task = entry.getValue();
 
-            TaskAssignment assignment = assignedTasks.computeIfAbsent(taskId, k -> new TaskAssignment(task));
+            TaskAssignment assignment = assignedTasks.computeIfAbsent(taskId, 
+                    k -> new TaskAssignment(task));
 
             if (!assignment.isCompleted 
                 && !assignment.workerIds.contains(workerId) 
