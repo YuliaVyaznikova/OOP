@@ -76,6 +76,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">TaskPool</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Manages a pool of tasks for distributed prime number checking.
+ Handles task assignment, result processing, and timeout management for multiple workers.
+ Provides fault tolerance through task reassignment and parallel processing.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -88,7 +91,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">TaskPool</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new task pool with concurrent data structures and a timeout checker.</div>
+</div>
 </div>
 </section>
 </li>
@@ -106,13 +111,19 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addTask(java.lang.String,ru.nsu.vyaznikova.Task)" class="member-name-link">addTask</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;taskId,
  <a href="Task.html" title="class in ru.nsu.vyaznikova">Task</a>&nbsp;task)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Adds a new task to the pool.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#checkTimeouts()" class="member-name-link">checkTimeouts</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Checks for and handles timed out task assignments.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="Task.html" title="class in ru.nsu.vyaznikova">Task</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNextTask(java.lang.String)" class="member-name-link">getNextTask</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;workerId)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets the next available task for a worker.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hasCompletedTasks()" class="member-name-link">hasCompletedTasks</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -123,7 +134,9 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#processResult(java.lang.String,java.lang.String,boolean)" class="member-name-link">processResult</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;taskId,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;workerId,
  boolean&nbsp;hasNonPrime)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Processes a task result from a worker.</div>
+</div>
 </div>
 </div>
 </div>
@@ -145,6 +158,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>TaskPool</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">TaskPool</span>()</div>
+<div class="block">Creates a new task pool with concurrent data structures and a timeout checker.
+ Initializes the task management system and starts the timeout monitoring service.</div>
 </section>
 </li>
 </ul>
@@ -160,12 +175,26 @@ loadScripts(document, 'script');</script>
 <h3>addTask</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addTask</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;taskId,
  <a href="Task.html" title="class in ru.nsu.vyaznikova">Task</a>&nbsp;task)</span></div>
+<div class="block">Adds a new task to the pool.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>taskId</code> - unique identifier for the task</dd>
+<dd><code>task</code> - the task to be added</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getNextTask(java.lang.String)">
 <h3>getNextTask</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="Task.html" title="class in ru.nsu.vyaznikova">Task</a>&gt;</span>&nbsp;<span class="element-name">getNextTask</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;workerId)</span></div>
+<div class="block">Gets the next available task for a worker.
+ First tries to find a task that needs verification, then looks for new tasks.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>workerId</code> - unique identifier of the requesting worker</dd>
+<dt>Returns:</dt>
+<dd>Optional containing the next task, or empty if no task is available</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -174,12 +203,21 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">processResult</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;taskId,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;workerId,
  boolean&nbsp;hasNonPrime)</span></div>
+<div class="block">Processes a task result from a worker.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>taskId</code> - unique identifier of the completed task</dd>
+<dd><code>workerId</code> - identifier of the worker that completed the task</dd>
+<dd><code>hasNonPrime</code> - true if a non-prime number was found in the task range</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="checkTimeouts()">
 <h3>checkTimeouts</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">checkTimeouts</span>()</div>
+<div class="block">Checks for and handles timed out task assignments.
+ Removes timed out assignments and makes tasks available for reassignment.</div>
 </section>
 </li>
 <li>
