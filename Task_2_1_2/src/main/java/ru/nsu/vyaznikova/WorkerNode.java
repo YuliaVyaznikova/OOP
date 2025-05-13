@@ -1,10 +1,17 @@
 package ru.nsu.vyaznikova;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * A worker node in the distributed system that processes prime number checking tasks.
+ * Connects to a master node, receives tasks, processes them, and sends back results.
+ * Maintains connection with heartbeat mechanism and supports automatic reconnection.
+ */
 public class WorkerNode {
     private final String masterHost;
     private final int masterPort;
@@ -17,6 +24,13 @@ public class WorkerNode {
     private static final long RECONNECT_DELAY_MS = 5000;
     private static final long HEARTBEAT_INTERVAL_MS = 5000;
 
+    /**
+     * Creates a new worker node.
+     *
+     * @param masterHost the hostname of the master node
+     * @param masterPort the port number of the master node
+     * @param workerId unique identifier for this worker
+     */
     public WorkerNode(String masterHost, int masterPort, String workerId) {
         this.masterHost = masterHost;
         this.masterPort = masterPort;
@@ -25,6 +39,11 @@ public class WorkerNode {
         this.heartbeatExecutor = Executors.newSingleThreadScheduledExecutor();
     }
 
+    /**
+     * Starts the worker node, connecting to the master and beginning task processing.
+     *
+     * @throws IOException if connection to master fails
+     */
     public void start() throws IOException {
         if (!isRunning.compareAndSet(false, true)) {
             return;
@@ -37,8 +56,9 @@ public class WorkerNode {
         int attempts = 0;
         while (attempts < MAX_RECONNECT_ATTEMPTS) {
             try {
-                System.out.println("Worker " + workerId + " connecting to " + masterHost + ":" + masterPort + 
-                                 " (attempt " + (attempts + 1) + " of " + MAX_RECONNECT_ATTEMPTS + ")");
+                System.out.println("Worker " + workerId + " connecting to " + masterHost + ":" 
+                        + masterPort + " (attempt " + (attempts + 1) + " of " 
+                        + MAX_RECONNECT_ATTEMPTS + ")");
                 socket = NetworkUtils.createClientSocket(masterHost, masterPort);
                 System.out.println("Worker " + workerId + " connected successfully");
                 messageThread = new Thread(this::processMessages);
@@ -117,7 +137,9 @@ public class WorkerNode {
     }
 
     private void tryReconnect() {
-        if (!isRunning.get()) return;
+        if (!isRunning.get()) {
+            return;
+        }
         
         System.out.println("Attempting to reconnect...");
         NetworkUtils.closeQuietly(socket);
@@ -150,10 +172,13 @@ public class WorkerNode {
         Message resultMessage = new Message(Message.MessageType.RESULT, 
             new TaskResult(task.getTaskId(), hasNonPrime));
         NetworkUtils.sendMessage(socket, resultMessage);
-        System.out.println("Worker " + workerId + " processed task " + task.getTaskId() + 
-                         " and sent result: " + hasNonPrime);
+        System.out.println("Worker " + workerId + " processed task " + task.getTaskId() 
+                + " and sent result: " + hasNonPrime);
     }
 
+    /**
+     * Stops the worker node, cleaning up all resources.
+     */
     public void stop() {
         // First stop all background activities
         isRunning.set(false);
