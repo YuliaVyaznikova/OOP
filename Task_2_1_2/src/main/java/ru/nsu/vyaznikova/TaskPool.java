@@ -21,14 +21,16 @@ public class TaskPool {
     final ConcurrentMap<String, TaskAssignment> assignedTasks;
 
     static final long TASK_TIMEOUT = 30000; // 30 seconds
-    private static final int REQUIRED_WORKERS = 2; // Each task must be processed by exactly two workers
+    // Each task must be processed by exactly two workers
+    private static final int REQUIRED_WORKERS = 2;
     private final ScheduledExecutorService timeoutChecker;
     // Maps worker to their assigned tasks
     private final ConcurrentMap<String, Set<String>> workerTasks;
 
     static class TaskAssignment {
         final Set<String> workerIds;           // Current workers processing the task
-        final Map<String, Long> assignmentTimes; // Assignment time for each worker
+        // Assignment time for each worker
+        final Map<String, Long> assignmentTimes;
         volatile boolean isCompleted;           // Task is completed (result received from any worker)
         volatile boolean hasNonPrime;          // Non-prime number found
         final Task originalTask;               // Original task
@@ -148,9 +150,9 @@ public class TaskPool {
                 assignment.hasNonPrime = true;
             }
             
-            // Очищаем информацию о воркерах
-            for (String wId : assignment.workerIds) {
-                Set<String> workerTaskSet = workerTasks.get(wId);
+            // Clean up worker information
+            for (String currentWorkerId : assignment.workerIds) {
+                Set<String> workerTaskSet = workerTasks.get(currentWorkerId);
                 if (workerTaskSet != null) {
                     workerTaskSet.remove(taskId);
                 }
@@ -170,7 +172,8 @@ public class TaskPool {
     }
 
     /**
-     * Checks if the task is completed
+     * Checks if the task is completed.
+     *
      * @param taskId Task ID
      * @return true if the task is already completed, false otherwise
      */
@@ -179,6 +182,10 @@ public class TaskPool {
         return assignment != null && assignment.isCompleted;
     }
 
+    /**
+     * Checks for timed out tasks and handles their reassignment.
+     * If both workers for a task have timed out, the task is returned to the available pool.
+     */
     public void checkTimeouts() {
         long currentTime = System.currentTimeMillis();
         for (Map.Entry<String, TaskAssignment> entry : assignedTasks.entrySet()) {
