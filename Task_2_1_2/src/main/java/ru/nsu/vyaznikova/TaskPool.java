@@ -52,6 +52,10 @@ public class TaskPool {
         }
     }
 
+    /**
+     * Creates a new task pool with concurrent data structures and a timeout checker.
+     * Initializes the task management system and starts the timeout monitoring service.
+     */
     public TaskPool() {
         this.availableTasks = new ConcurrentHashMap<>();
         this.assignedTasks = new ConcurrentHashMap<>();
@@ -159,12 +163,15 @@ public class TaskPool {
             TaskAssignment assignment = entry.getValue();
 
             if (!assignment.isCompleted) {
-                for (Map.Entry<String, Long> timeEntry : new HashMap<>(assignment.assignmentTimes).entrySet()) {
+                // Create a copy of assignmentTimes to avoid ConcurrentModificationException
+                Map<String, Long> times = new HashMap<>(assignment.assignmentTimes);
+                for (Map.Entry<String, Long> timeEntry : times.entrySet()) {
                     String workerId = timeEntry.getKey();
                     long assignmentTime = timeEntry.getValue();
 
                     if (currentTime - assignmentTime > TASK_TIMEOUT) {
-                        System.out.println("Task " + taskId + " timed out for worker " + workerId);
+                        System.out.println("Task " + taskId 
+                                + " timed out for worker " + workerId);
                         
                         // Remove the timed out assignment
                         assignment.workerIds.remove(workerId);
