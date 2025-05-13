@@ -76,6 +76,9 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PrimeChecker</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Utility class for checking prime numbers.
+ Provides methods to check if a single number is prime
+ and to analyze arrays of numbers for non-prime values.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -105,13 +108,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#checkArrayResult(int%5B%5D)" class="member-name-link">checkArrayResult</a><wbr>(int[]&nbsp;numbers)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Checks an array for non-prime numbers and returns a descriptive message.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#hasNonPrime(int%5B%5D)" class="member-name-link">hasNonPrime</a><wbr>(int[]&nbsp;numbers)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Checks if an array contains any non-prime numbers.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isPrime(int)" class="member-name-link">isPrime</a><wbr>(int&nbsp;number)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Checks if a given number is prime.</div>
+</div>
 </div>
 </div>
 </div>
@@ -147,18 +156,40 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isPrime(int)">
 <h3>isPrime</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isPrime</span><wbr><span class="parameters">(int&nbsp;number)</span></div>
+<div class="block">Checks if a given number is prime.
+ A prime number is a natural number greater than 1 that is only divisible by 1 and itself.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>number</code> - the number to check for primality</dd>
+<dt>Returns:</dt>
+<dd>true if the number is prime, false otherwise</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="hasNonPrime(int[])">
 <h3>hasNonPrime</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasNonPrime</span><wbr><span class="parameters">(int[]&nbsp;numbers)</span></div>
+<div class="block">Checks if an array contains any non-prime numbers.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>numbers</code> - array of integers to check</dd>
+<dt>Returns:</dt>
+<dd>true if any number in the array is not prime, false if all numbers are prime</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="checkArrayResult(int[])">
 <h3>checkArrayResult</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">checkArrayResult</span><wbr><span class="parameters">(int[]&nbsp;numbers)</span></div>
+<div class="block">Checks an array for non-prime numbers and returns a descriptive message.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>numbers</code> - array of integers to check</dd>
+<dt>Returns:</dt>
+<dd>a message indicating whether all numbers are prime or which number is non-prime</dd>
+</dl>
 </section>
 </li>
 </ul>
