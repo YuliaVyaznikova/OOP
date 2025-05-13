@@ -1,19 +1,23 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.Optional;
 import java.util.UUID;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class TaskPoolTest {
     private TaskPool taskPool;
+
     @BeforeEach
     void setUp() {
         taskPool = new TaskPool();
     }
-    
+
     @Test
     void testAddAndGetTask() {
         String taskId = UUID.randomUUID().toString();
