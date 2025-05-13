@@ -3,11 +3,23 @@ package ru.nsu.vyaznikova;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Master node in the distributed system for prime number checking.
+ * Manages worker nodes, distributes tasks, and collects results.
+ * Provides fault tolerance through worker health monitoring and task redistribution.
+ */
 public class MasterNode {
     private final int port;
     private final AtomicBoolean isRunning = new AtomicBoolean(false);
@@ -24,6 +36,11 @@ public class MasterNode {
     private final AtomicInteger totalTasks = new AtomicInteger(0);
     private final AtomicInteger completedTasks = new AtomicInteger(0);
 
+    /**
+     * Creates a new master node.
+     *
+     * @param port The port number to listen for worker connections
+     */
     public MasterNode(int port) {
         this.port = port;
         this.workers = new ConcurrentHashMap<>();
@@ -33,6 +50,11 @@ public class MasterNode {
         this.healthChecker = Executors.newSingleThreadScheduledExecutor();
     }
 
+    /**
+     * Starts the master node, begins accepting worker connections and monitoring worker health.
+     *
+     * @throws IOException if server socket creation fails
+     */
     public void start() throws IOException {
         if (!isRunning.compareAndSet(false, true)) {
             return;
@@ -105,7 +127,7 @@ public class MasterNode {
                 handleTaskRequest(workerId);
                 break;
             case RESULT:
-                handleTaskResult(workerId, (TaskResult)message.getContent());
+                handleTaskResult(workerId, (TaskResult) message.getContent());
                 break;
             case HEARTBEAT:
                 // Just update the heartbeat timestamp, which was done above
@@ -131,10 +153,17 @@ public class MasterNode {
     private void handleTaskResult(String workerId, TaskResult result) {
         taskPool.processResult(result.getTaskId(), workerId, result.hasNonPrime());
         completedTasks.incrementAndGet();
-        System.out.println("Processed result from worker " + workerId + ": " + result + 
-                         " (Completed: " + completedTasks.get() + "/" + totalTasks.get() + ")");
+        System.out.println("Processed result from worker " + workerId + ": " + result 
+                + " (Completed: " + completedTasks.get() + "/" + totalTasks.get() + ")");
     }
 
+    /**
+     * Distributes a task across available workers.
+     *
+     * @param numbers Array of numbers to check for primality
+     * @throws IOException if task distribution fails
+     * @throws IllegalStateException if no workers are connected
+     */
     public void distributeTask(int[] numbers) throws IOException {
         if (workers.isEmpty()) {
             throw new IllegalStateException("No workers connected");
@@ -183,6 +212,10 @@ public class MasterNode {
         deadWorkers.forEach(this::removeWorker);
     }
     
+    /**
+     * Stops the master node and cleans up all resources.
+     * Disconnects all workers and stops accepting new connections.
+     */
     public void stop() {
         isRunning.set(false);
         isStarted = false;
