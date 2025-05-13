@@ -54,16 +54,17 @@ class TaskTest {
     void testEquals() {
         int[] numbers = {1, 2, 3, 4, 5};
         String taskId = "test-task";
-        Task task1 = new Task(numbers, 1, 4, taskId);
-        Task task2 = new Task(numbers.clone(), 1, 4, taskId);
-        Task task3 = new Task(numbers, 1, 3, taskId);
-        Task task4 = new Task(numbers, 1, 4, "different-id");
-        Task task5 = new Task(new int[]{1, 2, 3}, 1, 3, taskId);
+        final Task task1 = new Task(numbers, 1, 4, taskId);
+        final Task task2 = new Task(numbers.clone(), 1, 4, taskId);
+        final Task task3 = new Task(numbers, 1, 3, taskId);
+        final Task task4 = new Task(numbers, 1, 4, "different-id");
         
         assertEquals(task1, task1); // same object
         assertEquals(task1, task2); // equal objects
         assertNotEquals(task1, task3); // different endIndex
         assertNotEquals(task1, task4); // different taskId
+        
+        final Task task5 = new Task(new int[]{1, 2, 3}, 1, 3, taskId);
         assertNotEquals(task1, task5); // different numbers
         assertNotEquals(task1, null); // null
         assertNotEquals(task1, new Object()); // different type
