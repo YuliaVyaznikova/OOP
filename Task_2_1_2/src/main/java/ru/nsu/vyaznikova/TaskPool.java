@@ -107,6 +107,7 @@ public class TaskPool {
             if (hasNonPrime || completed >= maxAssignmentsPerTask) {
                 if (hasNonPrime) {
                     assignment.hasNonPrime = true;
+                    assignment.isCompleted = true; // Mark as completed when we find a non-prime
                 } else if (completed >= maxAssignmentsPerTask) {
                     // If all results agree, mark as complete
                     boolean allAgree = assignment.results.size() == 1;
