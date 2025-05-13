@@ -81,6 +81,9 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Message</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
+<div class="block">Represents a message in the distributed system's communication protocol.
+ Messages are serializable for network transmission and contain a type,
+ content payload, and timestamp for timeout tracking.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -103,7 +106,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
 <div class="col-second even-row-color"><code><a href="Message.MessageType.html" class="type-name-link" title="enum class in ru.nsu.vyaznikova">Message.MessageType</a></code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Defines the types of messages that can be exchanged between nodes.</div>
+</div>
 </div>
 </section>
 </li>
@@ -117,7 +122,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(ru.nsu.vyaznikova.Message.MessageType,java.lang.Object)" class="member-name-link">Message</a><wbr>(<a href="Message.MessageType.html" title="enum class in ru.nsu.vyaznikova">Message.MessageType</a>&nbsp;type,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;content)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a new message with the specified type and content.</div>
+</div>
 </div>
 </section>
 </li>
@@ -175,6 +182,15 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <h3>Message</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Message</span><wbr><span class="parameters">(<a href="Message.MessageType.html" title="enum class in ru.nsu.vyaznikova">Message.MessageType</a>&nbsp;type,
  <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;content)</span></div>
+<div class="block">Creates a new message with the specified type and content.
+ The message's timestamp is automatically set to the current time.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>type</code> - type of the message</dd>
+<dd><code>content</code> - content/payload of the message</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if type or content is null</dd>
+</dl>
 </section>
 </li>
 </ul>
