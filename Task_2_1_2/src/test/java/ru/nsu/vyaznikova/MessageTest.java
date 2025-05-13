@@ -52,7 +52,10 @@ class MessageTest {
 
     @Test
     void testNullContent() {
-        assertThrows(NullPointerException.class, () -> new Message(Message.MessageType.TASK_REQUEST, null));
+        assertThrows(
+            NullPointerException.class,
+            () -> new Message(Message.MessageType.TASK_REQUEST, null)
+        );
     }
 
     @Test
