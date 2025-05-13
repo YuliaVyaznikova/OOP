@@ -18,7 +18,7 @@ public class MasterNode {
     private final Set<String> activeWorkers;
     private final TaskPool taskPool;
     private final ScheduledExecutorService healthChecker;
-    private static final int MAX_ASSIGNMENTS_PER_TASK = 2; // Each task can be assigned to at most 2 workers
+
     private static final int OPTIMAL_CHUNK_SIZE = 1000; // Optimal size for task chunks
     private static final long WORKER_TIMEOUT = 30000; // 30 seconds timeout for workers
     private final AtomicInteger totalTasks = new AtomicInteger(0);
@@ -29,7 +29,7 @@ public class MasterNode {
         this.workers = new ConcurrentHashMap<>();
         this.workerLastHeartbeat = new ConcurrentHashMap<>();
         this.activeWorkers = ConcurrentHashMap.newKeySet();
-        this.taskPool = new TaskPool(MAX_ASSIGNMENTS_PER_TASK);
+        this.taskPool = new TaskPool();
         this.healthChecker = Executors.newSingleThreadScheduledExecutor();
     }
 

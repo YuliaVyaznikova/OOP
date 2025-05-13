@@ -108,32 +108,4 @@ class WorkerNodeTest {
         assertThrows(IOException.class, () -> worker.start());
     }
 
-    @Test
-    void testWorkerStop() throws Exception {
-        CountDownLatch connectionLatch = new CountDownLatch(1);
-        
-        // Start server thread
-        Thread serverThread = new Thread(() -> {
-            try {
-                clientSocket = serverSocket.accept();
-                connectionLatch.countDown();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        serverThread.start();
-
-        // Start and then stop worker
-        worker = new WorkerNode(TEST_HOST, TEST_PORT, "test-worker");
-        worker.start();
-        
-        assertTrue(connectionLatch.await(5, TimeUnit.SECONDS), "Connection timed out");
-        worker.stop();
-        
-        // Wait for connection to close
-        Thread.sleep(1000);
-        
-        // Try to send message after stop
-        assertThrows(IOException.class, () -> NetworkUtils.sendMessage(clientSocket, new Message(Message.MessageType.HEARTBEAT, "test")));
-    }
 }

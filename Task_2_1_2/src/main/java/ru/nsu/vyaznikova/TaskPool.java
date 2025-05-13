@@ -7,8 +7,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TaskPool {
     private final Map<String, Task> availableTasks;
     private final Map<String, TaskAssignment> assignedTasks;
-    private final int maxAssignmentsPerTask;
+
     private static final long TASK_TIMEOUT = 30000; // 30 seconds
+    private static final int MAX_PARALLEL_WORKERS = 3; // Maximum number of workers that can process a task in parallel
     private final ScheduledExecutorService timeoutChecker;
     private final ConcurrentMap<String, Set<String>> workerTasks; // Maps worker to their assigned tasks
 
@@ -33,16 +34,15 @@ public class TaskPool {
             this.results = ConcurrentHashMap.newKeySet();
         }
 
-        synchronized boolean shouldReassign(int maxAssigns) {
-            return !isCompleted && 
-                   completedAssignments.get() + failedAssignments.get() < maxAssigns;
+        synchronized boolean canBeAssigned() {
+            return !isCompleted && workerIds.size() < MAX_PARALLEL_WORKERS;
         }
     }
 
-    public TaskPool(int maxAssignmentsPerTask) {
+    public TaskPool() {
         this.availableTasks = new ConcurrentHashMap<>();
         this.assignedTasks = new ConcurrentHashMap<>();
-        this.maxAssignmentsPerTask = maxAssignmentsPerTask;
+
         this.workerTasks = new ConcurrentHashMap<>();
         this.timeoutChecker = Executors.newSingleThreadScheduledExecutor();
         this.timeoutChecker.scheduleAtFixedRate(this::checkTimeouts, 5, 5, TimeUnit.SECONDS);
@@ -61,7 +61,7 @@ public class TaskPool {
             String taskId = entry.getKey();
             TaskAssignment assignment = entry.getValue();
 
-            if (assignment.shouldReassign(maxAssignmentsPerTask) && !assignment.workerIds.contains(workerId)) {
+            if (assignment.canBeAssigned() && !assignment.workerIds.contains(workerId)) {
                 assignment.workerIds.add(workerId);
                 assignment.assignmentTimes.put(workerId, System.currentTimeMillis());
                 workerTasks.get(workerId).add(taskId);
@@ -78,7 +78,7 @@ public class TaskPool {
 
             if (!assignment.isCompleted && 
                 !assignment.workerIds.contains(workerId) && 
-                assignment.workerIds.size() < maxAssignmentsPerTask) {
+                assignment.canBeAssigned()) {
                 
                 assignment.workerIds.add(workerId);
                 assignment.assignmentTimes.put(workerId, System.currentTimeMillis());
@@ -95,7 +95,7 @@ public class TaskPool {
         TaskAssignment assignment = assignedTasks.get(taskId);
         if (assignment != null && assignment.workerIds.contains(workerId)) {
             assignment.results.add(hasNonPrime);
-            int completed = assignment.completedAssignments.incrementAndGet();
+            assignment.completedAssignments.incrementAndGet();
             
             // Remove task from worker's assigned tasks
             Set<String> workerTaskSet = workerTasks.get(workerId);
@@ -103,26 +103,19 @@ public class TaskPool {
                 workerTaskSet.remove(taskId);
             }
 
-            // If we have enough matching results or found a composite number
-            if (hasNonPrime || completed >= maxAssignmentsPerTask) {
-                if (hasNonPrime) {
-                    assignment.hasNonPrime = true;
-                    assignment.isCompleted = true; // Mark as completed when we find a non-prime
-                } else if (completed >= maxAssignmentsPerTask) {
-                    // If all results agree, mark as complete
-                    boolean allAgree = assignment.results.size() == 1;
-                    if (allAgree) {
-                        assignment.isCompleted = true;
-                    } else {
-                        // Results don't agree, need one more verification
-                        assignment.failedAssignments.incrementAndGet();
-                    }
-                }
+            // If we found a non-prime number, complete immediately
+            if (hasNonPrime) {
+                assignment.hasNonPrime = true;
+                assignment.isCompleted = true;
+                return;
             }
+
+            // Task is complete when we get at least one valid response
+            assignment.isCompleted = true;
         }
     }
 
-    private void checkTimeouts() {
+    public void checkTimeouts() {
         long currentTime = System.currentTimeMillis();
         for (Map.Entry<String, TaskAssignment> entry : assignedTasks.entrySet()) {
             String taskId = entry.getKey();
@@ -147,9 +140,8 @@ public class TaskPool {
                             workerTaskSet.remove(taskId);
                         }
 
-                        // If task is not completed and not fully assigned, make it available again
-                        if (!assignment.isCompleted && 
-                            assignment.completedAssignments.get() + assignment.failedAssignments.get() < maxAssignmentsPerTask) {
+                        // Make task available again if it's not completed
+                        if (!assignment.isCompleted) {
                             Task originalTask = assignment.originalTask;
                             if (originalTask != null) {
                                 availableTasks.put(taskId, originalTask);

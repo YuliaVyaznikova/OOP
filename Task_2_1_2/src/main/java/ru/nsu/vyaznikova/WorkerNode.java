@@ -155,13 +155,30 @@ public class WorkerNode {
     }
 
     public void stop() {
+        // First stop all background activities
         isRunning.set(false);
         heartbeatExecutor.shutdownNow();
+        
+        // Wait for heartbeat executor to finish
+        try {
+            if (!heartbeatExecutor.awaitTermination(2, TimeUnit.SECONDS)) {
+                System.err.println("Heartbeat executor did not terminate in time");
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
+        // Close socket to interrupt any blocking operations
         NetworkUtils.closeQuietly(socket);
+        
+        // Wait for message thread to finish
         if (messageThread != null) {
             messageThread.interrupt();
             try {
-                messageThread.join(5000); // Wait up to 5 seconds for thread to finish
+                messageThread.join(2000); // Wait up to 2 seconds for thread to finish
+                if (messageThread.isAlive()) {
+                    System.err.println("Message thread did not terminate in time");
+                }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
