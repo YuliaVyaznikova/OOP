@@ -79,8 +79,13 @@ public class Main {
         MasterNode master = new MasterNode(MASTER_PORT);
         master.start();
 
+        // Calculate number of tasks (each number is a separate task)
+        int numTasks = numbers.length;
+        // Create twice as many workers as tasks to ensure each task can have 2 workers
+        int numWorkers = numTasks * 2;
+        
         List<WorkerNode> workers = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < numWorkers; i++) {
             WorkerNode worker = new WorkerNode("localhost", MASTER_PORT, "worker" + (i + 1));
             worker.start();
             workers.add(worker);

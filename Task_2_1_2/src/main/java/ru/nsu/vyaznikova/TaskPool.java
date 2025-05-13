@@ -21,7 +21,7 @@ public class TaskPool {
     private final Map<String, TaskAssignment> assignedTasks;
 
     private static final long TASK_TIMEOUT = 30000; // 30 seconds
-    private static final int MAX_PARALLEL_WORKERS = 3; // Max workers per task
+    private static final int REQUIRED_WORKERS = 2; // Each task must be processed by exactly two workers
     private final ScheduledExecutorService timeoutChecker;
     // Maps worker to their assigned tasks
     private final ConcurrentMap<String, Set<String>> workerTasks;
@@ -48,7 +48,7 @@ public class TaskPool {
         }
 
         synchronized boolean canBeAssigned() {
-            return !isCompleted && workerIds.size() < MAX_PARALLEL_WORKERS;
+            return !isCompleted && workerIds.size() < REQUIRED_WORKERS;
         }
     }
 
@@ -141,15 +141,22 @@ public class TaskPool {
                 workerTaskSet.remove(taskId);
             }
 
-            // If we found a non-prime number, complete immediately
-            if (hasNonPrime) {
-                assignment.hasNonPrime = true;
+            // If both workers have reported their results
+            if (assignment.completedAssignments.get() == REQUIRED_WORKERS) {
+                // If any worker found a non-prime number
+                if (assignment.results.contains(true)) {
+                    assignment.hasNonPrime = true;
+                }
                 assignment.isCompleted = true;
                 return;
             }
 
-            // Task is complete when we get at least one valid response
-            assignment.isCompleted = true;
+            // If we found a non-prime number and at least one worker has completed
+            if (hasNonPrime) {
+                assignment.hasNonPrime = true;
+                // We can mark as complete if at least one worker found a non-prime
+                assignment.isCompleted = true;
+            }
         }
     }
 
@@ -185,8 +192,16 @@ public class TaskPool {
                             workerTaskSet.remove(taskId);
                         }
 
-                        // Make task available again if it's not completed
-                        if (!assignment.isCompleted) {
+                        // If both workers have failed or task is not completed
+                        if (assignment.failedAssignments.get() >= REQUIRED_WORKERS || 
+                            (assignment.completedAssignments.get() + assignment.failedAssignments.get() == REQUIRED_WORKERS && !assignment.isCompleted)) {
+                            // Reset the assignment and make task available again
+                            assignment.workerIds.clear();
+                            assignment.assignmentTimes.clear();
+                            assignment.completedAssignments.set(0);
+                            assignment.failedAssignments.set(0);
+                            assignment.results.clear();
+                            
                             Task originalTask = assignment.originalTask;
                             if (originalTask != null) {
                                 availableTasks.put(taskId, originalTask);

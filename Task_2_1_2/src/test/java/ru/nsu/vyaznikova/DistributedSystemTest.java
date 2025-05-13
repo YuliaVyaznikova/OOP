@@ -71,10 +71,13 @@ public class DistributedSystemTest {
         Thread.sleep(WAIT_TIME);
         assertTrue(master.isRunning(), "Master node failed to start");
 
-        startWorker("worker1");
-        startWorker("worker2");
-
+        // Create twice as many workers as tasks
         int[] numbers = {4, 6};
+        int numWorkers = numbers.length * 2;
+        for (int i = 0; i < numWorkers; i++) {
+            startWorker("worker" + (i + 1));
+        }
+
         master.distributeTask(numbers);
         waitForResult();
 
@@ -86,10 +89,13 @@ public class DistributedSystemTest {
         master.start();
         Thread.sleep(WAIT_TIME);
 
-        startWorker("worker1");
-        startWorker("worker2");
-
+        // Create twice as many workers as tasks
         int[] numbers = {6, 8, 7, 13, 5, 9, 4};
+        int numWorkers = numbers.length * 2;
+        for (int i = 0; i < numWorkers; i++) {
+            startWorker("worker" + (i + 1));
+        }
+
         master.distributeTask(numbers);
         waitForResult();
         assertTrue(master.getResult(), "Should find non-prime numbers in example 1");
@@ -100,13 +106,16 @@ public class DistributedSystemTest {
         master.start();
         Thread.sleep(WAIT_TIME);
 
-        startWorker("worker1");
-        startWorker("worker2");
+        // Create twice as many workers as tasks
+        int[] numbers = {2, 3, 5, 7, 11, 13, 17};
+        int numWorkers = numbers.length * 2;
+        for (int i = 0; i < numWorkers; i++) {
+            startWorker("worker" + (i + 1));
+        }
 
-        int[] numbers = {6997901, 6997927, 6997937};
         master.distributeTask(numbers);
         waitForResult();
-        assertFalse(master.getResult(), "Should not find any non-prime numbers in example 2");
+        assertFalse(master.getResult(), "Should not find non-prime numbers in example 2");
     }
 
     @Test
