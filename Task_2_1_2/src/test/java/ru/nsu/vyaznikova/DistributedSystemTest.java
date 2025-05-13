@@ -1,15 +1,21 @@
 package ru.nsu.vyaznikova;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Timeout;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 
+/**
+ * Tests for the distributed system implementation.
+ * Verifies the interaction between master and worker nodes.
+ */
 @Timeout(value = 10, unit = TimeUnit.SECONDS)
 public class DistributedSystemTest {
     private MasterNode master;
@@ -32,9 +38,13 @@ public class DistributedSystemTest {
     @AfterEach
     void tearDown() {
         for (WorkerNode worker : workers) {
-            if (worker != null) worker.stop();
+            if (worker != null) {
+                worker.stop();
+            }
         }
-        if (master != null) master.stop();
+        if (master != null) {
+            master.stop();
+        }
     }
 
     private void startWorker(String id) throws Exception {
