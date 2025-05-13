@@ -43,11 +43,13 @@ public class NetworkUtils {
     public static Socket createClientSocket(String host, int port) throws IOException {
         Socket socket = new Socket(host, port);
         socket.setSoTimeout(SOCKET_TIMEOUT);
+        socket.setReuseAddress(true);
         return socket;
     }
 
     public static ServerSocket createServerSocket(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
+        serverSocket.setReuseAddress(true);
         return serverSocket;
     }
 

@@ -14,12 +14,18 @@ import java.util.concurrent.TimeUnit;
 public class DistributedSystemTest {
     private MasterNode master;
     private List<WorkerNode> workers;
-    private static final int MASTER_PORT = 8000;
+    private static int masterPort = 8000;
+    private int currentPort;
     private static final long WAIT_TIME = 100;
+
+    private int getNextPort() {
+        return masterPort++;
+    }
 
     @BeforeEach
     void setUp() {
-        master = new MasterNode(MASTER_PORT);
+        currentPort = getNextPort();
+        master = new MasterNode(currentPort);
         workers = new ArrayList<>();
     }
 
@@ -32,7 +38,7 @@ public class DistributedSystemTest {
     }
 
     private void startWorker(String id) throws Exception {
-        WorkerNode worker = new WorkerNode("localhost", MASTER_PORT, id);
+        WorkerNode worker = new WorkerNode("localhost", currentPort, id);
         worker.start();
         workers.add(worker);
         Thread.sleep(WAIT_TIME);

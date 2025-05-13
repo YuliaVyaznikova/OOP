@@ -102,6 +102,50 @@ class MainTest {
     }
 
     @Test
+    void testMasterWithDefaultNumbers() throws Exception {
+        Thread masterThread = new Thread(() -> {
+            try {
+                Main.main(new String[]{"master"});
+            } catch (Exception e) {
+                // Expected in test mode
+            }
+        });
+        masterThread.start();
+        Thread.sleep(100); // Give time for master to start
+        assertTrue(outContent.toString().contains("Starting master node"));
+        assertTrue(outContent.toString().contains("Input array: [6, 8, 7, 13, 5, 9, 4]"));
+    }
+
+    @Test
+    void testMasterWithCustomNumbers() throws Exception {
+        Thread masterThread = new Thread(() -> {
+            try {
+                Main.main(new String[]{"master", "2", "3", "5"});
+            } catch (Exception e) {
+                // Expected in test mode
+            }
+        });
+        masterThread.start();
+        Thread.sleep(100); // Give time for master to start
+        assertTrue(outContent.toString().contains("Starting master node"));
+        assertTrue(outContent.toString().contains("Input array: [2, 3, 5]"));
+    }
+
+    @Test
+    void testWorkerWithValidId() throws Exception {
+        Thread workerThread = new Thread(() -> {
+            try {
+                Main.main(new String[]{"worker", "test-worker"});
+            } catch (Exception e) {
+                // Expected in test mode
+            }
+        });
+        workerThread.start();
+        Thread.sleep(100); // Give time for worker to start
+        assertTrue(outContent.toString().contains("Starting worker node: test-worker"));
+    }
+
+    @Test
     void testArrayToStringLarge() {
         int[] large = new int[1000];
         for (int i = 0; i < large.length; i++) {

@@ -160,4 +160,75 @@ class PrimeCheckerTest {
         assertFalse(PrimeChecker.isPrime(Integer.MAX_VALUE - 1));
         assertFalse(PrimeChecker.isPrime(Integer.MAX_VALUE - 2));
     }
+
+    @Test
+    void testHasNonPrimeEmpty() {
+        assertFalse(PrimeChecker.hasNonPrime(new int[]{}));
+    }
+
+    @Test
+    void testHasNonPrimeAllPrime() {
+        assertFalse(PrimeChecker.hasNonPrime(new int[]{2, 3, 5, 7, 11, 13}));
+    }
+
+    @Test
+    void testHasNonPrimeAllNonPrime() {
+        assertTrue(PrimeChecker.hasNonPrime(new int[]{4, 6, 8, 9, 10}));
+    }
+
+    @Test
+    void testHasNonPrimeMixed() {
+        assertTrue(PrimeChecker.hasNonPrime(new int[]{2, 3, 4, 5, 6}));
+    }
+
+    @Test
+    void testHasNonPrimeSinglePrime() {
+        assertFalse(PrimeChecker.hasNonPrime(new int[]{17}));
+    }
+
+    @Test
+    void testHasNonPrimeSingleNonPrime() {
+        assertTrue(PrimeChecker.hasNonPrime(new int[]{16}));
+    }
+
+    @Test
+    void testCheckArrayResultEmpty() {
+        assertEquals("All numbers are prime", PrimeChecker.checkArrayResult(new int[]{}));
+    }
+
+    @Test
+    void testCheckArrayResultAllPrime() {
+        assertEquals("All numbers are prime", 
+            PrimeChecker.checkArrayResult(new int[]{2, 3, 5, 7, 11}));
+    }
+
+    @Test
+    void testCheckArrayResultFirstNonPrime() {
+        assertEquals("Found non-prime number: 4", 
+            PrimeChecker.checkArrayResult(new int[]{4, 2, 3, 5}));
+    }
+
+    @Test
+    void testCheckArrayResultMiddleNonPrime() {
+        assertEquals("Found non-prime number: 6", 
+            PrimeChecker.checkArrayResult(new int[]{2, 3, 6, 5, 7}));
+    }
+
+    @Test
+    void testCheckArrayResultLastNonPrime() {
+        assertEquals("Found non-prime number: 9", 
+            PrimeChecker.checkArrayResult(new int[]{2, 3, 5, 7, 9}));
+    }
+
+    @Test
+    void testCheckArrayResultSinglePrime() {
+        assertEquals("All numbers are prime", 
+            PrimeChecker.checkArrayResult(new int[]{17}));
+    }
+
+    @Test
+    void testCheckArrayResultSingleNonPrime() {
+        assertEquals("Found non-prime number: 16", 
+            PrimeChecker.checkArrayResult(new int[]{16}));
+    }
 }
