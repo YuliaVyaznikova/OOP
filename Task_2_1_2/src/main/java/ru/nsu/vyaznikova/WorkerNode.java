@@ -105,7 +105,8 @@ public class WorkerNode {
                     
                     // Wait for response with timeout
                     Message message = NetworkUtils.receiveMessage(socket);
-                    System.out.println("Worker " + workerId + " received message: " + message.getType());
+                    System.out.println("Worker " + workerId 
+                            + " received message: " + message.getType());
                     
                     switch (message.getType()) {
                         case TASK:

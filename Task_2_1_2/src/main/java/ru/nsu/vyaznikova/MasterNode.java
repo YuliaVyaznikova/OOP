@@ -107,7 +107,8 @@ public class MasterNode {
             while (isRunning.get() && !socket.isClosed()) {
                 System.out.println("Waiting for message from worker: " + workerId);
                 Message message = NetworkUtils.receiveMessage(socket);
-                System.out.println("Received message from worker " + workerId + ": " + message.getType());
+                System.out.println("Received message from worker " + workerId 
+                        + ": " + message.getType());
                 processWorkerMessage(workerId, message);
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -133,7 +134,8 @@ public class MasterNode {
                 // Just update the heartbeat timestamp, which was done above
                 break;
             default:
-                System.out.println("Unexpected message type from worker " + workerId + ": " + message.getType());
+                System.out.println("Unexpected message type from worker " + workerId 
+                        + ": " + message.getType());
         }
     }
 
