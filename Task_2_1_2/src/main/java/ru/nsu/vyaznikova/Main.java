@@ -7,12 +7,22 @@ public class Main {
     private static final int MASTER_PORT = 8000;
     private static final String MASTER_HOST = "localhost";
 
+    private static boolean testMode = false;
+
+    public static void setTestMode(boolean mode) {
+        testMode = mode;
+    }
+
     public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("Usage:");
             System.err.println("  java Main master [array_of_numbers]  - to start master node");
             System.err.println("  java Main worker [worker_id]         - to start worker node");
-            System.exit(1);
+            if (testMode) {
+                throw new RuntimeException("Invalid arguments");
+            } else {
+                System.exit(1);
+            }
         }
 
         String nodeType = args[0].toLowerCase();
@@ -27,11 +37,19 @@ public class Main {
                     break;
                 default:
                     System.err.println("Unknown node type: " + nodeType);
-                    System.exit(1);
+                    if (testMode) {
+                        throw new RuntimeException("Unknown node type: " + nodeType);
+                    } else {
+                        System.exit(1);
+                    }
             }
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
-            System.exit(1);
+            if (testMode) {
+                throw new RuntimeException("Error: " + e.getMessage());
+            } else {
+                System.exit(1);
+            }
         }
     }
 
@@ -71,13 +89,19 @@ public class Main {
             worker.stop();
         }
         System.out.println("Master node is running. Press Ctrl+C to stop.");
-        Thread.sleep(Long.MAX_VALUE);
+        if (!testMode) {
+            Thread.sleep(Long.MAX_VALUE);
+        }
     }
 
     private static void runWorker(String[] args) throws Exception {
         if (args.length < 2) {
             System.err.println("Worker ID is required");
-            System.exit(1);
+            if (testMode) {
+                throw new RuntimeException("Worker ID is required");
+            } else {
+                System.exit(1);
+            }
         }
 
         String workerId = args[1];
@@ -87,7 +111,9 @@ public class Main {
         worker.start();
 
         System.out.println("Worker node is running. Press Ctrl+C to stop.");
-        Thread.sleep(Long.MAX_VALUE);
+        if (!testMode) {
+            Thread.sleep(Long.MAX_VALUE);
+        }
     }
 
     static int[] parseNumbers(String[] args) {
@@ -101,7 +127,7 @@ public class Main {
         return numbers;
     }
 
-    private static String arrayToString(int[] array) {
+    public static String arrayToString(int[] array) {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < array.length; i++) {
             sb.append(array[i]);

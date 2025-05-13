@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 class PrimeCheckerTest {
     @Test
@@ -15,6 +16,7 @@ class PrimeCheckerTest {
         assertFalse(PrimeChecker.isPrime(-7));
         assertFalse(PrimeChecker.isPrime(-1));
         assertFalse(PrimeChecker.isPrime(Integer.MIN_VALUE));
+        assertFalse(PrimeChecker.isPrime(-Integer.MAX_VALUE));
     }
 
     @Test
@@ -24,13 +26,13 @@ class PrimeCheckerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71})
+    @ValueSource(ints = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97})
     void testSmallPrimeNumbers(int number) {
         assertTrue(PrimeChecker.isPrime(number));
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36})
+    @ValueSource(ints = {4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40})
     void testSmallNonPrimeNumbers(int number) {
         assertFalse(PrimeChecker.isPrime(number));
     }
@@ -44,7 +46,9 @@ class PrimeCheckerTest {
         "7907, true",
         "104729, true",
         "104723, true",
-        "104717, true"
+        "104717, true",
+        "999983, true",
+        "999979, true"
     })
     void testLargePrimeNumbers(int number, boolean expected) {
         assertEquals(expected, PrimeChecker.isPrime(number));
@@ -59,14 +63,16 @@ class PrimeCheckerTest {
         "7906, false",
         "104728, false",
         "104722, false",
-        "104716, false"
+        "104716, false",
+        "999982, false",
+        "999978, false"
     })
     void testLargeNonPrimeNumbers(int number, boolean expected) {
         assertEquals(expected, PrimeChecker.isPrime(number));
     }
 
     static Stream<Integer> squaresOfPrimes() {
-        return Stream.of(2, 3, 5, 7, 11, 13, 17, 19, 23)
+        return Stream.of(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31)
                      .map(n -> n * n);
     }
 
@@ -86,7 +92,9 @@ class PrimeCheckerTest {
             new int[]{13, 17},
             new int[]{17, 19},
             new int[]{19, 23},
-            new int[]{23, 29}
+            new int[]{23, 29},
+            new int[]{29, 31},
+            new int[]{31, 37}
         ).map(arr -> arr[0] * arr[1]);
     }
 
@@ -96,14 +104,20 @@ class PrimeCheckerTest {
         assertFalse(PrimeChecker.isPrime(number));
     }
 
-
     @Test
     void testConsecutiveNumbers() {
-        // Test a range of consecutive numbers
-        for (int i = 90; i <= 100; i++) {
+        // Test ranges of consecutive numbers
+        IntStream.rangeClosed(90, 100).forEach(i -> 
             assertEquals(isPrimeReference(i), PrimeChecker.isPrime(i),
-                "Failed for number: " + i);
-        }
+                "Failed for number: " + i));
+
+        IntStream.rangeClosed(190, 200).forEach(i -> 
+            assertEquals(isPrimeReference(i), PrimeChecker.isPrime(i),
+                "Failed for number: " + i));
+
+        IntStream.rangeClosed(990, 1000).forEach(i -> 
+            assertEquals(isPrimeReference(i), PrimeChecker.isPrime(i),
+                "Failed for number: " + i));
     }
 
     // Reference implementation for verification
@@ -130,5 +144,20 @@ class PrimeCheckerTest {
         assertTrue(PrimeChecker.isPrime(67));
         assertFalse(PrimeChecker.isPrime(128));
         assertTrue(PrimeChecker.isPrime(131));
+        assertFalse(PrimeChecker.isPrime(256));
+        assertTrue(PrimeChecker.isPrime(257));
+    }
+
+    @Test
+    void testEdgeCases() {
+        // Test numbers around Integer.MAX_VALUE/2
+        int halfMaxInt = Integer.MAX_VALUE / 2;
+        assertFalse(PrimeChecker.isPrime(halfMaxInt - 1));
+        assertFalse(PrimeChecker.isPrime(halfMaxInt));
+        assertFalse(PrimeChecker.isPrime(halfMaxInt + 1));
+
+        // Test some large composite numbers
+        assertFalse(PrimeChecker.isPrime(Integer.MAX_VALUE - 1));
+        assertFalse(PrimeChecker.isPrime(Integer.MAX_VALUE - 2));
     }
 }
