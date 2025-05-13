@@ -13,8 +13,27 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Manages a pool of tasks for distributed prime number checking.
- * Handles task assignment, result processing, and timeout management for multiple workers.
- * Provides fault tolerance through task reassignment and parallel processing.
+ * Initially contains N unfinished tasks that need to be processed by N * 2 workers.
+ *
+ * Task Assignment:
+ * - Each unfinished task is assigned to two available workers
+ * - System tracks which workers are processing each task through TaskAssignment
+ * - While a task is assigned to two workers, other workers cannot get it
+ *
+ * Task Processing:
+ * - Both workers independently check numbers in the task for primality
+ * - As soon as any worker completes the check and returns a result, the task is marked as completed
+ * - Second worker can periodically check via isTaskCompleted if the task is already done
+ * - If task is completed by first worker, second worker can stop processing as its result is not needed
+ *
+ * Timeout Handling:
+ * - System monitors task execution time for each worker
+ * - If a worker doesn't respond within the timeout period, it's considered dead
+ * - If both workers die:
+ *   1. Task is marked as unfinished
+ *   2. Old worker information is cleared
+ *   3. Task returns to the pool
+ *   4. Task can be assigned to a new pair of workers
  */
 public class TaskPool {
     private final Map<String, Task> availableTasks;
@@ -31,7 +50,8 @@ public class TaskPool {
         final Set<String> workerIds;           // Current workers processing the task
         // Assignment time for each worker
         final Map<String, Long> assignmentTimes;
-        volatile boolean isCompleted;           // Task is completed (result received from any worker)
+        // Task is completed (result received from any worker)
+        volatile boolean isCompleted;
         volatile boolean hasNonPrime;          // Non-prime number found
         final Task originalTask;               // Original task
 
