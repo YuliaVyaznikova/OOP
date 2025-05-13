@@ -1,14 +1,16 @@
 package ru.nsu.vyaznikova;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.stream.Stream;
-import java.util.stream.IntStream;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class PrimeCheckerTest {
     @Test
@@ -26,13 +28,19 @@ class PrimeCheckerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97})
+    @ValueSource(ints = {
+        2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37,
+        41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
+    })
     void testSmallPrimeNumbers(int number) {
         assertTrue(PrimeChecker.isPrime(number));
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40})
+    @ValueSource(ints = {
+        4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22,
+        24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40
+    })
     void testSmallNonPrimeNumbers(int number) {
         assertFalse(PrimeChecker.isPrime(number));
     }
@@ -122,11 +130,19 @@ class PrimeCheckerTest {
 
     // Reference implementation for verification
     private boolean isPrimeReference(int n) {
-        if (n <= 1) return false;
-        if (n <= 3) return true;
-        if (n % 2 == 0 || n % 3 == 0) return false;
+        if (n <= 1) {
+            return false;
+        }
+        if (n <= 3) {
+            return true;
+        }
+        if (n % 2 == 0 || n % 3 == 0) {
+            return false;
+        }
         for (int i = 5; i * i <= n; i += 6) {
-            if (n % i == 0 || n % (i + 2) == 0) return false;
+            if (n % i == 0 || n % (i + 2) == 0) {
+                return false;
+            }
         }
         return true;
     }
