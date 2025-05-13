@@ -70,12 +70,14 @@ public class WorkerNode {
                 if (attempts >= MAX_RECONNECT_ATTEMPTS) {
                     throw e;
                 }
-                System.err.println("Connection attempt failed, retrying in " + RECONNECT_DELAY_MS/1000 + " seconds...");
+                System.err.println("Connection attempt failed, retrying in " 
+                        + (RECONNECT_DELAY_MS / 1000) + " seconds...");
                 try {
                     Thread.sleep(RECONNECT_DELAY_MS);
                 } catch (InterruptedException ie) {
                     Thread.currentThread().interrupt();
-                    throw new IOException("Interrupted while attempting to connect", ie);
+                    throw new IOException(
+                            "Interrupted while attempting to connect", ie);
                 }
             }
         }
@@ -116,7 +118,8 @@ public class WorkerNode {
                             System.err.println("Error from master: " + message.getContent());
                             break;
                         default:
-                            System.out.println("Worker " + workerId + " received unexpected message type: " + message.getType());
+                            System.out.println("Worker " + workerId + " received unexpected message type: " 
+                            + message.getType());
                     }
                 } catch (IOException e) {
                     System.err.println("Connection error: " + e.getMessage());
