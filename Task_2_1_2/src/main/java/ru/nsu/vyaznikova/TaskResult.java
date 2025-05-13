@@ -3,6 +3,11 @@ package ru.nsu.vyaznikova;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Represents the result of a task execution in the distributed system.
+ * Contains information about the task ID and whether non-prime numbers were found.
+ * This class is serializable to support network transmission.
+ */
 public class TaskResult implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -27,8 +32,8 @@ public class TaskResult implements Serializable {
         if (!(o instanceof TaskResult result)) {
             return false;
         }
-        return hasNonPrime == result.hasNonPrime &&
-               Objects.equals(taskId, result.taskId);
+        return hasNonPrime == result.hasNonPrime
+               && Objects.equals(taskId, result.taskId);
     }
     
     @Override
