@@ -63,8 +63,5 @@ public class Baker implements Runnable {
 
     public void stop() {
         isRunning = false;
-        synchronized (queueLock) {
-            queueLock.notifyAll();
-        }
     }
 }

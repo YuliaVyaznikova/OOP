@@ -15,7 +15,7 @@ public class PizzeriaSimulator {
     private final ExecutorService bakerExecutor;
     private final ExecutorService courierExecutor;
 
-    private volatile boolean isRunning = true;
+
 
     public PizzeriaSimulator(int N, int M, int T, int[] bakerSpeeds, int[] courierCapacities) {
         this.storage = new Storage(T);
@@ -58,30 +58,41 @@ public class PizzeriaSimulator {
     }
 
     public void stopSimulation() {
-        isRunning = false;
+        System.out.println("Stopping simulation...");
 
-        synchronized (queueLock) {
-            queueLock.notifyAll();
-        }
-
+        // 1. Сигнализируем всем работникам о прекращении работы
         for (Baker baker : bakers) {
             baker.stop();
         }
-        bakerExecutor.shutdown();
-
         for (Courier courier : couriers) {
             courier.stop();
         }
+
+        // 2. Прерываем ожидание всех потоков, чтобы они могли проверить флаг isRunning
+        // Это нужно делать после того, как все флаги isRunning установлены в false
+        synchronized (queueLock) {
+            queueLock.notifyAll();
+        }
+        storage.stop(); // Этот метод вызывает notifyAll на storage.lock
+
+        // 3. Завершаем работу пулов потоков
+        bakerExecutor.shutdown();
         courierExecutor.shutdown();
 
-        storage.stop();
-
         try {
-            bakerExecutor.awaitTermination(60, TimeUnit.SECONDS);
-            courierExecutor.awaitTermination(60, TimeUnit.SECONDS);
+            // Ожидаем завершения всех задач в пулах
+            if (!bakerExecutor.awaitTermination(10, TimeUnit.SECONDS)) {
+                System.err.println("Baker threads did not terminate in time");
+                bakerExecutor.shutdownNow();
+            }
+            if (!courierExecutor.awaitTermination(10, TimeUnit.SECONDS)) {
+                System.err.println("Courier threads did not terminate in time");
+                courierExecutor.shutdownNow();
+            }
         } catch (InterruptedException e) {
+            bakerExecutor.shutdownNow();
+            courierExecutor.shutdownNow();
             Thread.currentThread().interrupt();
-            System.err.println("Interrupted while waiting for threads to terminate.");
         }
 
         System.out.println("Simulation stopped.");

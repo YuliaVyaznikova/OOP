@@ -19,10 +19,12 @@ public class Courier implements Runnable {
         try {
             while (isRunning) {
                 List<PizzaOrder> orders = takePizzasFromStorage();
-                if (orders.isEmpty()) {
+                if (orders == null) { // Сигнал к завершению
                     break;
                 }
-                deliverPizzas(orders);
+                if (!orders.isEmpty()) {
+                    deliverPizzas(orders);
+                }
             }
         } finally {
             System.out.println("Курьер " + id + " завершил работу.");
@@ -30,22 +32,10 @@ public class Courier implements Runnable {
     }
 
     private List<PizzaOrder> takePizzasFromStorage() {
-        List<PizzaOrder> orders = storage.takePizzas(trunkCapacity);
-        if (orders.isEmpty() && isRunning) {
-            synchronized (storage.getStorageLock()) {
-                while (orders.isEmpty() && isRunning) {
-                    try {
-                        storage.getStorageLock().wait();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        System.err.println("Курьер " + id + " прерван во время ожидания пиццы.");
-                        return List.of();
-                    }
-                    orders = storage.takePizzas(trunkCapacity);
-                }
-            }
+        if (!isRunning) {
+            return null;
         }
-        return orders;
+        return storage.takePizzas(trunkCapacity);
     }
 
     private void deliverPizzas(List<PizzaOrder> orders) {
@@ -63,13 +53,19 @@ public class Courier implements Runnable {
 
         for (PizzaOrder order : orders) {
             System.out.println("[" + order.getOrderId() + "] [Доставлено]");
+            onPizzaDelivered(order);
         }
+    }
+
+    /**
+     * Hook for testing purposes. Called when a pizza is delivered.
+     * @param order the delivered order
+     */
+    protected void onPizzaDelivered(PizzaOrder order) {
+        // This method is intended to be overridden in tests.
     }
 
     public void stop() {
         isRunning = false;
-        synchronized (storage.getStorageLock()) {
-            storage.getStorageLock().notifyAll();
-        }
     }
 }
