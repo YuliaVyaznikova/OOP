@@ -21,16 +21,11 @@ class PizzeriaSimulatorTest {
     public void test() throws InterruptedException {
         System.out.println("=== Starting test ===");
         simulator.startSimulation();
-        System.out.println("Simulation started");
         simulator.placeOrder(new PizzaOrder(1));
         simulator.placeOrder(new PizzaOrder(1));
-        System.out.println("Order placed");
-        Thread.sleep(5000); // Увеличиваем время ожидания до 5 секунд
-        System.out.println("After sleep");
+        Thread.sleep(5000);
         simulator.stopSimulation();
-        System.out.println("Simulation stopped");
         String output = outputStream.toString();
-        System.out.println("Test output: " + output);
         assertTrue(output.contains("[Принят в работу"));
         assertTrue(output.contains("[Готово"));
         assertTrue(output.contains("[Доставка"));
@@ -44,4 +39,22 @@ class PizzeriaSimulatorTest {
         PizzaOrder orderOut = storage.takePizzas(1).get(0);
         assertEquals(order.getOrderId(), orderOut.getOrderId());
     }
-}
+
+    @Test
+    public void testPizzaOrder() {
+        PizzaOrder order = new PizzaOrder(1);
+        assertEquals(1, order.getOrderId());
+        String expectedToString = "PizzaOrder{" +
+            "orderId=" + order.getOrderId() +
+            '}';
+        assertEquals(expectedToString, order.toString());
+        PizzaOrder sameOrder = new PizzaOrder(1);
+        PizzaOrder differentOrder = new PizzaOrder(2);
+        assertTrue(order.equals(sameOrder));
+        assertFalse(order.equals(differentOrder));
+        assertFalse(order.equals(null));
+        assertFalse(order.equals(new Object()));
+        assertEquals(order.hashCode(), sameOrder.hashCode());
+        assertNotEquals(order.hashCode(), differentOrder.hashCode());
+    }
+    }
