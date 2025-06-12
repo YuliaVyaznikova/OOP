@@ -16,7 +16,8 @@ public class Baker implements Runnable {
     /**
      * Создает нового пекаря.
      */
-    public Baker(int id, int cookingSpeed, Queue<PizzaOrder> orderQueue, Storage storage, Object queueLock) {
+    public Baker(int id, int cookingSpeed, Queue<PizzaOrder> orderQueue,
+    Storage storage, Object queueLock) {
         this.id = id;
         this.cookingSpeed = cookingSpeed;
         this.orderQueue = orderQueue;
@@ -24,10 +25,10 @@ public class Baker implements Runnable {
         this.queueLock = queueLock;
     }
 
-    @Override
     /**
      * Основной метод работы пекаря.
      */
+    @Override
     public void run() {
         try {
             while (isRunning) {
@@ -63,7 +64,8 @@ public class Baker implements Runnable {
             Thread.sleep(cookingSpeed);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            System.err.println("Пекарь " + id + " прерван во время приготовления заказа " + order.getOrderId());
+            System.err.println("Пекарь " + id + " прерван во время приготовления заказа "
+            + order.getOrderId());
             return;
         }
         System.out.println("[" + order.getOrderId() + "] [Готово]");

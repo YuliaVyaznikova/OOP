@@ -126,8 +126,10 @@ public class PizzeriaSimulator {
             courier.stop();
         }
 
-        // 2. Прерываем ожидание всех потоков, чтобы они могли проверить флаг isRunning
-        // Это нужно делать после того, как все флаги isRunning установлены в false
+        // 2. Прерываем ожидание всех потоков,
+        //чтобы они могли проверить флаг isRunning
+        // Это нужно делать после того,
+        //как все флаги isRunning установлены в false
         synchronized (queueLock) {
             queueLock.notifyAll();
         }
@@ -156,6 +158,9 @@ public class PizzeriaSimulator {
         System.out.println("Simulation stopped.");
     }
 
+    /**
+     * Главный метод программы.
+     */
     public static void main(String[] args) {
         int N = 2;
         int M = 2;
@@ -163,7 +168,8 @@ public class PizzeriaSimulator {
         int[] bakerSpeeds = {2000, 3000};
         int[] courierCapacities = {2, 3};
 
-        PizzeriaSimulator simulator = new PizzeriaSimulator(N, M, T, bakerSpeeds, courierCapacities);
+        PizzeriaSimulator simulator = new PizzeriaSimulator(N, M, T,
+        bakerSpeeds, courierCapacities);
         simulator.startSimulation();
 
         for (int i = 1; i <= 10; i++) {
