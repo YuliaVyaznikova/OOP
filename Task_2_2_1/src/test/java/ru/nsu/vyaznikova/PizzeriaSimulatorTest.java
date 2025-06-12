@@ -32,6 +32,47 @@ class PizzeriaSimulatorTest {
     }
 
     @Test
+    public void testStopSimulation() throws InterruptedException {
+        simulator.startSimulation();
+        simulator.placeOrder(new PizzaOrder(1));
+        simulator.stopSimulation();
+        String output = outputStream.toString();
+        assertTrue(output.contains("Stopping simulation..."));
+        assertTrue(output.contains("Simulation stopped."));
+    }
+
+    @Test
+    public void testMultipleOrders() throws InterruptedException {
+        simulator.startSimulation();
+        simulator.placeOrder(new PizzaOrder(1));
+        simulator.placeOrder(new PizzaOrder(2));
+        simulator.placeOrder(new PizzaOrder(3));
+        Thread.sleep(5000);
+        simulator.stopSimulation();
+        String output = outputStream.toString();
+        assertTrue(output.contains("[Принят в работу"));
+        assertTrue(output.contains("[Готово"));
+        assertTrue(output.contains("[Доставка"));
+    }
+
+    @Test
+    public void testSingleBakerSingleCourier() throws InterruptedException {
+        PizzeriaSimulator simulator = new PizzeriaSimulator(1, 1, 1, new int[]{100}, new int[]{1});
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
+        
+        simulator.startSimulation();
+        simulator.placeOrder(new PizzaOrder(1));
+        Thread.sleep(5000);
+        simulator.stopSimulation();
+        
+        String output = outputStream.toString();
+        assertTrue(output.contains("[Принят в работу"));
+        assertTrue(output.contains("[Готово"));
+        assertTrue(output.contains("[Доставка"));
+    }
+
+    @Test
     public void testStorage() {
         Storage storage = new Storage(100);
         PizzaOrder order = new PizzaOrder(10);
