@@ -14,8 +14,6 @@ public class PizzaOrder {
 
     /**
      * Возвращает идентификатор заказа.
-     * 
-     * @return идентификатор заказа
      */
     public int getOrderId() {
         return orderId;

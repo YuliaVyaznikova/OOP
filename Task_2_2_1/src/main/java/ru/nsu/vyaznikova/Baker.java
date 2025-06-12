@@ -14,13 +14,7 @@ public class Baker implements Runnable {
     private volatile boolean isRunning = true;
 
     /**
-     * Создает нового пекаря с заданными параметрами.
-     * 
-     * @param id идентификатор пекаря
-     * @param cookingSpeed скорость приготовления пиццы (в миллисекундах)
-     * @param orderQueue очередь заказов
-     * @param storage хранилище готовых пицц
-     * @param queueLock объект для синхронизации доступа к очереди
+     * Создает нового пекаря.
      */
     public Baker(int id, int cookingSpeed, Queue<PizzaOrder> orderQueue, Storage storage, Object queueLock) {
         this.id = id;
@@ -32,8 +26,7 @@ public class Baker implements Runnable {
 
     @Override
     /**
-     * Основной метод работы пекаря. Пекарь берет заказы из очереди,
-     * готовит пиццы и кладет их в хранилище.
+     * Основной метод работы пекаря.
      */
     public void run() {
         try {

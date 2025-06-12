@@ -15,9 +15,7 @@ public class Storage {
     private volatile boolean isRunning = true;
 
     /**
-     * Создает новое хранилище с заданной емкостью.
-     * 
-     * @param capacity емкость хранилища
+     * Создает новое хранилище.
      */
     public Storage(int capacity) {
         this.capacity = capacity;
@@ -25,8 +23,6 @@ public class Storage {
 
     /**
      * Добавляет заказ в хранилище.
-     * 
-     * @param order заказ для добавления
      */
     public void storePizza(PizzaOrder order) {
         synchronized (lock) {
@@ -51,9 +47,6 @@ public class Storage {
 
     /**
      * Берет заказы из хранилища.
-     * 
-     * @param count количество заказов для взятия
-     * @return список взятых заказов
      */
     public List<PizzaOrder> takePizzas(int count) {
         synchronized (lock) {
@@ -92,8 +85,6 @@ public class Storage {
 
     /**
      * Проверяет, работает ли хранилище.
-     * 
-     * @return true, если хранилище работает, false иначе
      */
     public boolean isRunning() {
         return isRunning;
@@ -101,8 +92,6 @@ public class Storage {
 
     /**
      * Возвращает объект блокировки хранилища.
-     * 
-     * @return объект блокировки
      */
     public Object getStorageLock() {
         return lock;

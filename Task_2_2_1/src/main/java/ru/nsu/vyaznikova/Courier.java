@@ -12,11 +12,7 @@ public class Courier implements Runnable {
     private volatile boolean isRunning = true;
 
     /**
-     * Создает нового курьера с заданными параметрами.
-     *
-     * @param id идентификатор курьера
-     * @param trunkCapacity вместимость багажника
-     * @param storage хранилище готовых пицц
+     * Создает нового курьера.
      */
     public Courier(int id, int trunkCapacity, Storage storage) {
         this.id = id;
@@ -26,8 +22,7 @@ public class Courier implements Runnable {
 
     @Override
     /**
-     * Основной метод работы курьера. Курьер берет заказы из хранилища
-     * и доставляет их клиентам.
+     * Основной метод работы курьера.
      */
     public void run() {
         try {
@@ -47,8 +42,6 @@ public class Courier implements Runnable {
 
     /**
      * Берет заказы из хранилища.
-     *
-     * @return список заказов или null, если нужно завершить работу
      */
     private List<PizzaOrder> takePizzasFromStorage() {
         if (!isRunning) {
@@ -78,7 +71,6 @@ public class Courier implements Runnable {
 
     /**
      * Hook for testing purposes. Called when a pizza is delivered.
-     * @param order the delivered order
      */
     protected void onPizzaDelivered(PizzaOrder order) {
         // This method is intended to be overridden in tests.

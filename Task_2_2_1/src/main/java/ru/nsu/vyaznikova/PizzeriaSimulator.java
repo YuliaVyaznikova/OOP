@@ -21,13 +21,7 @@ public class PizzeriaSimulator {
 
 
     /**
-     * Создает новый симулятор пиццерии с заданными параметрами.
-     * 
-     * @param bakerCount количество пекарей
-     * @param courierCount количество курьеров
-     * @param storageCapacity емкость хранилища
-     * @param bakerSpeeds скорости приготовления для каждого пекаря
-     * @param courierCapacities вместимости багажников для каждого курьера
+     * Создает новый симулятор пиццерии.
      */
     public PizzeriaSimulator(
         int bakerCount, 
@@ -60,7 +54,7 @@ public class PizzeriaSimulator {
     }
 
     /**
-     * Запускает симуляцию. Создает и запускает потоки для пекарей и курьеров.
+     * Запускает симуляцию.
      */
     public void startSimulation() {
         for (Baker baker : bakers) {
@@ -72,9 +66,7 @@ public class PizzeriaSimulator {
     }
 
     /**
-     * Добавляет новый заказ в очередь.
-     * 
-     * @param order заказ для добавления
+     * Добавляет заказ в очередь.
      */
     public void placeOrder(PizzaOrder order) {
         synchronized (queueLock) {
@@ -84,7 +76,7 @@ public class PizzeriaSimulator {
     }
 
     /**
-     * Останавливает симуляцию. Прерывает работу всех потоков и завершает их.
+     * Останавливает симуляцию.
      */
     public void stopSimulation() {
         System.out.println("Stopping simulation...");
