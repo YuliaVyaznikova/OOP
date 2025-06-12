@@ -167,8 +167,8 @@ public class PizzeriaSimulator {
         int[] courierCapacities = {2, 3};
 
         PizzeriaSimulator simulator = new PizzeriaSimulator(N, M, T,
-        bakerSpeeds, courierCapacities);
-            simulator.startSimulation();
+            bakerSpeeds, courierCapacities);
+        simulator.startSimulation();
 
         for (int i = 1; i <= 10; i++) {
             simulator.placeOrder(new PizzaOrder(i));

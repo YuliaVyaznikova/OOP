@@ -76,7 +76,7 @@ class PizzeriaSimulatorTest {
     @Test
     public void testMultipleBakersMultipleCouriers() throws InterruptedException {
         PizzeriaSimulator simulator = new PizzeriaSimulator(2,
-        2, 10, new int[]{100, 200}, new int[]{2, 3});
+            2, 10, new int[]{100, 200}, new int[]{2, 3});
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
         
@@ -130,7 +130,7 @@ class PizzeriaSimulatorTest {
     @Test
     public void testMainMethod() throws InterruptedException {
         PizzeriaSimulator simulator = new PizzeriaSimulator(2,
-        2, 10, new int[]{2000, 3000}, new int[]{2, 3});
+            2, 10, new int[]{2000, 3000}, new int[]{2, 3});
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
         
