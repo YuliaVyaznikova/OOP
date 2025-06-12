@@ -176,4 +176,4 @@ class PizzeriaSimulatorTest {
         assertEquals(order.hashCode(), sameOrder.hashCode());
         assertNotEquals(order.hashCode(), differentOrder.hashCode());
     }
-    }
+}

@@ -17,7 +17,7 @@ public class Baker implements Runnable {
      * Создает нового пекаря.
      */
     public Baker(int id, int cookingSpeed, Queue<PizzaOrder> orderQueue,
-    Storage storage, Object queueLock) {
+        Storage storage, Object queueLock) {
         this.id = id;
         this.cookingSpeed = cookingSpeed;
         this.orderQueue = orderQueue;
@@ -65,7 +65,7 @@ public class Baker implements Runnable {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             System.err.println("Пекарь " + id + " прерван во время приготовления заказа "
-            + order.getOrderId());
+                + order.getOrderId());
             return;
         }
         System.out.println("[" + order.getOrderId() + "] [Готово]");
