@@ -6,6 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Класс, представляющий симуляцию работы пиццерии.
+ */
 public class PizzeriaSimulator {
     private final Queue<PizzaOrder> orderQueue = new LinkedList<>();
     private final Object queueLock = new Object();
@@ -17,30 +20,42 @@ public class PizzeriaSimulator {
 
 
 
-    public PizzeriaSimulator(int N, int M, int T, int[] bakerSpeeds, int[] courierCapacities) {
-        this.storage = new Storage(T);
-        this.bakers = createBakers(N, bakerSpeeds);
-        this.couriers = createCouriers(M, courierCapacities);
-        this.bakerExecutor = Executors.newFixedThreadPool(N);
-        this.courierExecutor = Executors.newFixedThreadPool(M);
+    /**
+     * Создает новый симулятор пиццерии с заданными параметрами.
+     * 
+     * @param bakerCount количество пекарей
+     * @param courierCount количество курьеров
+     * @param storageCapacity емкость хранилища
+     * @param bakerSpeeds скорости приготовления для каждого пекаря
+     * @param courierCapacities вместимости багажников для каждого курьера
+     */
+    public PizzeriaSimulator(int bakerCount, int courierCount, int storageCapacity, int[] bakerSpeeds, int[] courierCapacities) {
+        this.storage = new Storage(storageCapacity);
+        this.bakers = createBakers(bakerCount, bakerSpeeds);
+        this.couriers = createCouriers(courierCount, courierCapacities);
+        this.bakerExecutor = Executors.newFixedThreadPool(bakerCount);
+        this.courierExecutor = Executors.newFixedThreadPool(courierCount);
     }
 
-    private Baker[] createBakers(int N, int[] bakerSpeeds) {
-        Baker[] bakers = new Baker[N];
-        for (int i = 0; i < N; i++) {
+    private Baker[] createBakers(int bakerCount, int[] bakerSpeeds) {
+        Baker[] bakers = new Baker[bakerCount];
+        for (int i = 0; i < bakerCount; i++) {
             bakers[i] = new Baker(i + 1, bakerSpeeds[i], orderQueue, storage, queueLock);
         }
         return bakers;
     }
 
-    private Courier[] createCouriers(int M, int[] courierCapacities) {
-        Courier[] couriers = new Courier[M];
-        for (int i = 0; i < M; i++) {
+    private Courier[] createCouriers(int courierCount, int[] courierCapacities) {
+        Courier[] couriers = new Courier[courierCount];
+        for (int i = 0; i < courierCount; i++) {
             couriers[i] = new Courier(i + 1, courierCapacities[i], storage);
         }
         return couriers;
     }
 
+    /**
+     * Запускает симуляцию. Создает и запускает потоки для пекарей и курьеров.
+     */
     public void startSimulation() {
         for (Baker baker : bakers) {
             bakerExecutor.execute(baker);
@@ -50,6 +65,11 @@ public class PizzeriaSimulator {
         }
     }
 
+    /**
+     * Добавляет новый заказ в очередь.
+     * 
+     * @param order заказ для добавления
+     */
     public void placeOrder(PizzaOrder order) {
         synchronized (queueLock) {
             orderQueue.add(order);
@@ -57,6 +77,9 @@ public class PizzeriaSimulator {
         }
     }
 
+    /**
+     * Останавливает симуляцию. Прерывает работу всех потоков и завершает их.
+     */
     public void stopSimulation() {
         System.out.println("Stopping simulation...");
 

@@ -5,16 +5,29 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * Класс, представляющий хранилище готовых пицц.
+ */
 public class Storage {
     private final int capacity;
     private final Queue<PizzaOrder> storageQueue = new LinkedList<>();
     private final Object lock = new Object();
     private volatile boolean isRunning = true;
 
+    /**
+     * Создает новое хранилище с заданной емкостью.
+     * 
+     * @param capacity емкость хранилища
+     */
     public Storage(int capacity) {
         this.capacity = capacity;
     }
 
+    /**
+     * Добавляет заказ в хранилище.
+     * 
+     * @param order заказ для добавления
+     */
     public void storePizza(PizzaOrder order) {
         synchronized (lock) {
             while (storageQueue.size() >= capacity && isRunning) {
@@ -36,6 +49,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Берет заказы из хранилища.
+     * 
+     * @param count количество заказов для взятия
+     * @return список взятых заказов
+     */
     public List<PizzaOrder> takePizzas(int count) {
         synchronized (lock) {
             while (storageQueue.isEmpty() && isRunning) {
@@ -61,6 +80,9 @@ public class Storage {
         }
     }
 
+    /**
+     * Останавливает работу хранилища.
+     */
     public void stop() {
         synchronized (lock) {
             isRunning = false;
@@ -68,10 +90,20 @@ public class Storage {
         }
     }
 
+    /**
+     * Проверяет, работает ли хранилище.
+     * 
+     * @return true, если хранилище работает, false иначе
+     */
     public boolean isRunning() {
         return isRunning;
     }
 
+    /**
+     * Возвращает объект блокировки хранилища.
+     * 
+     * @return объект блокировки
+     */
     public Object getStorageLock() {
         return lock;
     }

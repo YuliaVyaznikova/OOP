@@ -2,12 +2,22 @@ package ru.nsu.vyaznikova;
 
 import java.util.List;
 
+/**
+ * Класс, представляющий курьера в пиццерии.
+ */
 public class Courier implements Runnable {
     private final int id;
     private final int trunkCapacity;
     private final Storage storage;
     private volatile boolean isRunning = true;
 
+    /**
+     * Создает нового курьера с заданными параметрами.
+     * 
+     * @param id идентификатор курьера
+     * @param trunkCapacity вместимость багажника
+     * @param storage хранилище готовых пицц
+     */
     public Courier(int id, int trunkCapacity, Storage storage) {
         this.id = id;
         this.trunkCapacity = trunkCapacity;
@@ -15,6 +25,10 @@ public class Courier implements Runnable {
     }
 
     @Override
+    /**
+     * Основной метод работы курьера. Курьер берет заказы из хранилища
+     * и доставляет их клиентам.
+     */
     public void run() {
         try {
             while (isRunning) {
@@ -31,6 +45,11 @@ public class Courier implements Runnable {
         }
     }
 
+    /**
+     * Берет заказы из хранилища.
+     * 
+     * @return список заказов или null, если нужно завершить работу
+     */
     private List<PizzaOrder> takePizzasFromStorage() {
         if (!isRunning) {
             return null;

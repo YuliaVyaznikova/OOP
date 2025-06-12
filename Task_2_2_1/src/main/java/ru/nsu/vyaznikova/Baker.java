@@ -2,6 +2,9 @@ package ru.nsu.vyaznikova;
 
 import java.util.Queue;
 
+/**
+ * Класс, представляющий пекаря в пиццерии.
+ */
 public class Baker implements Runnable {
     private final int id;
     private final int cookingSpeed;
@@ -10,6 +13,15 @@ public class Baker implements Runnable {
     private final Object queueLock;
     private volatile boolean isRunning = true;
 
+    /**
+     * Создает нового пекаря с заданными параметрами.
+     * 
+     * @param id идентификатор пекаря
+     * @param cookingSpeed скорость приготовления пиццы (в миллисекундах)
+     * @param orderQueue очередь заказов
+     * @param storage хранилище готовых пицц
+     * @param queueLock объект для синхронизации доступа к очереди
+     */
     public Baker(int id, int cookingSpeed, Queue<PizzaOrder> orderQueue, Storage storage, Object queueLock) {
         this.id = id;
         this.cookingSpeed = cookingSpeed;
@@ -19,6 +31,10 @@ public class Baker implements Runnable {
     }
 
     @Override
+    /**
+     * Основной метод работы пекаря. Пекарь берет заказы из очереди,
+     * готовит пиццы и кладет их в хранилище.
+     */
     public void run() {
         try {
             while (isRunning) {
