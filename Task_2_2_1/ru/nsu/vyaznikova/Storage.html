@@ -76,6 +76,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">Storage</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Класс, представляющий хранилище готовых пицц.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -88,7 +89,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">Storage</a><wbr>(int&nbsp;capacity)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Создает новое хранилище с заданной емкостью.</div>
+</div>
 </div>
 </section>
 </li>
@@ -105,19 +108,29 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStorageLock()" class="member-name-link">getStorageLock</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Возвращает объект блокировки хранилища.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isRunning()" class="member-name-link">isRunning</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Проверяет, работает ли хранилище.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stop()" class="member-name-link">stop</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Останавливает работу хранилища.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#storePizza(ru.nsu.vyaznikova.PizzaOrder)" class="member-name-link">storePizza</a><wbr>(<a href="PizzaOrder.html" title="class in ru.nsu.vyaznikova">PizzaOrder</a>&nbsp;order)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Добавляет заказ в хранилище.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="PizzaOrder.html" title="class in ru.nsu.vyaznikova">PizzaOrder</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#takePizzas(int)" class="member-name-link">takePizzas</a><wbr>(int&nbsp;count)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Берет заказы из хранилища.</div>
+</div>
 </div>
 </div>
 </div>
@@ -139,6 +152,11 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(int)">
 <h3>Storage</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Storage</span><wbr><span class="parameters">(int&nbsp;capacity)</span></div>
+<div class="block">Создает новое хранилище с заданной емкостью.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>capacity</code> - емкость хранилища</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -153,30 +171,53 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="storePizza(ru.nsu.vyaznikova.PizzaOrder)">
 <h3>storePizza</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">storePizza</span><wbr><span class="parameters">(<a href="PizzaOrder.html" title="class in ru.nsu.vyaznikova">PizzaOrder</a>&nbsp;order)</span></div>
+<div class="block">Добавляет заказ в хранилище.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>order</code> - заказ для добавления</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="takePizzas(int)">
 <h3>takePizzas</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="PizzaOrder.html" title="class in ru.nsu.vyaznikova">PizzaOrder</a>&gt;</span>&nbsp;<span class="element-name">takePizzas</span><wbr><span class="parameters">(int&nbsp;count)</span></div>
+<div class="block">Берет заказы из хранилища.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>count</code> - количество заказов для взятия</dd>
+<dt>Returns:</dt>
+<dd>список взятых заказов</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="stop()">
 <h3>stop</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stop</span>()</div>
+<div class="block">Останавливает работу хранилища.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="isRunning()">
 <h3>isRunning</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isRunning</span>()</div>
+<div class="block">Проверяет, работает ли хранилище.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>true, если хранилище работает, false иначе</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getStorageLock()">
 <h3>getStorageLock</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">getStorageLock</span>()</div>
+<div class="block">Возвращает объект блокировки хранилища.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>объект блокировки</dd>
+</dl>
 </section>
 </li>
 </ul>

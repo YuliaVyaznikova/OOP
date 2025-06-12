@@ -76,6 +76,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PizzeriaSimulator</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<div class="block">Класс, представляющий симуляцию работы пиццерии.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -87,12 +88,14 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int%5B%5D,int%5B%5D)" class="member-name-link">PizzeriaSimulator</a><wbr>(int&nbsp;N,
- int&nbsp;M,
- int&nbsp;T,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int,int,int,int%5B%5D,int%5B%5D)" class="member-name-link">PizzeriaSimulator</a><wbr>(int&nbsp;bakerCount,
+ int&nbsp;courierCount,
+ int&nbsp;storageCapacity,
  int[]&nbsp;bakerSpeeds,
  int[]&nbsp;courierCapacities)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Создает новый симулятор пиццерии с заданными параметрами.</div>
+</div>
 </div>
 </section>
 </li>
@@ -112,13 +115,19 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeOrder(ru.nsu.vyaznikova.PizzaOrder)" class="member-name-link">placeOrder</a><wbr>(<a href="PizzaOrder.html" title="class in ru.nsu.vyaznikova">PizzaOrder</a>&nbsp;order)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Добавляет новый заказ в очередь.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startSimulation()" class="member-name-link">startSimulation</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Запускает симуляцию.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopSimulation()" class="member-name-link">stopSimulation</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Останавливает симуляцию.</div>
+</div>
 </div>
 </div>
 </div>
@@ -139,11 +148,20 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(int,int,int,int[],int[])">
 <h3>PizzeriaSimulator</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PizzeriaSimulator</span><wbr><span class="parameters">(int&nbsp;N,
- int&nbsp;M,
- int&nbsp;T,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PizzeriaSimulator</span><wbr><span class="parameters">(int&nbsp;bakerCount,
+ int&nbsp;courierCount,
+ int&nbsp;storageCapacity,
  int[]&nbsp;bakerSpeeds,
  int[]&nbsp;courierCapacities)</span></div>
+<div class="block">Создает новый симулятор пиццерии с заданными параметрами.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>bakerCount</code> - количество пекарей</dd>
+<dd><code>courierCount</code> - количество курьеров</dd>
+<dd><code>storageCapacity</code> - емкость хранилища</dd>
+<dd><code>bakerSpeeds</code> - скорости приготовления для каждого пекаря</dd>
+<dd><code>courierCapacities</code> - вместимости багажников для каждого курьера</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -158,18 +176,25 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="startSimulation()">
 <h3>startSimulation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">startSimulation</span>()</div>
+<div class="block">Запускает симуляцию. Создает и запускает потоки для пекарей и курьеров.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="placeOrder(ru.nsu.vyaznikova.PizzaOrder)">
 <h3>placeOrder</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">placeOrder</span><wbr><span class="parameters">(<a href="PizzaOrder.html" title="class in ru.nsu.vyaznikova">PizzaOrder</a>&nbsp;order)</span></div>
+<div class="block">Добавляет новый заказ в очередь.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>order</code> - заказ для добавления</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="stopSimulation()">
 <h3>stopSimulation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stopSimulation</span>()</div>
+<div class="block">Останавливает симуляцию. Прерывает работу всех потоков и завершает их.</div>
 </section>
 </li>
 <li>
