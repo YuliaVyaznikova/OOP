@@ -13,7 +13,7 @@ public class Courier implements Runnable {
 
     /**
      * Создает нового курьера с заданными параметрами.
-     * 
+     *
      * @param id идентификатор курьера
      * @param trunkCapacity вместимость багажника
      * @param storage хранилище готовых пицц
@@ -47,7 +47,7 @@ public class Courier implements Runnable {
 
     /**
      * Берет заказы из хранилища.
-     * 
+     *
      * @return список заказов или null, если нужно завершить работу
      */
     private List<PizzaOrder> takePizzasFromStorage() {

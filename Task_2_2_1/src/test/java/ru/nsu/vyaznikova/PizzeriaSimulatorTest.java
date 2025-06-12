@@ -1,13 +1,13 @@
 package ru.nsu.vyaznikova;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.ByteArrayOutputStream;
-
-import java.io.PrintStream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PizzeriaSimulatorTest {
     private ByteArrayOutputStream outputStream;
