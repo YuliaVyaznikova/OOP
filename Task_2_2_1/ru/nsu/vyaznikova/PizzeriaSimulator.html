@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
  int[]&nbsp;bakerSpeeds,
  int[]&nbsp;courierCapacities)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Создает новый симулятор пиццерии с заданными параметрами.</div>
+<div class="block">Создает новый симулятор пиццерии.</div>
 </div>
 </div>
 </section>
@@ -116,7 +116,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#placeOrder(ru.nsu.vyaznikova.PizzaOrder)" class="member-name-link">placeOrder</a><wbr>(<a href="PizzaOrder.html" title="class in ru.nsu.vyaznikova">PizzaOrder</a>&nbsp;order)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Добавляет новый заказ в очередь.</div>
+<div class="block">Добавляет заказ в очередь.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startSimulation()" class="member-name-link">startSimulation</a>()</code></div>
@@ -153,15 +153,7 @@ loadScripts(document, 'script');</script>
  int&nbsp;storageCapacity,
  int[]&nbsp;bakerSpeeds,
  int[]&nbsp;courierCapacities)</span></div>
-<div class="block">Создает новый симулятор пиццерии с заданными параметрами.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>bakerCount</code> - количество пекарей</dd>
-<dd><code>courierCount</code> - количество курьеров</dd>
-<dd><code>storageCapacity</code> - емкость хранилища</dd>
-<dd><code>bakerSpeeds</code> - скорости приготовления для каждого пекаря</dd>
-<dd><code>courierCapacities</code> - вместимости багажников для каждого курьера</dd>
-</dl>
+<div class="block">Создает новый симулятор пиццерии.</div>
 </section>
 </li>
 </ul>
@@ -176,25 +168,21 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="startSimulation()">
 <h3>startSimulation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">startSimulation</span>()</div>
-<div class="block">Запускает симуляцию. Создает и запускает потоки для пекарей и курьеров.</div>
+<div class="block">Запускает симуляцию.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="placeOrder(ru.nsu.vyaznikova.PizzaOrder)">
 <h3>placeOrder</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">placeOrder</span><wbr><span class="parameters">(<a href="PizzaOrder.html" title="class in ru.nsu.vyaznikova">PizzaOrder</a>&nbsp;order)</span></div>
-<div class="block">Добавляет новый заказ в очередь.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>order</code> - заказ для добавления</dd>
-</dl>
+<div class="block">Добавляет заказ в очередь.</div>
 </section>
 </li>
 <li>
 <section class="detail" id="stopSimulation()">
 <h3>stopSimulation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stopSimulation</span>()</div>
-<div class="block">Останавливает симуляцию. Прерывает работу всех потоков и завершает их.</div>
+<div class="block">Останавливает симуляцию.</div>
 </section>
 </li>
 <li>
